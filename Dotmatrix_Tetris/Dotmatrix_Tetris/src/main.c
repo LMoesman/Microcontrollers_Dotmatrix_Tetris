@@ -92,15 +92,19 @@ void animateGame() {
 		setupDisplayArray(displayBuffer);
 		drawArray(displayBuffer);
 		wait(2000);
-		 if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
+		 if (display_array[blockLocation.row+1][blockLocation.column] && display_array[blockLocation.row+1][blockLocation.column - 1]!= 1) {
 			 blockLocation.row++;
 		 }else if (display_array[blockLocation.row+1][blockLocation.column + 1] != 1){
 			  blockLocation.row++;
 		 }else {
 			 break;
-		}
+		 }
 		
 	}
+	display_array[blockLocation.row][blockLocation.column] = 1;
+	display_array[blockLocation.row - 1][blockLocation.column] = 1;
+	display_array[blockLocation.row][blockLocation.column + 1] = 1;
+	display_array[blockLocation.row - 1][blockLocation.column + 1] = 1;
 	blockLocation.isAnimating = 0;
 }
 
@@ -130,3 +134,5 @@ Version :    	DMK, Initial code
 	return 1;
 }
 
+
+		 }
