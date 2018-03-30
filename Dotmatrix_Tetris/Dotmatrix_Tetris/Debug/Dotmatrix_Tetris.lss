@@ -3,31 +3,33 @@ Dotmatrix_Tetris.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000004  00800100  0000019a  0000020e  2**0
+  0 .data         00000048  00800100  000003ae  00000442  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000019a  00000000  00000000  00000074  2**1
+  1 .text         000003ae  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000212  2**0
+  2 .bss          00000004  00800148  00800148  0000048a  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  0000048a  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000244  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000004bc  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 000000d0  00000000  00000000  00000280  2**0
+  5 .debug_aranges 000000a0  00000000  00000000  000004f8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000faa  00000000  00000000  00000350  2**0
+  6 .debug_info   00000e9f  00000000  00000000  00000598  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000a90  00000000  00000000  000012fa  2**0
+  7 .debug_abbrev 00000a46  00000000  00000000  00001437  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   00000a42  00000000  00000000  00001d8a  2**0
+  8 .debug_line   000009c2  00000000  00000000  00001e7d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000200  00000000  00000000  000027cc  2**2
+  9 .debug_frame  000001b8  00000000  00000000  00002840  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00009cec  00000000  00000000  000029cc  2**0
+ 10 .debug_str    00009c2f  00000000  00000000  000029f8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000004ee  00000000  00000000  0000c6b8  2**0
+ 11 .debug_loc    0000052e  00000000  00000000  0000c627  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 000000b0  00000000  00000000  0000cba6  2**0
+ 12 .debug_ranges 00000080  00000000  00000000  0000cb55  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_macro  00002ec7  00000000  00000000  0000cc56  2**0
+ 13 .debug_macro  00002d25  00000000  00000000  0000cbd5  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -116,20 +118,20 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	ea e9       	ldi	r30, 0x9A	; 154
-  a0:	f1 e0       	ldi	r31, 0x01	; 1
+  9e:	ee ea       	ldi	r30, 0xAE	; 174
+  a0:	f3 e0       	ldi	r31, 0x03	; 3
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
   a6:	02 c0       	rjmp	.+4      	; 0xac <__do_copy_data+0x14>
   a8:	07 90       	elpm	r0, Z+
   aa:	0d 92       	st	X+, r0
-  ac:	a4 30       	cpi	r26, 0x04	; 4
+  ac:	a8 34       	cpi	r26, 0x48	; 72
   ae:	b1 07       	cpc	r27, r17
   b0:	d9 f7       	brne	.-10     	; 0xa8 <__do_copy_data+0x10>
 
 000000b2 <__do_clear_bss>:
   b2:	21 e0       	ldi	r18, 0x01	; 1
-  b4:	a4 e0       	ldi	r26, 0x04	; 4
+  b4:	a8 e4       	ldi	r26, 0x48	; 72
   b6:	b1 e0       	ldi	r27, 0x01	; 1
   b8:	01 c0       	rjmp	.+2      	; 0xbc <.do_clear_bss_start>
 
@@ -137,16 +139,22 @@ Disassembly of section .text:
   ba:	1d 92       	st	X+, r1
 
 000000bc <.do_clear_bss_start>:
-  bc:	a4 30       	cpi	r26, 0x04	; 4
+  bc:	ac 34       	cpi	r26, 0x4C	; 76
   be:	b2 07       	cpc	r27, r18
   c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
-  c2:	63 d0       	rcall	.+198    	; 0x18a <main>
-  c4:	68 c0       	rjmp	.+208    	; 0x196 <_exit>
+  c2:	6d d1       	rcall	.+730    	; 0x39e <main>
+  c4:	72 c1       	rjmp	.+740    	; 0x3aa <_exit>
 
 000000c6 <__bad_interrupt>:
   c6:	9c cf       	rjmp	.-200    	; 0x0 <__vectors>
 
 000000c8 <twi_init>:
+outputs:
+notes:
+Version :    	DMK, Initial code
+*******************************************************************/
+{
+	TWCR = (0x80 | 0x10 | 0x04);
   c8:	10 92 71 00 	sts	0x0071, r1	; 0x800071 <__TEXT_REGION_LENGTH__+0x7e0071>
   cc:	80 e2       	ldi	r24, 0x20	; 32
   ce:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <__TEXT_REGION_LENGTH__+0x7e0070>
@@ -163,115 +171,605 @@ Disassembly of section .text:
   e4:	08 95       	ret
 
 000000e6 <twi_tx>:
+outputs:
+notes:
+Version :    	DMK, Initial code
+*******************************************************************/
+{
+	TWDR = data;
   e6:	80 93 73 00 	sts	0x0073, r24	; 0x800073 <__TEXT_REGION_LENGTH__+0x7e0073>
+	TWCR = (0x80 | 0x04);
   ea:	84 e8       	ldi	r24, 0x84	; 132
   ec:	80 93 74 00 	sts	0x0074, r24	; 0x800074 <__TEXT_REGION_LENGTH__+0x7e0074>
+	while( 0 == (TWCR & 0x80) );
   f0:	e4 e7       	ldi	r30, 0x74	; 116
   f2:	f0 e0       	ldi	r31, 0x00	; 0
   f4:	80 81       	ld	r24, Z
   f6:	88 23       	and	r24, r24
   f8:	ec f7       	brge	.-6      	; 0xf4 <twi_tx+0xe>
+}
   fa:	08 95       	ret
 
-000000fc <displayInitHT16K33>:
+000000fc <drawArray>:
+{
+	twi_init();							// Enable TWI interface
+	displayInitHT16K33(D0_I2C_ADDR);	// Iit display
+}
+
+void drawArray(unsigned char* buffer){
   fc:	0f 93       	push	r16
   fe:	1f 93       	push	r17
  100:	cf 93       	push	r28
  102:	df 93       	push	r29
- 104:	08 2f       	mov	r16, r24
+ 104:	8c 01       	movw	r16, r24
+	twi_start();
  106:	e6 df       	rcall	.-52     	; 0xd4 <twi_start>
- 108:	80 2f       	mov	r24, r16
+	twi_tx(D0_I2C_ADDR);
+ 108:	80 ee       	ldi	r24, 0xE0	; 224
  10a:	ed df       	rcall	.-38     	; 0xe6 <twi_tx>
- 10c:	81 e2       	ldi	r24, 0x21	; 33
+	twi_tx(0x00);
+ 10c:	80 e0       	ldi	r24, 0x00	; 0
  10e:	eb df       	rcall	.-42     	; 0xe6 <twi_tx>
- 110:	c4 e7       	ldi	r28, 0x74	; 116
- 112:	d0 e0       	ldi	r29, 0x00	; 0
- 114:	14 e9       	ldi	r17, 0x94	; 148
- 116:	18 83       	st	Y, r17
- 118:	dd df       	rcall	.-70     	; 0xd4 <twi_start>
- 11a:	80 2f       	mov	r24, r16
- 11c:	e4 df       	rcall	.-56     	; 0xe6 <twi_tx>
- 11e:	80 ea       	ldi	r24, 0xA0	; 160
- 120:	e2 df       	rcall	.-60     	; 0xe6 <twi_tx>
- 122:	18 83       	st	Y, r17
- 124:	d7 df       	rcall	.-82     	; 0xd4 <twi_start>
- 126:	80 2f       	mov	r24, r16
- 128:	de df       	rcall	.-68     	; 0xe6 <twi_tx>
- 12a:	81 ee       	ldi	r24, 0xE1	; 225
- 12c:	dc df       	rcall	.-72     	; 0xe6 <twi_tx>
- 12e:	18 83       	st	Y, r17
- 130:	d1 df       	rcall	.-94     	; 0xd4 <twi_start>
- 132:	80 2f       	mov	r24, r16
- 134:	d8 df       	rcall	.-80     	; 0xe6 <twi_tx>
- 136:	81 e8       	ldi	r24, 0x81	; 129
- 138:	d6 df       	rcall	.-84     	; 0xe6 <twi_tx>
- 13a:	18 83       	st	Y, r17
- 13c:	df 91       	pop	r29
- 13e:	cf 91       	pop	r28
- 140:	1f 91       	pop	r17
- 142:	0f 91       	pop	r16
- 144:	08 95       	ret
+ 110:	e8 01       	movw	r28, r16
+ 112:	08 5f       	subi	r16, 0xF8	; 248
+ 114:	1f 4f       	sbci	r17, 0xFF	; 255
+ 116:	89 91       	ld	r24, Y+
+	for( uint8_t idx = 0; idx < 8; idx++ ) {
+		uint8_t a = buffer[idx];
+ 118:	80 fb       	bst	r24, 0
+		uint8_t data = (a >> 1) | ((a<<7) & 0x80);
+		twi_tx( data);
+ 11a:	87 95       	ror	r24
+ 11c:	87 f9       	bld	r24, 7
+ 11e:	e3 df       	rcall	.-58     	; 0xe6 <twi_tx>
+		twi_tx( 0x00);
+ 120:	80 e0       	ldi	r24, 0x00	; 0
+ 122:	e1 df       	rcall	.-62     	; 0xe6 <twi_tx>
+ 124:	c0 17       	cp	r28, r16
 
-00000146 <displayInit>:
- 146:	c0 df       	rcall	.-128    	; 0xc8 <twi_init>
- 148:	80 ee       	ldi	r24, 0xE0	; 224
- 14a:	d8 cf       	rjmp	.-80     	; 0xfc <displayInitHT16K33>
- 14c:	08 95       	ret
+void drawArray(unsigned char* buffer){
+	twi_start();
+	twi_tx(D0_I2C_ADDR);
+	twi_tx(0x00);
+	for( uint8_t idx = 0; idx < 8; idx++ ) {
+ 126:	d1 07       	cpc	r29, r17
+ 128:	b1 f7       	brne	.-20     	; 0x116 <drawArray+0x1a>
+ 12a:	84 e9       	ldi	r24, 0x94	; 148
+outputs:
+notes:
+Version :    	DMK, Initial code
+*******************************************************************/
+{
+	TWCR = (0x80 | 0x10 | 0x04);
+ 12c:	80 93 74 00 	sts	0x0074, r24	; 0x800074 <__TEXT_REGION_LENGTH__+0x7e0074>
+ 130:	df 91       	pop	r29
+		twi_tx( data);
+		twi_tx( 0x00);
+	}
+	twi_stop();
+	
+}
+ 132:	cf 91       	pop	r28
+ 134:	1f 91       	pop	r17
+ 136:	0f 91       	pop	r16
+ 138:	08 95       	ret
 
-0000014e <wait>:
-	display_array[row - 1][column + 1] = 1;
-	display_array[row][column] = 1;
-	display_array[row][column + 1] = 1;
+0000013a <displayInitHT16K33>:
+ 13a:	0f 93       	push	r16
+inputs:
+outputs:
+notes:
+Version :    	DMK, Initial code
+*******************************************************************/
+{
+ 13c:	1f 93       	push	r17
+ 13e:	cf 93       	push	r28
+ 140:	df 93       	push	r29
+ 142:	08 2f       	mov	r16, r24
+	// System setup page 30 ht16k33 datasheet
+	twi_start();
+ 144:	c7 df       	rcall	.-114    	; 0xd4 <twi_start>
+	twi_tx(i2c_address);	// Display I2C addres + R/W bit
+ 146:	80 2f       	mov	r24, r16
+ 148:	ce df       	rcall	.-100    	; 0xe6 <twi_tx>
+	twi_tx(0x21);	// Internal osc on (page 10 HT16K33)
+ 14a:	81 e2       	ldi	r24, 0x21	; 33
+ 14c:	cc df       	rcall	.-104    	; 0xe6 <twi_tx>
+ 14e:	c4 e7       	ldi	r28, 0x74	; 116
+outputs:
+notes:
+Version :    	DMK, Initial code
+*******************************************************************/
+{
+	TWCR = (0x80 | 0x10 | 0x04);
+ 150:	d0 e0       	ldi	r29, 0x00	; 0
+ 152:	14 e9       	ldi	r17, 0x94	; 148
+ 154:	18 83       	st	Y, r17
+	twi_tx(i2c_address);	// Display I2C addres + R/W bit
+	twi_tx(0x21);	// Internal osc on (page 10 HT16K33)
+	twi_stop();
+		
+	// ROW/INT set. Page 31 ht16k33 datasheet
+	twi_start();
+ 156:	be df       	rcall	.-132    	; 0xd4 <twi_start>
+	twi_tx(i2c_address);	// Display I2C address + R/W bit
+ 158:	80 2f       	mov	r24, r16
+ 15a:	c5 df       	rcall	.-118    	; 0xe6 <twi_tx>
+	twi_tx(0xA0);	// HT16K33 pins all output (default)
+ 15c:	80 ea       	ldi	r24, 0xA0	; 160
+ 15e:	c3 df       	rcall	.-122    	; 0xe6 <twi_tx>
+outputs:
+notes:
+Version :    	DMK, Initial code
+*******************************************************************/
+{
+	TWCR = (0x80 | 0x10 | 0x04);
+ 160:	18 83       	st	Y, r17
+	twi_tx(i2c_address);	// Display I2C address + R/W bit
+	twi_tx(0xA0);	// HT16K33 pins all output (default)
+	twi_stop();
+
+	// Dimming set
+	twi_start();
+ 162:	b8 df       	rcall	.-144    	; 0xd4 <twi_start>
+	twi_tx(i2c_address);	// Display I2C address + R/W bit
+ 164:	80 2f       	mov	r24, r16
+ 166:	bf df       	rcall	.-130    	; 0xe6 <twi_tx>
+	twi_tx(0xE1);	// Display Dimming 2/16 duty cycle
+ 168:	81 ee       	ldi	r24, 0xE1	; 225
+ 16a:	bd df       	rcall	.-134    	; 0xe6 <twi_tx>
+ 16c:	18 83       	st	Y, r17
+outputs:
+notes:
+Version :    	DMK, Initial code
+*******************************************************************/
+{
+	TWCR = (0x80 | 0x10 | 0x04);
+ 16e:	b2 df       	rcall	.-156    	; 0xd4 <twi_start>
+	twi_tx(i2c_address);	// Display I2C address + R/W bit
+	twi_tx(0xE1);	// Display Dimming 2/16 duty cycle
+	twi_stop();
+
+	// Display set
+	twi_start();
+ 170:	80 2f       	mov	r24, r16
+ 172:	b9 df       	rcall	.-142    	; 0xe6 <twi_tx>
+	twi_tx(i2c_address);	// Display I2C address + R/W bit
+ 174:	81 e8       	ldi	r24, 0x81	; 129
+ 176:	b7 df       	rcall	.-146    	; 0xe6 <twi_tx>
+ 178:	18 83       	st	Y, r17
+	twi_tx(0x81);			// Display ON, Blinking OFF
+ 17a:	df 91       	pop	r29
+ 17c:	cf 91       	pop	r28
+ 17e:	1f 91       	pop	r17
+outputs:
+notes:
+Version :    	DMK, Initial code
+*******************************************************************/
+{
+	TWCR = (0x80 | 0x10 | 0x04);
+ 180:	0f 91       	pop	r16
+		twi_tx( data);
+		twi_tx( 0x00);
+	}
+	twi_stop();
+*/
+}
+ 182:	08 95       	ret
+
+00000184 <displayInit>:
+ 184:	a1 df       	rcall	.-190    	; 0xc8 <twi_init>
+ 186:	80 ee       	ldi	r24, 0xE0	; 224
+ 188:	d8 cf       	rjmp	.-80     	; 0x13a <displayInitHT16K33>
+ 18a:	08 95       	ret
+
+0000018c <wait>:
+				clock value is set. This is used by _delay_ms inside
+				util/delay.h
+Version :    	DMK, Initial code
+*******************************************************************/
+{
+	for (int i=0; i<ms; i++)
+ 18c:	18 16       	cp	r1, r24
+ 18e:	19 06       	cpc	r1, r25
+ 190:	6c f4       	brge	.+26     	; 0x1ac <wait+0x20>
+ 192:	20 e0       	ldi	r18, 0x00	; 0
+ 194:	30 e0       	ldi	r19, 0x00	; 0
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 196:	e9 ef       	ldi	r30, 0xF9	; 249
+ 198:	f0 e0       	ldi	r31, 0x00	; 0
+ 19a:	31 97       	sbiw	r30, 0x01	; 1
+ 19c:	f1 f7       	brne	.-4      	; 0x19a <wait+0xe>
+ 19e:	00 c0       	rjmp	.+0      	; 0x1a0 <wait+0x14>
+ 1a0:	00 00       	nop
+ 1a2:	2f 5f       	subi	r18, 0xFF	; 255
+ 1a4:	3f 4f       	sbci	r19, 0xFF	; 255
+ 1a6:	82 17       	cp	r24, r18
+ 1a8:	93 07       	cpc	r25, r19
+ 1aa:	a9 f7       	brne	.-22     	; 0x196 <wait+0xa>
+ 1ac:	08 95       	ret
+
+000001ae <setupDisplayArray>:
+	{
+		_delay_ms( 1 );		// library function (max 30 ms at 8MHz)
+	}
+}
+
+void setupDisplayArray(unsigned char* displayBuffer){
+ 1ae:	2f 92       	push	r2
+ 1b0:	3f 92       	push	r3
+ 1b2:	4f 92       	push	r4
+ 1b4:	5f 92       	push	r5
+ 1b6:	7f 92       	push	r7
+ 1b8:	8f 92       	push	r8
+ 1ba:	9f 92       	push	r9
+ 1bc:	af 92       	push	r10
+ 1be:	bf 92       	push	r11
+ 1c0:	cf 92       	push	r12
+ 1c2:	df 92       	push	r13
+ 1c4:	ef 92       	push	r14
+ 1c6:	ff 92       	push	r15
+ 1c8:	0f 93       	push	r16
+ 1ca:	1f 93       	push	r17
+ 1cc:	cf 93       	push	r28
+ 1ce:	df 93       	push	r29
+ 1d0:	0f 2e       	mov	r0, r31
+ 1d2:	f0 e0       	ldi	r31, 0x00	; 0
+ 1d4:	ef 2e       	mov	r14, r31
+ 1d6:	f1 e0       	ldi	r31, 0x01	; 1
+ 1d8:	ff 2e       	mov	r15, r31
+ 1da:	f0 2d       	mov	r31, r0
+ 1dc:	2c 01       	movw	r4, r24
+	int row;
+	for(row = 0; row < 8; row++) {
+ 1de:	40 e0       	ldi	r20, 0x00	; 0
+ 1e0:	50 e0       	ldi	r21, 0x00	; 0
+		int col;
+		unsigned char tempRow = 0b00000000 | display_array[row][7];
+		for(col = 0; col < 8; col++) {
+			if (row == blockLocation.row || row == blockLocation.row - 1) {
+ 1e2:	0f 2e       	mov	r0, r31
+ 1e4:	f8 e4       	ldi	r31, 0x48	; 72
+ 1e6:	8f 2e       	mov	r8, r31
+ 1e8:	f1 e0       	ldi	r31, 0x01	; 1
+ 1ea:	9f 2e       	mov	r9, r31
+ 1ec:	f0 2d       	mov	r31, r0
+				if(col == blockLocation.column || col == blockLocation.column + 1) {
+					tempRow = tempRow | (1 << col);
+ 1ee:	aa 24       	eor	r10, r10
+ 1f0:	a3 94       	inc	r10
+ 1f2:	b1 2c       	mov	r11, r1
+				}
+			}
+			tempRow = tempRow | ((6 - display_array[row][col]) << col);
+ 1f4:	a6 e0       	ldi	r26, 0x06	; 6
+ 1f6:	b0 e0       	ldi	r27, 0x00	; 0
+
+void setupDisplayArray(unsigned char* displayBuffer){
+	int row;
+	for(row = 0; row < 8; row++) {
+		int col;
+		unsigned char tempRow = 0b00000000 | display_array[row][7];
+ 1f8:	f7 01       	movw	r30, r14
+ 1fa:	77 80       	ldd	r7, Z+7	; 0x07
+		for(col = 0; col < 8; col++) {
+			if (row == blockLocation.row || row == blockLocation.row - 1) {
+ 1fc:	f4 01       	movw	r30, r8
+ 1fe:	60 81       	ld	r22, Z
+ 200:	71 81       	ldd	r23, Z+1	; 0x01
+ 202:	eb 01       	movw	r28, r22
+ 204:	21 97       	sbiw	r28, 0x01	; 1
+				if(col == blockLocation.column || col == blockLocation.column + 1) {
+ 206:	02 81       	ldd	r16, Z+2	; 0x02
+ 208:	13 81       	ldd	r17, Z+3	; 0x03
+ 20a:	68 01       	movw	r12, r16
+ 20c:	ff ef       	ldi	r31, 0xFF	; 255
+ 20e:	cf 1a       	sub	r12, r31
+ 210:	df 0a       	sbc	r13, r31
+ 212:	f7 01       	movw	r30, r14
+void setupDisplayArray(unsigned char* displayBuffer){
+	int row;
+	for(row = 0; row < 8; row++) {
+		int col;
+		unsigned char tempRow = 0b00000000 | display_array[row][7];
+		for(col = 0; col < 8; col++) {
+ 214:	80 e0       	ldi	r24, 0x00	; 0
+ 216:	90 e0       	ldi	r25, 0x00	; 0
+			if (row == blockLocation.row || row == blockLocation.row - 1) {
+ 218:	64 17       	cp	r22, r20
+ 21a:	75 07       	cpc	r23, r21
+ 21c:	19 f0       	breq	.+6      	; 0x224 <setupDisplayArray+0x76>
+ 21e:	c4 17       	cp	r28, r20
+ 220:	d5 07       	cpc	r29, r21
+ 222:	71 f4       	brne	.+28     	; 0x240 <setupDisplayArray+0x92>
+				if(col == blockLocation.column || col == blockLocation.column + 1) {
+ 224:	08 17       	cp	r16, r24
+ 226:	19 07       	cpc	r17, r25
+ 228:	19 f0       	breq	.+6      	; 0x230 <setupDisplayArray+0x82>
+ 22a:	c8 16       	cp	r12, r24
+ 22c:	d9 06       	cpc	r13, r25
+ 22e:	41 f4       	brne	.+16     	; 0x240 <setupDisplayArray+0x92>
+					tempRow = tempRow | (1 << col);
+ 230:	95 01       	movw	r18, r10
+ 232:	08 2e       	mov	r0, r24
+ 234:	02 c0       	rjmp	.+4      	; 0x23a <setupDisplayArray+0x8c>
+ 236:	22 0f       	add	r18, r18
+ 238:	33 1f       	adc	r19, r19
+ 23a:	0a 94       	dec	r0
+ 23c:	e2 f7       	brpl	.-8      	; 0x236 <setupDisplayArray+0x88>
+ 23e:	72 2a       	or	r7, r18
+				}
+			}
+			tempRow = tempRow | ((6 - display_array[row][col]) << col);
+ 240:	21 91       	ld	r18, Z+
+ 242:	1d 01       	movw	r2, r26
+ 244:	22 1a       	sub	r2, r18
+ 246:	31 08       	sbc	r3, r1
+ 248:	91 01       	movw	r18, r2
+ 24a:	08 2e       	mov	r0, r24
+ 24c:	02 c0       	rjmp	.+4      	; 0x252 <setupDisplayArray+0xa4>
+ 24e:	22 0f       	add	r18, r18
+ 250:	33 1f       	adc	r19, r19
+ 252:	0a 94       	dec	r0
+ 254:	e2 f7       	brpl	.-8      	; 0x24e <setupDisplayArray+0xa0>
+ 256:	72 2a       	or	r7, r18
+void setupDisplayArray(unsigned char* displayBuffer){
+	int row;
+	for(row = 0; row < 8; row++) {
+		int col;
+		unsigned char tempRow = 0b00000000 | display_array[row][7];
+		for(col = 0; col < 8; col++) {
+ 258:	01 96       	adiw	r24, 0x01	; 1
+ 25a:	88 30       	cpi	r24, 0x08	; 8
+ 25c:	91 05       	cpc	r25, r1
+ 25e:	e1 f6       	brne	.-72     	; 0x218 <setupDisplayArray+0x6a>
+					tempRow = tempRow | (1 << col);
+				}
+			}
+			tempRow = tempRow | ((6 - display_array[row][col]) << col);
+		}
+		displayBuffer[row] = tempRow; 
+ 260:	f2 01       	movw	r30, r4
+ 262:	71 92       	st	Z+, r7
+ 264:	2f 01       	movw	r4, r30
+	}
+}
+
+void setupDisplayArray(unsigned char* displayBuffer){
+	int row;
+	for(row = 0; row < 8; row++) {
+ 266:	4f 5f       	subi	r20, 0xFF	; 255
+ 268:	5f 4f       	sbci	r21, 0xFF	; 255
+ 26a:	f8 e0       	ldi	r31, 0x08	; 8
+ 26c:	ef 0e       	add	r14, r31
+ 26e:	f1 1c       	adc	r15, r1
+ 270:	48 30       	cpi	r20, 0x08	; 8
+ 272:	51 05       	cpc	r21, r1
+ 274:	09 f6       	brne	.-126    	; 0x1f8 <setupDisplayArray+0x4a>
+			}
+			tempRow = tempRow | ((6 - display_array[row][col]) << col);
+		}
+		displayBuffer[row] = tempRow; 
+	}
+}
+ 276:	df 91       	pop	r29
+ 278:	cf 91       	pop	r28
+ 27a:	1f 91       	pop	r17
+ 27c:	0f 91       	pop	r16
+ 27e:	ff 90       	pop	r15
+ 280:	ef 90       	pop	r14
+ 282:	df 90       	pop	r13
+ 284:	cf 90       	pop	r12
+ 286:	bf 90       	pop	r11
+ 288:	af 90       	pop	r10
+ 28a:	9f 90       	pop	r9
+ 28c:	8f 90       	pop	r8
+ 28e:	7f 90       	pop	r7
+ 290:	5f 90       	pop	r5
+ 292:	4f 90       	pop	r4
+ 294:	3f 90       	pop	r3
+ 296:	2f 90       	pop	r2
+ 298:	08 95       	ret
+
+0000029a <animateGame>:
+	blockLocation.row = 1;
+	blockLocation.column = 3;
+	animateGame();
+}
+
+void animateGame() {
+ 29a:	0f 93       	push	r16
+ 29c:	1f 93       	push	r17
+ 29e:	cf 93       	push	r28
+ 2a0:	df 93       	push	r29
+ 2a2:	cd b7       	in	r28, 0x3d	; 61
+ 2a4:	de b7       	in	r29, 0x3e	; 62
+ 2a6:	28 97       	sbiw	r28, 0x08	; 8
+ 2a8:	0f b6       	in	r0, 0x3f	; 63
+ 2aa:	f8 94       	cli
+ 2ac:	de bf       	out	0x3e, r29	; 62
+ 2ae:	0f be       	out	0x3f, r0	; 63
+ 2b0:	cd bf       	out	0x3d, r28	; 61
+	unsigned char displayBuffer[8];
+	while(1) {
+		if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
+ 2b2:	e8 e4       	ldi	r30, 0x48	; 72
+ 2b4:	f1 e0       	ldi	r31, 0x01	; 1
+ 2b6:	20 81       	ld	r18, Z
+ 2b8:	31 81       	ldd	r19, Z+1	; 0x01
+ 2ba:	c9 01       	movw	r24, r18
+ 2bc:	01 96       	adiw	r24, 0x01	; 1
+ 2be:	42 81       	ldd	r20, Z+2	; 0x02
+ 2c0:	53 81       	ldd	r21, Z+3	; 0x03
+ 2c2:	fc 01       	movw	r30, r24
+ 2c4:	ee 0f       	add	r30, r30
+ 2c6:	ff 1f       	adc	r31, r31
+ 2c8:	ee 0f       	add	r30, r30
+ 2ca:	ff 1f       	adc	r31, r31
+ 2cc:	ee 0f       	add	r30, r30
+ 2ce:	ff 1f       	adc	r31, r31
+ 2d0:	e0 50       	subi	r30, 0x00	; 0
+ 2d2:	ff 4f       	sbci	r31, 0xFF	; 255
+ 2d4:	e4 0f       	add	r30, r20
+ 2d6:	f5 1f       	adc	r31, r21
+ 2d8:	60 81       	ld	r22, Z
+ 2da:	61 30       	cpi	r22, 0x01	; 1
+ 2dc:	19 f1       	breq	.+70     	; 0x324 <animateGame+0x8a>
+			blockLocation.row++;
+ 2de:	08 e4       	ldi	r16, 0x48	; 72
+ 2e0:	11 e0       	ldi	r17, 0x01	; 1
+ 2e2:	f8 01       	movw	r30, r16
+ 2e4:	91 83       	std	Z+1, r25	; 0x01
+ 2e6:	80 83       	st	Z, r24
+		}else {
+			break;
+		}
+		setupDisplayArray(displayBuffer);
+ 2e8:	ce 01       	movw	r24, r28
+ 2ea:	01 96       	adiw	r24, 0x01	; 1
+ 2ec:	60 df       	rcall	.-320    	; 0x1ae <setupDisplayArray>
+		drawArray(displayBuffer);
+ 2ee:	ce 01       	movw	r24, r28
+ 2f0:	01 96       	adiw	r24, 0x01	; 1
+ 2f2:	04 df       	rcall	.-504    	; 0xfc <drawArray>
+		wait(1000);
+ 2f4:	88 ee       	ldi	r24, 0xE8	; 232
+ 2f6:	93 e0       	ldi	r25, 0x03	; 3
+ 2f8:	49 df       	rcall	.-366    	; 0x18c <wait>
+}
+
+void animateGame() {
+	unsigned char displayBuffer[8];
+	while(1) {
+		if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
+ 2fa:	f8 01       	movw	r30, r16
+ 2fc:	20 81       	ld	r18, Z
+ 2fe:	31 81       	ldd	r19, Z+1	; 0x01
+ 300:	c9 01       	movw	r24, r18
+ 302:	01 96       	adiw	r24, 0x01	; 1
+ 304:	42 81       	ldd	r20, Z+2	; 0x02
+ 306:	53 81       	ldd	r21, Z+3	; 0x03
+ 308:	fc 01       	movw	r30, r24
+ 30a:	ee 0f       	add	r30, r30
+ 30c:	ff 1f       	adc	r31, r31
+ 30e:	ee 0f       	add	r30, r30
+ 310:	ff 1f       	adc	r31, r31
+ 312:	ee 0f       	add	r30, r30
+ 314:	ff 1f       	adc	r31, r31
+ 316:	e0 50       	subi	r30, 0x00	; 0
+ 318:	ff 4f       	sbci	r31, 0xFF	; 255
+ 31a:	e4 0f       	add	r30, r20
+ 31c:	f5 1f       	adc	r31, r21
+ 31e:	60 81       	ld	r22, Z
+ 320:	61 30       	cpi	r22, 0x01	; 1
+ 322:	f9 f6       	brne	.-66     	; 0x2e2 <animateGame+0x48>
+		}
+		setupDisplayArray(displayBuffer);
+		drawArray(displayBuffer);
+		wait(1000);
+	}
+	display_array[blockLocation.row - 1][blockLocation.column] = 1;
+ 324:	c9 01       	movw	r24, r18
+ 326:	88 0f       	add	r24, r24
+ 328:	99 1f       	adc	r25, r25
+ 32a:	88 0f       	add	r24, r24
+ 32c:	99 1f       	adc	r25, r25
+ 32e:	88 0f       	add	r24, r24
+ 330:	99 1f       	adc	r25, r25
+ 332:	88 50       	subi	r24, 0x08	; 8
+ 334:	9f 4f       	sbci	r25, 0xFF	; 255
+ 336:	dc 01       	movw	r26, r24
+ 338:	a4 0f       	add	r26, r20
+ 33a:	b5 1f       	adc	r27, r21
+ 33c:	e1 e0       	ldi	r30, 0x01	; 1
+ 33e:	ec 93       	st	X, r30
+	display_array[blockLocation.row - 1][blockLocation.column + 1] = 1;
+ 340:	ba 01       	movw	r22, r20
+ 342:	6f 5f       	subi	r22, 0xFF	; 255
+ 344:	7f 4f       	sbci	r23, 0xFF	; 255
+ 346:	dc 01       	movw	r26, r24
+ 348:	a6 0f       	add	r26, r22
+ 34a:	b7 1f       	adc	r27, r23
+ 34c:	ec 93       	st	X, r30
+	display_array[blockLocation.row][blockLocation.column] = 1;
+ 34e:	22 0f       	add	r18, r18
+ 350:	33 1f       	adc	r19, r19
+ 352:	22 0f       	add	r18, r18
+ 354:	33 1f       	adc	r19, r19
+ 356:	22 0f       	add	r18, r18
+ 358:	33 1f       	adc	r19, r19
+ 35a:	20 50       	subi	r18, 0x00	; 0
+ 35c:	3f 4f       	sbci	r19, 0xFF	; 255
+ 35e:	d9 01       	movw	r26, r18
+ 360:	a4 0f       	add	r26, r20
+ 362:	b5 1f       	adc	r27, r21
+ 364:	ec 93       	st	X, r30
+	display_array[blockLocation.row][blockLocation.column + 1] = 1;
+ 366:	d9 01       	movw	r26, r18
+ 368:	a6 0f       	add	r26, r22
+ 36a:	b7 1f       	adc	r27, r23
 	startGame();
+ 36c:	ec 93       	st	X, r30
+ 36e:	0b d0       	rcall	.+22     	; 0x386 <startGame>
 
 }
- 14e:	18 16       	cp	r1, r24
- 150:	19 06       	cpc	r1, r25
- 152:	6c f4       	brge	.+26     	; 0x16e <wait+0x20>
- 154:	20 e0       	ldi	r18, 0x00	; 0
- 156:	30 e0       	ldi	r19, 0x00	; 0
- 158:	e9 ef       	ldi	r30, 0xF9	; 249
- 15a:	f0 e0       	ldi	r31, 0x00	; 0
- 15c:	31 97       	sbiw	r30, 0x01	; 1
- 15e:	f1 f7       	brne	.-4      	; 0x15c <wait+0xe>
- 160:	00 c0       	rjmp	.+0      	; 0x162 <wait+0x14>
- 162:	00 00       	nop
- 164:	2f 5f       	subi	r18, 0xFF	; 255
- 166:	3f 4f       	sbci	r19, 0xFF	; 255
- 168:	82 17       	cp	r24, r18
- 16a:	93 07       	cpc	r25, r19
- 16c:	a9 f7       	brne	.-22     	; 0x158 <wait+0xa>
- 16e:	08 95       	ret
+ 370:	28 96       	adiw	r28, 0x08	; 8
+ 372:	0f b6       	in	r0, 0x3f	; 63
+ 374:	f8 94       	cli
+ 376:	de bf       	out	0x3e, r29	; 62
+ 378:	0f be       	out	0x3f, r0	; 63
+ 37a:	cd bf       	out	0x3d, r28	; 61
+ 37c:	df 91       	pop	r29
+ 37e:	cf 91       	pop	r28
+ 380:	1f 91       	pop	r17
+ 382:	0f 91       	pop	r16
+ 384:	08 95       	ret
 
-00000170 <startGame>:
- 170:	81 e0       	ldi	r24, 0x01	; 1
- 172:	90 e0       	ldi	r25, 0x00	; 0
- 174:	90 93 03 01 	sts	0x0103, r25	; 0x800103 <row+0x1>
- 178:	80 93 02 01 	sts	0x0102, r24	; 0x800102 <row>
- 17c:	83 e0       	ldi	r24, 0x03	; 3
- 17e:	90 e0       	ldi	r25, 0x00	; 0
- 180:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__data_start+0x1>
- 184:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__data_start>
- 188:	08 95       	ret
+00000386 <startGame>:
+		}
+		displayBuffer[row] = tempRow; 
+	}
+}
+void startGame(){
+	blockLocation.row = 1;
+ 386:	e8 e4       	ldi	r30, 0x48	; 72
+ 388:	f1 e0       	ldi	r31, 0x01	; 1
+ 38a:	81 e0       	ldi	r24, 0x01	; 1
+ 38c:	90 e0       	ldi	r25, 0x00	; 0
+ 38e:	91 83       	std	Z+1, r25	; 0x01
+ 390:	80 83       	st	Z, r24
+	blockLocation.column = 3;
+ 392:	83 e0       	ldi	r24, 0x03	; 3
+ 394:	90 e0       	ldi	r25, 0x00	; 0
+ 396:	93 83       	std	Z+3, r25	; 0x03
+ 398:	82 83       	std	Z+2, r24	; 0x02
+	animateGame();
+ 39a:	7f cf       	rjmp	.-258    	; 0x29a <animateGame>
+ 39c:	08 95       	ret
 
-0000018a <main>:
+0000039e <main>:
 outputs:	
 notes:			Looping forever, trashing the HT16K33
 Version :    	DMK, Initial code
 *******************************************************************/
 {
 	displayInit();
- 18a:	dd df       	rcall	.-70     	; 0x146 <displayInit>
+ 39e:	f2 de       	rcall	.-540    	; 0x184 <displayInit>
 	startGame();
- 18c:	f1 df       	rcall	.-30     	; 0x170 <startGame>
- 18e:	84 ef       	ldi	r24, 0xF4	; 244
+ 3a0:	f2 df       	rcall	.-28     	; 0x386 <startGame>
+ 3a2:	84 ef       	ldi	r24, 0xF4	; 244
 	wait(500);
- 190:	91 e0       	ldi	r25, 0x01	; 1
- 192:	dd df       	rcall	.-70     	; 0x14e <wait>
- 194:	ff cf       	rjmp	.-2      	; 0x194 <main+0xa>
+ 3a4:	91 e0       	ldi	r25, 0x01	; 1
+ 3a6:	f2 de       	rcall	.-540    	; 0x18c <wait>
+ 3a8:	ff cf       	rjmp	.-2      	; 0x3a8 <main+0xa>
 
-00000196 <_exit>:
- 196:	f8 94       	cli
+000003aa <_exit>:
+ 3aa:	f8 94       	cli
 
-00000198 <__stop_program>:
- 198:	ff cf       	rjmp	.-2      	; 0x198 <__stop_program>
+000003ac <__stop_program>:
+ 3ac:	ff cf       	rjmp	.-2      	; 0x3ac <__stop_program>

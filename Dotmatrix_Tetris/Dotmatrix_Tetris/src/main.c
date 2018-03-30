@@ -35,9 +35,11 @@ unsigned char display_array[9][8] = {
 	{1, 1, 1, 1, 1, 1, 1, 1}
 };
 
-int row = 1;
-int column = 3;
+struct blockLocation {
+	int  row;
+	int  column;
 
+}blockLocation;
 /******************************************************************/
 void wait( int ms )
 /* 
@@ -57,32 +59,32 @@ Version :    	DMK, Initial code
 }
 
 void setupDisplayArray(unsigned char* displayBuffer){
-	int count;
-	for(count = 0; count < 8; count++) {
+	int row;
+	for(row = 0; row < 8; row++) {
 		int col;
-		unsigned char tempValue = 0b00000000 | display_array[count][7];
+		unsigned char tempRow = 0b00000000 | display_array[row][7];
 		for(col = 0; col < 8; col++) {
-			if (count == row || count == row - 1) {
-				if(col == column || col == column + 1) {
-					tempValue = tempValue | (1 << col);
+			if (row == blockLocation.row || row == blockLocation.row - 1) {
+				if(col == blockLocation.column || col == blockLocation.column + 1) {
+					tempRow = tempRow | (1 << col);
 				}
 			}
-			tempValue = tempValue | ((6 - display_array[count][col]) << col);
+			tempRow = tempRow | ((6 - display_array[row][col]) << col);
 		}
-		displayBuffer[count] = tempValue; 
+		displayBuffer[row] = tempRow; 
 	}
 }
 void startGame(){
-	row = 1;
-	column = 3;
+	blockLocation.row = 1;
+	blockLocation.column = 3;
 	animateGame();
 }
 
 void animateGame() {
 	unsigned char displayBuffer[8];
 	while(1) {
-		if (display_array[row+1][column] != 1) {
-			row++;
+		if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
+			blockLocation.row++;
 		}else {
 			break;
 		}
@@ -90,10 +92,10 @@ void animateGame() {
 		drawArray(displayBuffer);
 		wait(1000);
 	}
-	display_array[row - 1][column] = 1;
-	display_array[row - 1][column + 1] = 1;
-	display_array[row][column] = 1;
-	display_array[row][column + 1] = 1;
+	display_array[blockLocation.row - 1][blockLocation.column] = 1;
+	display_array[blockLocation.row - 1][blockLocation.column + 1] = 1;
+	display_array[blockLocation.row][blockLocation.column] = 1;
+	display_array[blockLocation.row][blockLocation.column + 1] = 1;
 	startGame();
 
 }

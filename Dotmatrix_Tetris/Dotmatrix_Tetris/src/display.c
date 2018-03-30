@@ -8,7 +8,6 @@
 #include <avr/io.h>
 
 #include "display.h"
-#include "fonts.h"
 
 // HT16K33 routines
 void displayInitHT16K33(uint8_t i2c_address);
@@ -103,30 +102,6 @@ Version :    	DMK, Initial code
 }
 
 /******************************************************************/
-void displaySetPixel(uint8_t x, uint8_t y)
-/*
-short:			
-inputs:			
-outputs:		
-notes:			
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-}
-
-/******************************************************************/
-void displayClrPixel(uint8_t x, uint8_t y)
-/*
-short:
-inputs:
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-}
-
-/******************************************************************/
 void display()
 /*
 short:		Write buffer to display
@@ -149,31 +124,7 @@ Version:	DMK, Initial code
 	twi_stop();
 }
 
-/******************************************************************/
-void displayRotl(void)
-/*
-short:		Rotate buffer to the left
-inputs:
-outputs:
-notes:
-Version:	DMK, Initial code
-*******************************************************************/
-{
-}
 
-/******************************************************************/
-void displayRotr(void)
-/*
-short:		Rotate buffer to the right
-inputs:
-outputs:
-notes:
-Version:	DMK, Initial code
-*******************************************************************/
-{
-}
-
-/******************************************************************/
 void displayClr(void)
 /*
 short:		Clear display
@@ -188,30 +139,6 @@ Version:	DMK, Initial code
 	}
 }
 
-
-/******************************************************************/
-void displayChar(char ch, uint8_t x, uint8_t y)
-/*
-short:		Print character op display
-inputs:
-outputs:
-notes:
-Version:	DMK, Initial code
-*******************************************************************/
-{	
-}
-
-/******************************************************************/
-void displayString(char *str, uint8_t x, uint8_t y)
-/*
-short:		Print string op display
-inputs:
-outputs:
-notes:		Maakt gebruik van displayChar(..)
-Version:	DMK, Initial code
-*******************************************************************/
-{
-}
 
 
 /******************************************************************/
