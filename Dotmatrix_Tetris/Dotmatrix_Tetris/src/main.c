@@ -76,7 +76,7 @@ void setupDisplayArray(unsigned char* displayBuffer){
 	}
 }
 void startGame(){
-	if ((display_array[1][3] != 1) || (display_array[1][4] != 1) { 
+	if ((display_array[1][3] != 1) || (display_array[1][4] != 1)) { 
 	blockLocation.row = 1;
 	blockLocation.column = 3;
 	blockLocation.isAnimating = 1;
@@ -92,10 +92,10 @@ void animateGame() {
 		setupDisplayArray(displayBuffer);
 		drawArray(displayBuffer);
 		wait(2000);
-		 if (display_array[blockLocation.row+1][blockLocation.column] && display_array[blockLocation.row+1][blockLocation.column - 1]!= 1) {
-			 blockLocation.row++;
-		 }else if (display_array[blockLocation.row+1][blockLocation.column + 1] != 1){
+		 if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
+			 if (display_array[blockLocation.row+1][blockLocation.column + 1] != 1){
 			  blockLocation.row++;
+			}
 		 }else {
 			 break;
 		 }
@@ -121,18 +121,16 @@ Version :    	DMK, Initial code
 	displayInit();
 	startGame();
 	wait(500);
-
+	
 	//displayChar('1', 0, 0);
 	//display();
 	while(1==1) {
 		if (blockLocation.isAnimating == 0) {
 			startGame();
+			
 			wait(500);
 		}
 	}
 
 	return 1;
 }
-
-
-		 }
