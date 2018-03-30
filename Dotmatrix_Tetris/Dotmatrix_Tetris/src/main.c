@@ -107,8 +107,8 @@ notes:			Looping forever, trashing the HT16K33
 Version :    	DMK, Initial code
 *******************************************************************/
 {
-	startGame();
 	displayInit();
+	startGame();
 	wait(500);
 
 	//displayChar('1', 0, 0);
