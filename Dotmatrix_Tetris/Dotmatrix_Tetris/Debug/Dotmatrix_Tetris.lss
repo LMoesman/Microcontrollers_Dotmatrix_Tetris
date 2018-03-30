@@ -21,13 +21,13 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_frame  00000200  00000000  00000000  000027cc  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00009c8e  00000000  00000000  000029cc  2**0
+  9 .debug_str    00009cec  00000000  00000000  000029cc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    000004ee  00000000  00000000  0000c65a  2**0
+ 10 .debug_loc    000004ee  00000000  00000000  0000c6b8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 000000b0  00000000  00000000  0000cb48  2**0
+ 11 .debug_ranges 000000b0  00000000  00000000  0000cba6  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_macro  00002ec7  00000000  00000000  0000cbf8  2**0
+ 12 .debug_macro  00002ec7  00000000  00000000  0000cc56  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -147,12 +147,6 @@ Disassembly of section .text:
   c6:	9c cf       	rjmp	.-200    	; 0x0 <__vectors>
 
 000000c8 <twi_init>:
-		twi_tx( data);
-		twi_tx( 0x00);
-	}
-	twi_stop();
-	
-}
   c8:	10 92 71 00 	sts	0x0071, r1	; 0x800071 <__TEXT_REGION_LENGTH__+0x7e0071>
   cc:	80 e2       	ldi	r24, 0x20	; 32
   ce:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <__TEXT_REGION_LENGTH__+0x7e0070>
@@ -180,106 +174,42 @@ Disassembly of section .text:
   fa:	08 95       	ret
 
 000000fc <displayInitHT16K33>:
-inputs:
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
   fc:	0f 93       	push	r16
   fe:	1f 93       	push	r17
  100:	cf 93       	push	r28
  102:	df 93       	push	r29
  104:	08 2f       	mov	r16, r24
-	// System setup page 30 ht16k33 datasheet
-	twi_start();
  106:	e6 df       	rcall	.-52     	; 0xd4 <twi_start>
-	twi_tx(i2c_address);	// Display I2C addres + R/W bit
  108:	80 2f       	mov	r24, r16
  10a:	ed df       	rcall	.-38     	; 0xe6 <twi_tx>
-	twi_tx(0x21);	// Internal osc on (page 10 HT16K33)
  10c:	81 e2       	ldi	r24, 0x21	; 33
  10e:	eb df       	rcall	.-42     	; 0xe6 <twi_tx>
  110:	c4 e7       	ldi	r28, 0x74	; 116
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	TWCR = (0x80 | 0x10 | 0x04);
  112:	d0 e0       	ldi	r29, 0x00	; 0
  114:	14 e9       	ldi	r17, 0x94	; 148
  116:	18 83       	st	Y, r17
-	twi_tx(i2c_address);	// Display I2C addres + R/W bit
-	twi_tx(0x21);	// Internal osc on (page 10 HT16K33)
-	twi_stop();
-		
-	// ROW/INT set. Page 31 ht16k33 datasheet
-	twi_start();
  118:	dd df       	rcall	.-70     	; 0xd4 <twi_start>
-	twi_tx(i2c_address);	// Display I2C address + R/W bit
  11a:	80 2f       	mov	r24, r16
  11c:	e4 df       	rcall	.-56     	; 0xe6 <twi_tx>
-	twi_tx(0xA0);	// HT16K33 pins all output (default)
  11e:	80 ea       	ldi	r24, 0xA0	; 160
  120:	e2 df       	rcall	.-60     	; 0xe6 <twi_tx>
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	TWCR = (0x80 | 0x10 | 0x04);
  122:	18 83       	st	Y, r17
-	twi_tx(i2c_address);	// Display I2C address + R/W bit
-	twi_tx(0xA0);	// HT16K33 pins all output (default)
-	twi_stop();
-
-	// Dimming set
-	twi_start();
  124:	d7 df       	rcall	.-82     	; 0xd4 <twi_start>
-	twi_tx(i2c_address);	// Display I2C address + R/W bit
  126:	80 2f       	mov	r24, r16
  128:	de df       	rcall	.-68     	; 0xe6 <twi_tx>
-	twi_tx(0xE1);	// Display Dimming 2/16 duty cycle
  12a:	81 ee       	ldi	r24, 0xE1	; 225
  12c:	dc df       	rcall	.-72     	; 0xe6 <twi_tx>
  12e:	18 83       	st	Y, r17
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	TWCR = (0x80 | 0x10 | 0x04);
  130:	d1 df       	rcall	.-94     	; 0xd4 <twi_start>
-	twi_tx(i2c_address);	// Display I2C address + R/W bit
-	twi_tx(0xE1);	// Display Dimming 2/16 duty cycle
-	twi_stop();
-
-	// Display set
-	twi_start();
  132:	80 2f       	mov	r24, r16
  134:	d8 df       	rcall	.-80     	; 0xe6 <twi_tx>
-	twi_tx(i2c_address);	// Display I2C address + R/W bit
  136:	81 e8       	ldi	r24, 0x81	; 129
  138:	d6 df       	rcall	.-84     	; 0xe6 <twi_tx>
  13a:	18 83       	st	Y, r17
-	twi_tx(0x81);			// Display ON, Blinking OFF
  13c:	df 91       	pop	r29
  13e:	cf 91       	pop	r28
  140:	1f 91       	pop	r17
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	TWCR = (0x80 | 0x10 | 0x04);
  142:	0f 91       	pop	r16
-		twi_tx( data);
-		twi_tx( 0x00);
-	}
-	twi_stop();
-*/
-}
  144:	08 95       	ret
 
 00000146 <displayInit>:
@@ -330,10 +260,10 @@ notes:			Looping forever, trashing the HT16K33
 Version :    	DMK, Initial code
 *******************************************************************/
 {
-	startGame();
- 18a:	f2 df       	rcall	.-28     	; 0x170 <startGame>
 	displayInit();
- 18c:	dc df       	rcall	.-72     	; 0x146 <displayInit>
+ 18a:	dd df       	rcall	.-70     	; 0x146 <displayInit>
+	startGame();
+ 18c:	f1 df       	rcall	.-30     	; 0x170 <startGame>
  18e:	84 ef       	ldi	r24, 0xF4	; 244
 	wait(500);
  190:	91 e0       	ldi	r25, 0x01	; 1

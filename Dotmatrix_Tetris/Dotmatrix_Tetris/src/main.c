@@ -75,6 +75,7 @@ void setupDisplayArray(unsigned char* displayBuffer){
 void startGame(){
 	row = 1;
 	column = 3;
+	animateGame();
 }
 
 void animateGame() {
