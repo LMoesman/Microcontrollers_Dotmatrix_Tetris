@@ -69,7 +69,7 @@ void setupDisplayArray(unsigned char* displayBuffer){
 					tempRow = tempRow | (1 << col);
 				}
 			}
-			tempRow = tempRow | ((6 - display_array[row][col]) << col);
+			tempRow = tempRow | ((display_array[row][7 - col]) << col);
 		}
 		displayBuffer[row] = tempRow; 
 	}
@@ -82,22 +82,12 @@ void startGame(){
 
 void animateGame() {
 	unsigned char displayBuffer[8];
-	while(1) {
-		if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
-			blockLocation.row++;
-		}else {
-			break;
-		}
+	while(1){
 		setupDisplayArray(displayBuffer);
 		drawArray(displayBuffer);
-		wait(1000);
+		wait(2000);
+		blockLocation.row++;
 	}
-	display_array[blockLocation.row - 1][blockLocation.column] = 1;
-	display_array[blockLocation.row - 1][blockLocation.column + 1] = 1;
-	display_array[blockLocation.row][blockLocation.column] = 1;
-	display_array[blockLocation.row][blockLocation.column + 1] = 1;
-	startGame();
-
 }
 
 /******************************************************************/

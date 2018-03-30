@@ -3,33 +3,33 @@ Dotmatrix_Tetris.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000048  00800100  000003ae  00000442  2**0
+  0 .data         00000048  00800100  000002ce  00000362  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000003ae  00000000  00000000  00000094  2**1
+  1 .text         000002ce  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000004  00800148  00800148  0000048a  2**0
+  2 .bss          00000004  00800148  00800148  000003aa  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  0000048a  2**0
+  3 .comment      00000030  00000000  00000000  000003aa  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000004bc  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000003dc  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000a0  00000000  00000000  000004f8  2**0
+  5 .debug_aranges 000000a0  00000000  00000000  00000418  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000e9f  00000000  00000000  00000598  2**0
+  6 .debug_info   00000e7e  00000000  00000000  000004b8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000a46  00000000  00000000  00001437  2**0
+  7 .debug_abbrev 00000a80  00000000  00000000  00001336  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000009c2  00000000  00000000  00001e7d  2**0
+  8 .debug_line   0000099c  00000000  00000000  00001db6  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000001b8  00000000  00000000  00002840  2**2
+  9 .debug_frame  00000198  00000000  00000000  00002754  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00009c2f  00000000  00000000  000029f8  2**0
+ 10 .debug_str    00009c2f  00000000  00000000  000028ec  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000052e  00000000  00000000  0000c627  2**0
+ 11 .debug_loc    000004d4  00000000  00000000  0000c51b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000080  00000000  00000000  0000cb55  2**0
+ 12 .debug_ranges 00000080  00000000  00000000  0000c9ef  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_macro  00002d25  00000000  00000000  0000cbd5  2**0
+ 13 .debug_macro  00002d25  00000000  00000000  0000ca6f  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -118,8 +118,8 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	ee ea       	ldi	r30, 0xAE	; 174
-  a0:	f3 e0       	ldi	r31, 0x03	; 3
+  9e:	ee ec       	ldi	r30, 0xCE	; 206
+  a0:	f2 e0       	ldi	r31, 0x02	; 2
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
   a6:	02 c0       	rjmp	.+4      	; 0xac <__do_copy_data+0x14>
@@ -142,8 +142,8 @@ Disassembly of section .text:
   bc:	ac 34       	cpi	r26, 0x4C	; 76
   be:	b2 07       	cpc	r27, r18
   c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
-  c2:	6d d1       	rcall	.+730    	; 0x39e <main>
-  c4:	72 c1       	rjmp	.+740    	; 0x3aa <_exit>
+  c2:	01 d1       	rcall	.+514    	; 0x2c6 <main>
+  c4:	02 c1       	rjmp	.+516    	; 0x2ca <_exit>
 
 000000c6 <__bad_interrupt>:
   c6:	9c cf       	rjmp	.-200    	; 0x0 <__vectors>
@@ -401,375 +401,246 @@ Version :    	DMK, Initial code
 }
 
 void setupDisplayArray(unsigned char* displayBuffer){
- 1ae:	2f 92       	push	r2
- 1b0:	3f 92       	push	r3
- 1b2:	4f 92       	push	r4
- 1b4:	5f 92       	push	r5
- 1b6:	7f 92       	push	r7
- 1b8:	8f 92       	push	r8
- 1ba:	9f 92       	push	r9
- 1bc:	af 92       	push	r10
- 1be:	bf 92       	push	r11
- 1c0:	cf 92       	push	r12
- 1c2:	df 92       	push	r13
- 1c4:	ef 92       	push	r14
- 1c6:	ff 92       	push	r15
- 1c8:	0f 93       	push	r16
- 1ca:	1f 93       	push	r17
- 1cc:	cf 93       	push	r28
- 1ce:	df 93       	push	r29
- 1d0:	0f 2e       	mov	r0, r31
- 1d2:	f0 e0       	ldi	r31, 0x00	; 0
- 1d4:	ef 2e       	mov	r14, r31
- 1d6:	f1 e0       	ldi	r31, 0x01	; 1
- 1d8:	ff 2e       	mov	r15, r31
- 1da:	f0 2d       	mov	r31, r0
- 1dc:	2c 01       	movw	r4, r24
+ 1ae:	7f 92       	push	r7
+ 1b0:	8f 92       	push	r8
+ 1b2:	9f 92       	push	r9
+ 1b4:	af 92       	push	r10
+ 1b6:	bf 92       	push	r11
+ 1b8:	cf 92       	push	r12
+ 1ba:	df 92       	push	r13
+ 1bc:	ef 92       	push	r14
+ 1be:	ff 92       	push	r15
+ 1c0:	0f 93       	push	r16
+ 1c2:	1f 93       	push	r17
+ 1c4:	cf 93       	push	r28
+ 1c6:	df 93       	push	r29
+ 1c8:	00 e0       	ldi	r16, 0x00	; 0
+ 1ca:	11 e0       	ldi	r17, 0x01	; 1
+ 1cc:	4c 01       	movw	r8, r24
 	int row;
 	for(row = 0; row < 8; row++) {
- 1de:	40 e0       	ldi	r20, 0x00	; 0
- 1e0:	50 e0       	ldi	r21, 0x00	; 0
+ 1ce:	40 e0       	ldi	r20, 0x00	; 0
+ 1d0:	50 e0       	ldi	r21, 0x00	; 0
 		int col;
 		unsigned char tempRow = 0b00000000 | display_array[row][7];
 		for(col = 0; col < 8; col++) {
 			if (row == blockLocation.row || row == blockLocation.row - 1) {
- 1e2:	0f 2e       	mov	r0, r31
- 1e4:	f8 e4       	ldi	r31, 0x48	; 72
- 1e6:	8f 2e       	mov	r8, r31
- 1e8:	f1 e0       	ldi	r31, 0x01	; 1
- 1ea:	9f 2e       	mov	r9, r31
- 1ec:	f0 2d       	mov	r31, r0
+ 1d2:	0f 2e       	mov	r0, r31
+ 1d4:	f8 e4       	ldi	r31, 0x48	; 72
+ 1d6:	af 2e       	mov	r10, r31
+ 1d8:	f1 e0       	ldi	r31, 0x01	; 1
+ 1da:	bf 2e       	mov	r11, r31
+ 1dc:	f0 2d       	mov	r31, r0
 				if(col == blockLocation.column || col == blockLocation.column + 1) {
 					tempRow = tempRow | (1 << col);
- 1ee:	aa 24       	eor	r10, r10
- 1f0:	a3 94       	inc	r10
- 1f2:	b1 2c       	mov	r11, r1
-				}
-			}
-			tempRow = tempRow | ((6 - display_array[row][col]) << col);
- 1f4:	a6 e0       	ldi	r26, 0x06	; 6
- 1f6:	b0 e0       	ldi	r27, 0x00	; 0
+ 1de:	cc 24       	eor	r12, r12
+ 1e0:	c3 94       	inc	r12
+ 1e2:	d1 2c       	mov	r13, r1
 
 void setupDisplayArray(unsigned char* displayBuffer){
 	int row;
 	for(row = 0; row < 8; row++) {
 		int col;
 		unsigned char tempRow = 0b00000000 | display_array[row][7];
- 1f8:	f7 01       	movw	r30, r14
- 1fa:	77 80       	ldd	r7, Z+7	; 0x07
+ 1e4:	f8 01       	movw	r30, r16
+ 1e6:	77 80       	ldd	r7, Z+7	; 0x07
 		for(col = 0; col < 8; col++) {
 			if (row == blockLocation.row || row == blockLocation.row - 1) {
- 1fc:	f4 01       	movw	r30, r8
- 1fe:	60 81       	ld	r22, Z
- 200:	71 81       	ldd	r23, Z+1	; 0x01
- 202:	eb 01       	movw	r28, r22
- 204:	21 97       	sbiw	r28, 0x01	; 1
+ 1e8:	f5 01       	movw	r30, r10
+ 1ea:	60 81       	ld	r22, Z
+ 1ec:	71 81       	ldd	r23, Z+1	; 0x01
+ 1ee:	db 01       	movw	r26, r22
+ 1f0:	11 97       	sbiw	r26, 0x01	; 1
 				if(col == blockLocation.column || col == blockLocation.column + 1) {
- 206:	02 81       	ldd	r16, Z+2	; 0x02
- 208:	13 81       	ldd	r17, Z+3	; 0x03
- 20a:	68 01       	movw	r12, r16
- 20c:	ff ef       	ldi	r31, 0xFF	; 255
- 20e:	cf 1a       	sub	r12, r31
- 210:	df 0a       	sbc	r13, r31
- 212:	f7 01       	movw	r30, r14
+ 1f2:	c2 81       	ldd	r28, Z+2	; 0x02
+ 1f4:	d3 81       	ldd	r29, Z+3	; 0x03
+ 1f6:	7e 01       	movw	r14, r28
+ 1f8:	ff ef       	ldi	r31, 0xFF	; 255
+ 1fa:	ef 1a       	sub	r14, r31
+ 1fc:	ff 0a       	sbc	r15, r31
+ 1fe:	08 5f       	subi	r16, 0xF8	; 248
+ 200:	1f 4f       	sbci	r17, 0xFF	; 255
+ 202:	f8 01       	movw	r30, r16
 void setupDisplayArray(unsigned char* displayBuffer){
 	int row;
 	for(row = 0; row < 8; row++) {
 		int col;
 		unsigned char tempRow = 0b00000000 | display_array[row][7];
 		for(col = 0; col < 8; col++) {
- 214:	80 e0       	ldi	r24, 0x00	; 0
- 216:	90 e0       	ldi	r25, 0x00	; 0
+ 204:	20 e0       	ldi	r18, 0x00	; 0
+ 206:	30 e0       	ldi	r19, 0x00	; 0
 			if (row == blockLocation.row || row == blockLocation.row - 1) {
- 218:	64 17       	cp	r22, r20
- 21a:	75 07       	cpc	r23, r21
- 21c:	19 f0       	breq	.+6      	; 0x224 <setupDisplayArray+0x76>
- 21e:	c4 17       	cp	r28, r20
- 220:	d5 07       	cpc	r29, r21
- 222:	71 f4       	brne	.+28     	; 0x240 <setupDisplayArray+0x92>
+ 208:	64 17       	cp	r22, r20
+ 20a:	75 07       	cpc	r23, r21
+ 20c:	19 f0       	breq	.+6      	; 0x214 <setupDisplayArray+0x66>
+ 20e:	a4 17       	cp	r26, r20
+ 210:	b5 07       	cpc	r27, r21
+ 212:	71 f4       	brne	.+28     	; 0x230 <setupDisplayArray+0x82>
 				if(col == blockLocation.column || col == blockLocation.column + 1) {
- 224:	08 17       	cp	r16, r24
- 226:	19 07       	cpc	r17, r25
- 228:	19 f0       	breq	.+6      	; 0x230 <setupDisplayArray+0x82>
- 22a:	c8 16       	cp	r12, r24
- 22c:	d9 06       	cpc	r13, r25
- 22e:	41 f4       	brne	.+16     	; 0x240 <setupDisplayArray+0x92>
+ 214:	c2 17       	cp	r28, r18
+ 216:	d3 07       	cpc	r29, r19
+ 218:	19 f0       	breq	.+6      	; 0x220 <setupDisplayArray+0x72>
+ 21a:	e2 16       	cp	r14, r18
+ 21c:	f3 06       	cpc	r15, r19
+ 21e:	41 f4       	brne	.+16     	; 0x230 <setupDisplayArray+0x82>
 					tempRow = tempRow | (1 << col);
- 230:	95 01       	movw	r18, r10
- 232:	08 2e       	mov	r0, r24
- 234:	02 c0       	rjmp	.+4      	; 0x23a <setupDisplayArray+0x8c>
- 236:	22 0f       	add	r18, r18
- 238:	33 1f       	adc	r19, r19
- 23a:	0a 94       	dec	r0
- 23c:	e2 f7       	brpl	.-8      	; 0x236 <setupDisplayArray+0x88>
- 23e:	72 2a       	or	r7, r18
+ 220:	c6 01       	movw	r24, r12
+ 222:	02 2e       	mov	r0, r18
+ 224:	02 c0       	rjmp	.+4      	; 0x22a <setupDisplayArray+0x7c>
+ 226:	88 0f       	add	r24, r24
+ 228:	99 1f       	adc	r25, r25
+ 22a:	0a 94       	dec	r0
+ 22c:	e2 f7       	brpl	.-8      	; 0x226 <setupDisplayArray+0x78>
+ 22e:	78 2a       	or	r7, r24
 				}
 			}
-			tempRow = tempRow | ((6 - display_array[row][col]) << col);
- 240:	21 91       	ld	r18, Z+
- 242:	1d 01       	movw	r2, r26
- 244:	22 1a       	sub	r2, r18
- 246:	31 08       	sbc	r3, r1
- 248:	91 01       	movw	r18, r2
- 24a:	08 2e       	mov	r0, r24
- 24c:	02 c0       	rjmp	.+4      	; 0x252 <setupDisplayArray+0xa4>
- 24e:	22 0f       	add	r18, r18
- 250:	33 1f       	adc	r19, r19
- 252:	0a 94       	dec	r0
- 254:	e2 f7       	brpl	.-8      	; 0x24e <setupDisplayArray+0xa0>
- 256:	72 2a       	or	r7, r18
+			tempRow = tempRow | ((display_array[row][7 - col]) << col);
+ 230:	82 91       	ld	r24, -Z
+ 232:	90 e0       	ldi	r25, 0x00	; 0
+ 234:	02 2e       	mov	r0, r18
+ 236:	02 c0       	rjmp	.+4      	; 0x23c <setupDisplayArray+0x8e>
+ 238:	88 0f       	add	r24, r24
+ 23a:	99 1f       	adc	r25, r25
+ 23c:	0a 94       	dec	r0
+ 23e:	e2 f7       	brpl	.-8      	; 0x238 <setupDisplayArray+0x8a>
+ 240:	78 2a       	or	r7, r24
 void setupDisplayArray(unsigned char* displayBuffer){
 	int row;
 	for(row = 0; row < 8; row++) {
 		int col;
 		unsigned char tempRow = 0b00000000 | display_array[row][7];
 		for(col = 0; col < 8; col++) {
- 258:	01 96       	adiw	r24, 0x01	; 1
- 25a:	88 30       	cpi	r24, 0x08	; 8
- 25c:	91 05       	cpc	r25, r1
- 25e:	e1 f6       	brne	.-72     	; 0x218 <setupDisplayArray+0x6a>
+ 242:	2f 5f       	subi	r18, 0xFF	; 255
+ 244:	3f 4f       	sbci	r19, 0xFF	; 255
+ 246:	28 30       	cpi	r18, 0x08	; 8
+ 248:	31 05       	cpc	r19, r1
+ 24a:	f1 f6       	brne	.-68     	; 0x208 <setupDisplayArray+0x5a>
 					tempRow = tempRow | (1 << col);
 				}
 			}
-			tempRow = tempRow | ((6 - display_array[row][col]) << col);
+			tempRow = tempRow | ((display_array[row][7 - col]) << col);
 		}
 		displayBuffer[row] = tempRow; 
- 260:	f2 01       	movw	r30, r4
- 262:	71 92       	st	Z+, r7
- 264:	2f 01       	movw	r4, r30
+ 24c:	f4 01       	movw	r30, r8
+ 24e:	71 92       	st	Z+, r7
+ 250:	4f 01       	movw	r8, r30
 	}
 }
 
 void setupDisplayArray(unsigned char* displayBuffer){
 	int row;
 	for(row = 0; row < 8; row++) {
- 266:	4f 5f       	subi	r20, 0xFF	; 255
- 268:	5f 4f       	sbci	r21, 0xFF	; 255
- 26a:	f8 e0       	ldi	r31, 0x08	; 8
- 26c:	ef 0e       	add	r14, r31
- 26e:	f1 1c       	adc	r15, r1
- 270:	48 30       	cpi	r20, 0x08	; 8
- 272:	51 05       	cpc	r21, r1
- 274:	09 f6       	brne	.-126    	; 0x1f8 <setupDisplayArray+0x4a>
+ 252:	4f 5f       	subi	r20, 0xFF	; 255
+ 254:	5f 4f       	sbci	r21, 0xFF	; 255
+ 256:	48 30       	cpi	r20, 0x08	; 8
+ 258:	51 05       	cpc	r21, r1
+ 25a:	21 f6       	brne	.-120    	; 0x1e4 <setupDisplayArray+0x36>
 			}
-			tempRow = tempRow | ((6 - display_array[row][col]) << col);
+			tempRow = tempRow | ((display_array[row][7 - col]) << col);
 		}
 		displayBuffer[row] = tempRow; 
 	}
 }
- 276:	df 91       	pop	r29
- 278:	cf 91       	pop	r28
- 27a:	1f 91       	pop	r17
- 27c:	0f 91       	pop	r16
- 27e:	ff 90       	pop	r15
- 280:	ef 90       	pop	r14
- 282:	df 90       	pop	r13
- 284:	cf 90       	pop	r12
- 286:	bf 90       	pop	r11
- 288:	af 90       	pop	r10
- 28a:	9f 90       	pop	r9
- 28c:	8f 90       	pop	r8
- 28e:	7f 90       	pop	r7
- 290:	5f 90       	pop	r5
- 292:	4f 90       	pop	r4
- 294:	3f 90       	pop	r3
- 296:	2f 90       	pop	r2
- 298:	08 95       	ret
+ 25c:	df 91       	pop	r29
+ 25e:	cf 91       	pop	r28
+ 260:	1f 91       	pop	r17
+ 262:	0f 91       	pop	r16
+ 264:	ff 90       	pop	r15
+ 266:	ef 90       	pop	r14
+ 268:	df 90       	pop	r13
+ 26a:	cf 90       	pop	r12
+ 26c:	bf 90       	pop	r11
+ 26e:	af 90       	pop	r10
+ 270:	9f 90       	pop	r9
+ 272:	8f 90       	pop	r8
+ 274:	7f 90       	pop	r7
+ 276:	08 95       	ret
 
-0000029a <animateGame>:
+00000278 <animateGame>:
 	blockLocation.row = 1;
 	blockLocation.column = 3;
 	animateGame();
 }
 
 void animateGame() {
- 29a:	0f 93       	push	r16
- 29c:	1f 93       	push	r17
- 29e:	cf 93       	push	r28
- 2a0:	df 93       	push	r29
- 2a2:	cd b7       	in	r28, 0x3d	; 61
- 2a4:	de b7       	in	r29, 0x3e	; 62
- 2a6:	28 97       	sbiw	r28, 0x08	; 8
- 2a8:	0f b6       	in	r0, 0x3f	; 63
- 2aa:	f8 94       	cli
- 2ac:	de bf       	out	0x3e, r29	; 62
- 2ae:	0f be       	out	0x3f, r0	; 63
- 2b0:	cd bf       	out	0x3d, r28	; 61
+ 278:	cf 93       	push	r28
+ 27a:	df 93       	push	r29
+ 27c:	cd b7       	in	r28, 0x3d	; 61
+ 27e:	de b7       	in	r29, 0x3e	; 62
+ 280:	28 97       	sbiw	r28, 0x08	; 8
+ 282:	0f b6       	in	r0, 0x3f	; 63
+ 284:	f8 94       	cli
+ 286:	de bf       	out	0x3e, r29	; 62
+ 288:	0f be       	out	0x3f, r0	; 63
+ 28a:	cd bf       	out	0x3d, r28	; 61
 	unsigned char displayBuffer[8];
-	while(1) {
-		if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
- 2b2:	e8 e4       	ldi	r30, 0x48	; 72
- 2b4:	f1 e0       	ldi	r31, 0x01	; 1
- 2b6:	20 81       	ld	r18, Z
- 2b8:	31 81       	ldd	r19, Z+1	; 0x01
- 2ba:	c9 01       	movw	r24, r18
- 2bc:	01 96       	adiw	r24, 0x01	; 1
- 2be:	42 81       	ldd	r20, Z+2	; 0x02
- 2c0:	53 81       	ldd	r21, Z+3	; 0x03
- 2c2:	fc 01       	movw	r30, r24
- 2c4:	ee 0f       	add	r30, r30
- 2c6:	ff 1f       	adc	r31, r31
- 2c8:	ee 0f       	add	r30, r30
- 2ca:	ff 1f       	adc	r31, r31
- 2cc:	ee 0f       	add	r30, r30
- 2ce:	ff 1f       	adc	r31, r31
- 2d0:	e0 50       	subi	r30, 0x00	; 0
- 2d2:	ff 4f       	sbci	r31, 0xFF	; 255
- 2d4:	e4 0f       	add	r30, r20
- 2d6:	f5 1f       	adc	r31, r21
- 2d8:	60 81       	ld	r22, Z
- 2da:	61 30       	cpi	r22, 0x01	; 1
- 2dc:	19 f1       	breq	.+70     	; 0x324 <animateGame+0x8a>
-			blockLocation.row++;
- 2de:	08 e4       	ldi	r16, 0x48	; 72
- 2e0:	11 e0       	ldi	r17, 0x01	; 1
- 2e2:	f8 01       	movw	r30, r16
- 2e4:	91 83       	std	Z+1, r25	; 0x01
- 2e6:	80 83       	st	Z, r24
-		}else {
-			break;
-		}
+	while(1){
 		setupDisplayArray(displayBuffer);
- 2e8:	ce 01       	movw	r24, r28
- 2ea:	01 96       	adiw	r24, 0x01	; 1
- 2ec:	60 df       	rcall	.-320    	; 0x1ae <setupDisplayArray>
 		drawArray(displayBuffer);
- 2ee:	ce 01       	movw	r24, r28
- 2f0:	01 96       	adiw	r24, 0x01	; 1
- 2f2:	04 df       	rcall	.-504    	; 0xfc <drawArray>
-		wait(1000);
- 2f4:	88 ee       	ldi	r24, 0xE8	; 232
- 2f6:	93 e0       	ldi	r25, 0x03	; 3
- 2f8:	49 df       	rcall	.-366    	; 0x18c <wait>
+		wait(2000);
+		blockLocation.row++;
+ 28c:	08 e4       	ldi	r16, 0x48	; 72
+ 28e:	11 e0       	ldi	r17, 0x01	; 1
 }
 
 void animateGame() {
 	unsigned char displayBuffer[8];
-	while(1) {
-		if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
- 2fa:	f8 01       	movw	r30, r16
- 2fc:	20 81       	ld	r18, Z
- 2fe:	31 81       	ldd	r19, Z+1	; 0x01
- 300:	c9 01       	movw	r24, r18
- 302:	01 96       	adiw	r24, 0x01	; 1
- 304:	42 81       	ldd	r20, Z+2	; 0x02
- 306:	53 81       	ldd	r21, Z+3	; 0x03
- 308:	fc 01       	movw	r30, r24
- 30a:	ee 0f       	add	r30, r30
- 30c:	ff 1f       	adc	r31, r31
- 30e:	ee 0f       	add	r30, r30
- 310:	ff 1f       	adc	r31, r31
- 312:	ee 0f       	add	r30, r30
- 314:	ff 1f       	adc	r31, r31
- 316:	e0 50       	subi	r30, 0x00	; 0
- 318:	ff 4f       	sbci	r31, 0xFF	; 255
- 31a:	e4 0f       	add	r30, r20
- 31c:	f5 1f       	adc	r31, r21
- 31e:	60 81       	ld	r22, Z
- 320:	61 30       	cpi	r22, 0x01	; 1
- 322:	f9 f6       	brne	.-66     	; 0x2e2 <animateGame+0x48>
-		}
+	while(1){
 		setupDisplayArray(displayBuffer);
+ 290:	ce 01       	movw	r24, r28
+ 292:	01 96       	adiw	r24, 0x01	; 1
+ 294:	8c df       	rcall	.-232    	; 0x1ae <setupDisplayArray>
 		drawArray(displayBuffer);
-		wait(1000);
-	}
-	display_array[blockLocation.row - 1][blockLocation.column] = 1;
- 324:	c9 01       	movw	r24, r18
- 326:	88 0f       	add	r24, r24
- 328:	99 1f       	adc	r25, r25
- 32a:	88 0f       	add	r24, r24
- 32c:	99 1f       	adc	r25, r25
- 32e:	88 0f       	add	r24, r24
- 330:	99 1f       	adc	r25, r25
- 332:	88 50       	subi	r24, 0x08	; 8
- 334:	9f 4f       	sbci	r25, 0xFF	; 255
- 336:	dc 01       	movw	r26, r24
- 338:	a4 0f       	add	r26, r20
- 33a:	b5 1f       	adc	r27, r21
- 33c:	e1 e0       	ldi	r30, 0x01	; 1
- 33e:	ec 93       	st	X, r30
-	display_array[blockLocation.row - 1][blockLocation.column + 1] = 1;
- 340:	ba 01       	movw	r22, r20
- 342:	6f 5f       	subi	r22, 0xFF	; 255
- 344:	7f 4f       	sbci	r23, 0xFF	; 255
- 346:	dc 01       	movw	r26, r24
- 348:	a6 0f       	add	r26, r22
- 34a:	b7 1f       	adc	r27, r23
- 34c:	ec 93       	st	X, r30
-	display_array[blockLocation.row][blockLocation.column] = 1;
- 34e:	22 0f       	add	r18, r18
- 350:	33 1f       	adc	r19, r19
- 352:	22 0f       	add	r18, r18
- 354:	33 1f       	adc	r19, r19
- 356:	22 0f       	add	r18, r18
- 358:	33 1f       	adc	r19, r19
- 35a:	20 50       	subi	r18, 0x00	; 0
- 35c:	3f 4f       	sbci	r19, 0xFF	; 255
- 35e:	d9 01       	movw	r26, r18
- 360:	a4 0f       	add	r26, r20
- 362:	b5 1f       	adc	r27, r21
- 364:	ec 93       	st	X, r30
-	display_array[blockLocation.row][blockLocation.column + 1] = 1;
- 366:	d9 01       	movw	r26, r18
- 368:	a6 0f       	add	r26, r22
- 36a:	b7 1f       	adc	r27, r23
-	startGame();
- 36c:	ec 93       	st	X, r30
- 36e:	0b d0       	rcall	.+22     	; 0x386 <startGame>
+ 296:	ce 01       	movw	r24, r28
+ 298:	01 96       	adiw	r24, 0x01	; 1
+ 29a:	30 df       	rcall	.-416    	; 0xfc <drawArray>
+		wait(2000);
+ 29c:	80 ed       	ldi	r24, 0xD0	; 208
+ 29e:	97 e0       	ldi	r25, 0x07	; 7
+ 2a0:	75 df       	rcall	.-278    	; 0x18c <wait>
+		blockLocation.row++;
+ 2a2:	f8 01       	movw	r30, r16
+ 2a4:	80 81       	ld	r24, Z
+ 2a6:	91 81       	ldd	r25, Z+1	; 0x01
+ 2a8:	01 96       	adiw	r24, 0x01	; 1
+ 2aa:	91 83       	std	Z+1, r25	; 0x01
+ 2ac:	80 83       	st	Z, r24
+ 2ae:	f0 cf       	rjmp	.-32     	; 0x290 <animateGame+0x18>
 
-}
- 370:	28 96       	adiw	r28, 0x08	; 8
- 372:	0f b6       	in	r0, 0x3f	; 63
- 374:	f8 94       	cli
- 376:	de bf       	out	0x3e, r29	; 62
- 378:	0f be       	out	0x3f, r0	; 63
- 37a:	cd bf       	out	0x3d, r28	; 61
- 37c:	df 91       	pop	r29
- 37e:	cf 91       	pop	r28
- 380:	1f 91       	pop	r17
- 382:	0f 91       	pop	r16
- 384:	08 95       	ret
-
-00000386 <startGame>:
+000002b0 <startGame>:
 		}
 		displayBuffer[row] = tempRow; 
 	}
 }
 void startGame(){
 	blockLocation.row = 1;
- 386:	e8 e4       	ldi	r30, 0x48	; 72
- 388:	f1 e0       	ldi	r31, 0x01	; 1
- 38a:	81 e0       	ldi	r24, 0x01	; 1
- 38c:	90 e0       	ldi	r25, 0x00	; 0
- 38e:	91 83       	std	Z+1, r25	; 0x01
- 390:	80 83       	st	Z, r24
+ 2b0:	e8 e4       	ldi	r30, 0x48	; 72
+ 2b2:	f1 e0       	ldi	r31, 0x01	; 1
+ 2b4:	81 e0       	ldi	r24, 0x01	; 1
+ 2b6:	90 e0       	ldi	r25, 0x00	; 0
+ 2b8:	91 83       	std	Z+1, r25	; 0x01
+ 2ba:	80 83       	st	Z, r24
 	blockLocation.column = 3;
- 392:	83 e0       	ldi	r24, 0x03	; 3
- 394:	90 e0       	ldi	r25, 0x00	; 0
- 396:	93 83       	std	Z+3, r25	; 0x03
- 398:	82 83       	std	Z+2, r24	; 0x02
+ 2bc:	83 e0       	ldi	r24, 0x03	; 3
+ 2be:	90 e0       	ldi	r25, 0x00	; 0
+ 2c0:	93 83       	std	Z+3, r25	; 0x03
+ 2c2:	82 83       	std	Z+2, r24	; 0x02
 	animateGame();
- 39a:	7f cf       	rjmp	.-258    	; 0x29a <animateGame>
- 39c:	08 95       	ret
+ 2c4:	d9 df       	rcall	.-78     	; 0x278 <animateGame>
 
-0000039e <main>:
+000002c6 <main>:
 outputs:	
 notes:			Looping forever, trashing the HT16K33
 Version :    	DMK, Initial code
 *******************************************************************/
 {
 	displayInit();
- 39e:	f2 de       	rcall	.-540    	; 0x184 <displayInit>
+ 2c6:	5e df       	rcall	.-324    	; 0x184 <displayInit>
 	startGame();
- 3a0:	f2 df       	rcall	.-28     	; 0x386 <startGame>
- 3a2:	84 ef       	ldi	r24, 0xF4	; 244
-	wait(500);
- 3a4:	91 e0       	ldi	r25, 0x01	; 1
- 3a6:	f2 de       	rcall	.-540    	; 0x18c <wait>
- 3a8:	ff cf       	rjmp	.-2      	; 0x3a8 <main+0xa>
+ 2c8:	f3 df       	rcall	.-26     	; 0x2b0 <startGame>
 
-000003aa <_exit>:
- 3aa:	f8 94       	cli
+000002ca <_exit>:
+ 2ca:	f8 94       	cli
 
-000003ac <__stop_program>:
- 3ac:	ff cf       	rjmp	.-2      	; 0x3ac <__stop_program>
+000002cc <__stop_program>:
+ 2cc:	ff cf       	rjmp	.-2      	; 0x2cc <__stop_program>
