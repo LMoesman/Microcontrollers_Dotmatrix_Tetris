@@ -20,7 +20,23 @@
 #include <util/delay.h>
 #include <avr/pgmspace.h>
 
+#include "main.h"
 #include "display.h"
+
+unsigned char display_array[9][8] = {
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{1, 1, 1, 1, 1, 1, 1, 1}
+};
+
+int row = 1;
+int column = 3;
 
 /******************************************************************/
 void wait( int ms )
@@ -40,6 +56,47 @@ Version :    	DMK, Initial code
 	}
 }
 
+void setupDisplayArray(unsigned char* displayBuffer){
+	int count;
+	for(count = 0; count < 8; count++) {
+		int col;
+		unsigned char tempValue = 0b00000000 | display_array[count][7];
+		for(col = 0; col < 8; col++) {
+			if (count == row || count == row - 1) {
+				if(col == column || col == column + 1) {
+					tempValue = tempValue | (1 << col);
+				}
+			}
+			tempValue = tempValue | ((6 - display_array[count][col]) << col);
+		}
+		displayBuffer[count] = tempValue; 
+	}
+}
+void startGame(){
+	row = 1;
+	column = 3;
+}
+
+void animateGame() {
+	unsigned char displayBuffer[8];
+	while(1) {
+		if (display_array[row+1][column] != 1) {
+			row++;
+		}else {
+			break;
+		}
+		setupDisplayArray(displayBuffer);
+		//Draw method here!!
+		wait(1000);
+	}
+	display_array[row - 1][column] = 1;
+	display_array[row - 1][column + 1] = 1;
+	display_array[row][column] = 1;
+	display_array[row][column + 1] = 1;
+	startGame();
+
+}
+
 /******************************************************************/
 int main( void )
 /* 
@@ -53,7 +110,7 @@ Version :    	DMK, Initial code
 	displayInit();
 	wait(500);
 
-	displayChar('1', 0, 0);
+	//displayChar('1', 0, 0);
 	//display();
 	
 	while(1==1) {
@@ -61,3 +118,4 @@ Version :    	DMK, Initial code
 
 	return 1;
 }
+
