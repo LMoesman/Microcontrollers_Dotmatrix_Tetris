@@ -38,8 +38,9 @@ unsigned char display_array[9][8] = {
 struct blockLocation {
 	int  row;
 	int  column;
-
+	int isAnimating;
 }blockLocation;
+
 /******************************************************************/
 void wait( int ms )
 /* 
@@ -77,6 +78,7 @@ void setupDisplayArray(unsigned char* displayBuffer){
 void startGame(){
 	blockLocation.row = 1;
 	blockLocation.column = 3;
+	blockLocation.isAnimating = 1;
 	animateGame();
 }
 
@@ -86,8 +88,14 @@ void animateGame() {
 		setupDisplayArray(displayBuffer);
 		drawArray(displayBuffer);
 		wait(2000);
-		blockLocation.row++;
+		 if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
+			 blockLocation.row++;
+		 }else {
+			 break;
+		 }
+		
 	}
+	blockLocation.isAnimating = 0;
 }
 
 /******************************************************************/
@@ -107,6 +115,10 @@ Version :    	DMK, Initial code
 	//displayChar('1', 0, 0);
 	//display();
 	while(1==1) {
+		if (blockLocation.isAnimating == 0) {
+			startGame();
+			wait(500);
+		}
 	}
 
 	return 1;

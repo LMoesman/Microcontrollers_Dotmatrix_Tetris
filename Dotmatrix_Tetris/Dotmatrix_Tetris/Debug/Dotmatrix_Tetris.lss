@@ -3,33 +3,33 @@ Dotmatrix_Tetris.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000048  00800100  000002ce  00000362  2**0
+  0 .data         00000048  00800100  00000338  000003cc  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000002ce  00000000  00000000  00000094  2**1
+  1 .text         00000338  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000004  00800148  00800148  000003aa  2**0
+  2 .bss          00000006  00800148  00800148  00000414  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000003aa  2**0
+  3 .comment      00000030  00000000  00000000  00000414  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000003dc  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000444  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000000a0  00000000  00000000  00000418  2**0
+  5 .debug_aranges 000000a0  00000000  00000000  00000480  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000e7e  00000000  00000000  000004b8  2**0
+  6 .debug_info   00000ec3  00000000  00000000  00000520  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000a80  00000000  00000000  00001336  2**0
+  7 .debug_abbrev 00000a46  00000000  00000000  000013e3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000099c  00000000  00000000  00001db6  2**0
+  8 .debug_line   000009c2  00000000  00000000  00001e29  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000198  00000000  00000000  00002754  2**2
+  9 .debug_frame  000001a4  00000000  00000000  000027ec  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00009c2f  00000000  00000000  000028ec  2**0
+ 10 .debug_str    00009c99  00000000  00000000  00002990  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000004d4  00000000  00000000  0000c51b  2**0
+ 11 .debug_loc    000004ee  00000000  00000000  0000c629  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000080  00000000  00000000  0000c9ef  2**0
+ 12 .debug_ranges 00000080  00000000  00000000  0000cb17  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_macro  00002d25  00000000  00000000  0000ca6f  2**0
+ 13 .debug_macro  00002d25  00000000  00000000  0000cb97  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -118,8 +118,8 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	ee ec       	ldi	r30, 0xCE	; 206
-  a0:	f2 e0       	ldi	r31, 0x02	; 2
+  9e:	e8 e3       	ldi	r30, 0x38	; 56
+  a0:	f3 e0       	ldi	r31, 0x03	; 3
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
   a6:	02 c0       	rjmp	.+4      	; 0xac <__do_copy_data+0x14>
@@ -139,22 +139,16 @@ Disassembly of section .text:
   ba:	1d 92       	st	X+, r1
 
 000000bc <.do_clear_bss_start>:
-  bc:	ac 34       	cpi	r26, 0x4C	; 76
+  bc:	ae 34       	cpi	r26, 0x4E	; 78
   be:	b2 07       	cpc	r27, r18
   c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
-  c2:	01 d1       	rcall	.+514    	; 0x2c6 <main>
-  c4:	02 c1       	rjmp	.+516    	; 0x2ca <_exit>
+  c2:	28 d1       	rcall	.+592    	; 0x314 <main>
+  c4:	37 c1       	rjmp	.+622    	; 0x334 <_exit>
 
 000000c6 <__bad_interrupt>:
   c6:	9c cf       	rjmp	.-200    	; 0x0 <__vectors>
 
 000000c8 <twi_init>:
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	TWCR = (0x80 | 0x10 | 0x04);
   c8:	10 92 71 00 	sts	0x0071, r1	; 0x800071 <__TEXT_REGION_LENGTH__+0x7e0071>
   cc:	80 e2       	ldi	r24, 0x20	; 32
   ce:	80 93 70 00 	sts	0x0070, r24	; 0x800070 <__TEXT_REGION_LENGTH__+0x7e0070>
@@ -171,84 +165,43 @@ Version :    	DMK, Initial code
   e4:	08 95       	ret
 
 000000e6 <twi_tx>:
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	TWDR = data;
   e6:	80 93 73 00 	sts	0x0073, r24	; 0x800073 <__TEXT_REGION_LENGTH__+0x7e0073>
-	TWCR = (0x80 | 0x04);
   ea:	84 e8       	ldi	r24, 0x84	; 132
   ec:	80 93 74 00 	sts	0x0074, r24	; 0x800074 <__TEXT_REGION_LENGTH__+0x7e0074>
-	while( 0 == (TWCR & 0x80) );
   f0:	e4 e7       	ldi	r30, 0x74	; 116
   f2:	f0 e0       	ldi	r31, 0x00	; 0
   f4:	80 81       	ld	r24, Z
   f6:	88 23       	and	r24, r24
   f8:	ec f7       	brge	.-6      	; 0xf4 <twi_tx+0xe>
-}
   fa:	08 95       	ret
 
 000000fc <drawArray>:
-{
-	twi_init();							// Enable TWI interface
-	displayInitHT16K33(D0_I2C_ADDR);	// Iit display
-}
-
-void drawArray(unsigned char* buffer){
   fc:	0f 93       	push	r16
   fe:	1f 93       	push	r17
  100:	cf 93       	push	r28
  102:	df 93       	push	r29
  104:	8c 01       	movw	r16, r24
-	twi_start();
  106:	e6 df       	rcall	.-52     	; 0xd4 <twi_start>
-	twi_tx(D0_I2C_ADDR);
  108:	80 ee       	ldi	r24, 0xE0	; 224
  10a:	ed df       	rcall	.-38     	; 0xe6 <twi_tx>
-	twi_tx(0x00);
  10c:	80 e0       	ldi	r24, 0x00	; 0
  10e:	eb df       	rcall	.-42     	; 0xe6 <twi_tx>
  110:	e8 01       	movw	r28, r16
  112:	08 5f       	subi	r16, 0xF8	; 248
  114:	1f 4f       	sbci	r17, 0xFF	; 255
  116:	89 91       	ld	r24, Y+
-	for( uint8_t idx = 0; idx < 8; idx++ ) {
-		uint8_t a = buffer[idx];
  118:	80 fb       	bst	r24, 0
-		uint8_t data = (a >> 1) | ((a<<7) & 0x80);
-		twi_tx( data);
  11a:	87 95       	ror	r24
  11c:	87 f9       	bld	r24, 7
  11e:	e3 df       	rcall	.-58     	; 0xe6 <twi_tx>
-		twi_tx( 0x00);
  120:	80 e0       	ldi	r24, 0x00	; 0
  122:	e1 df       	rcall	.-62     	; 0xe6 <twi_tx>
  124:	c0 17       	cp	r28, r16
-
-void drawArray(unsigned char* buffer){
-	twi_start();
-	twi_tx(D0_I2C_ADDR);
-	twi_tx(0x00);
-	for( uint8_t idx = 0; idx < 8; idx++ ) {
  126:	d1 07       	cpc	r29, r17
  128:	b1 f7       	brne	.-20     	; 0x116 <drawArray+0x1a>
  12a:	84 e9       	ldi	r24, 0x94	; 148
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	TWCR = (0x80 | 0x10 | 0x04);
  12c:	80 93 74 00 	sts	0x0074, r24	; 0x800074 <__TEXT_REGION_LENGTH__+0x7e0074>
  130:	df 91       	pop	r29
-		twi_tx( data);
-		twi_tx( 0x00);
-	}
-	twi_stop();
-	
-}
  132:	cf 91       	pop	r28
  134:	1f 91       	pop	r17
  136:	0f 91       	pop	r16
@@ -256,105 +209,41 @@ Version :    	DMK, Initial code
 
 0000013a <displayInitHT16K33>:
  13a:	0f 93       	push	r16
-inputs:
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
  13c:	1f 93       	push	r17
  13e:	cf 93       	push	r28
  140:	df 93       	push	r29
  142:	08 2f       	mov	r16, r24
-	// System setup page 30 ht16k33 datasheet
-	twi_start();
  144:	c7 df       	rcall	.-114    	; 0xd4 <twi_start>
-	twi_tx(i2c_address);	// Display I2C addres + R/W bit
  146:	80 2f       	mov	r24, r16
  148:	ce df       	rcall	.-100    	; 0xe6 <twi_tx>
-	twi_tx(0x21);	// Internal osc on (page 10 HT16K33)
  14a:	81 e2       	ldi	r24, 0x21	; 33
  14c:	cc df       	rcall	.-104    	; 0xe6 <twi_tx>
  14e:	c4 e7       	ldi	r28, 0x74	; 116
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	TWCR = (0x80 | 0x10 | 0x04);
  150:	d0 e0       	ldi	r29, 0x00	; 0
  152:	14 e9       	ldi	r17, 0x94	; 148
  154:	18 83       	st	Y, r17
-	twi_tx(i2c_address);	// Display I2C addres + R/W bit
-	twi_tx(0x21);	// Internal osc on (page 10 HT16K33)
-	twi_stop();
-		
-	// ROW/INT set. Page 31 ht16k33 datasheet
-	twi_start();
  156:	be df       	rcall	.-132    	; 0xd4 <twi_start>
-	twi_tx(i2c_address);	// Display I2C address + R/W bit
  158:	80 2f       	mov	r24, r16
  15a:	c5 df       	rcall	.-118    	; 0xe6 <twi_tx>
-	twi_tx(0xA0);	// HT16K33 pins all output (default)
  15c:	80 ea       	ldi	r24, 0xA0	; 160
  15e:	c3 df       	rcall	.-122    	; 0xe6 <twi_tx>
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	TWCR = (0x80 | 0x10 | 0x04);
  160:	18 83       	st	Y, r17
-	twi_tx(i2c_address);	// Display I2C address + R/W bit
-	twi_tx(0xA0);	// HT16K33 pins all output (default)
-	twi_stop();
-
-	// Dimming set
-	twi_start();
  162:	b8 df       	rcall	.-144    	; 0xd4 <twi_start>
-	twi_tx(i2c_address);	// Display I2C address + R/W bit
  164:	80 2f       	mov	r24, r16
  166:	bf df       	rcall	.-130    	; 0xe6 <twi_tx>
-	twi_tx(0xE1);	// Display Dimming 2/16 duty cycle
  168:	81 ee       	ldi	r24, 0xE1	; 225
  16a:	bd df       	rcall	.-134    	; 0xe6 <twi_tx>
  16c:	18 83       	st	Y, r17
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	TWCR = (0x80 | 0x10 | 0x04);
  16e:	b2 df       	rcall	.-156    	; 0xd4 <twi_start>
-	twi_tx(i2c_address);	// Display I2C address + R/W bit
-	twi_tx(0xE1);	// Display Dimming 2/16 duty cycle
-	twi_stop();
-
-	// Display set
-	twi_start();
  170:	80 2f       	mov	r24, r16
  172:	b9 df       	rcall	.-142    	; 0xe6 <twi_tx>
-	twi_tx(i2c_address);	// Display I2C address + R/W bit
  174:	81 e8       	ldi	r24, 0x81	; 129
  176:	b7 df       	rcall	.-146    	; 0xe6 <twi_tx>
  178:	18 83       	st	Y, r17
-	twi_tx(0x81);			// Display ON, Blinking OFF
  17a:	df 91       	pop	r29
  17c:	cf 91       	pop	r28
  17e:	1f 91       	pop	r17
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	TWCR = (0x80 | 0x10 | 0x04);
  180:	0f 91       	pop	r16
-		twi_tx( data);
-		twi_tx( 0x00);
-	}
-	twi_stop();
-*/
-}
  182:	08 95       	ret
 
 00000184 <displayInit>:
@@ -557,90 +446,158 @@ void setupDisplayArray(unsigned char* displayBuffer){
  276:	08 95       	ret
 
 00000278 <animateGame>:
-	blockLocation.row = 1;
 	blockLocation.column = 3;
+	blockLocation.isAnimating = 1;
 	animateGame();
 }
 
 void animateGame() {
- 278:	cf 93       	push	r28
- 27a:	df 93       	push	r29
- 27c:	cd b7       	in	r28, 0x3d	; 61
- 27e:	de b7       	in	r29, 0x3e	; 62
- 280:	28 97       	sbiw	r28, 0x08	; 8
- 282:	0f b6       	in	r0, 0x3f	; 63
- 284:	f8 94       	cli
- 286:	de bf       	out	0x3e, r29	; 62
- 288:	0f be       	out	0x3f, r0	; 63
- 28a:	cd bf       	out	0x3d, r28	; 61
+ 278:	0f 93       	push	r16
+ 27a:	1f 93       	push	r17
+ 27c:	cf 93       	push	r28
+ 27e:	df 93       	push	r29
+ 280:	cd b7       	in	r28, 0x3d	; 61
+ 282:	de b7       	in	r29, 0x3e	; 62
+ 284:	28 97       	sbiw	r28, 0x08	; 8
+ 286:	0f b6       	in	r0, 0x3f	; 63
+ 288:	f8 94       	cli
+ 28a:	de bf       	out	0x3e, r29	; 62
+ 28c:	0f be       	out	0x3f, r0	; 63
+ 28e:	cd bf       	out	0x3d, r28	; 61
 	unsigned char displayBuffer[8];
 	while(1){
 		setupDisplayArray(displayBuffer);
 		drawArray(displayBuffer);
 		wait(2000);
-		blockLocation.row++;
- 28c:	08 e4       	ldi	r16, 0x48	; 72
- 28e:	11 e0       	ldi	r17, 0x01	; 1
+		 if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
+ 290:	08 e4       	ldi	r16, 0x48	; 72
+ 292:	11 e0       	ldi	r17, 0x01	; 1
 }
 
 void animateGame() {
 	unsigned char displayBuffer[8];
 	while(1){
 		setupDisplayArray(displayBuffer);
- 290:	ce 01       	movw	r24, r28
- 292:	01 96       	adiw	r24, 0x01	; 1
- 294:	8c df       	rcall	.-232    	; 0x1ae <setupDisplayArray>
+ 294:	ce 01       	movw	r24, r28
+ 296:	01 96       	adiw	r24, 0x01	; 1
+ 298:	8a df       	rcall	.-236    	; 0x1ae <setupDisplayArray>
 		drawArray(displayBuffer);
- 296:	ce 01       	movw	r24, r28
- 298:	01 96       	adiw	r24, 0x01	; 1
- 29a:	30 df       	rcall	.-416    	; 0xfc <drawArray>
+ 29a:	ce 01       	movw	r24, r28
+ 29c:	01 96       	adiw	r24, 0x01	; 1
+ 29e:	2e df       	rcall	.-420    	; 0xfc <drawArray>
 		wait(2000);
- 29c:	80 ed       	ldi	r24, 0xD0	; 208
- 29e:	97 e0       	ldi	r25, 0x07	; 7
- 2a0:	75 df       	rcall	.-278    	; 0x18c <wait>
-		blockLocation.row++;
- 2a2:	f8 01       	movw	r30, r16
- 2a4:	80 81       	ld	r24, Z
- 2a6:	91 81       	ldd	r25, Z+1	; 0x01
- 2a8:	01 96       	adiw	r24, 0x01	; 1
- 2aa:	91 83       	std	Z+1, r25	; 0x01
- 2ac:	80 83       	st	Z, r24
- 2ae:	f0 cf       	rjmp	.-32     	; 0x290 <animateGame+0x18>
+ 2a0:	80 ed       	ldi	r24, 0xD0	; 208
+ 2a2:	97 e0       	ldi	r25, 0x07	; 7
+ 2a4:	73 df       	rcall	.-282    	; 0x18c <wait>
+		 if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
+ 2a6:	d8 01       	movw	r26, r16
+ 2a8:	8d 91       	ld	r24, X+
+ 2aa:	9c 91       	ld	r25, X
+ 2ac:	11 97       	sbiw	r26, 0x01	; 1
+ 2ae:	01 96       	adiw	r24, 0x01	; 1
+ 2b0:	fc 01       	movw	r30, r24
+ 2b2:	ee 0f       	add	r30, r30
+ 2b4:	ff 1f       	adc	r31, r31
+ 2b6:	ee 0f       	add	r30, r30
+ 2b8:	ff 1f       	adc	r31, r31
+ 2ba:	ee 0f       	add	r30, r30
+ 2bc:	ff 1f       	adc	r31, r31
+ 2be:	e0 50       	subi	r30, 0x00	; 0
+ 2c0:	ff 4f       	sbci	r31, 0xFF	; 255
+ 2c2:	12 96       	adiw	r26, 0x02	; 2
+ 2c4:	2d 91       	ld	r18, X+
+ 2c6:	3c 91       	ld	r19, X
+ 2c8:	13 97       	sbiw	r26, 0x03	; 3
+ 2ca:	e2 0f       	add	r30, r18
+ 2cc:	f3 1f       	adc	r31, r19
+ 2ce:	20 81       	ld	r18, Z
+ 2d0:	21 30       	cpi	r18, 0x01	; 1
+ 2d2:	19 f0       	breq	.+6      	; 0x2da <animateGame+0x62>
+			 blockLocation.row++;
+ 2d4:	8d 93       	st	X+, r24
+ 2d6:	9c 93       	st	X, r25
+		 }else {
+			 break;
+		 }
+		
+	}
+ 2d8:	dd cf       	rjmp	.-70     	; 0x294 <animateGame+0x1c>
+	blockLocation.isAnimating = 0;
+ 2da:	10 92 4d 01 	sts	0x014D, r1	; 0x80014d <__data_end+0x5>
+ 2de:	10 92 4c 01 	sts	0x014C, r1	; 0x80014c <__data_end+0x4>
+}
+ 2e2:	28 96       	adiw	r28, 0x08	; 8
+ 2e4:	0f b6       	in	r0, 0x3f	; 63
+ 2e6:	f8 94       	cli
+ 2e8:	de bf       	out	0x3e, r29	; 62
+ 2ea:	0f be       	out	0x3f, r0	; 63
+ 2ec:	cd bf       	out	0x3d, r28	; 61
+ 2ee:	df 91       	pop	r29
+ 2f0:	cf 91       	pop	r28
+ 2f2:	1f 91       	pop	r17
+ 2f4:	0f 91       	pop	r16
+ 2f6:	08 95       	ret
 
-000002b0 <startGame>:
+000002f8 <startGame>:
 		}
 		displayBuffer[row] = tempRow; 
 	}
 }
 void startGame(){
 	blockLocation.row = 1;
- 2b0:	e8 e4       	ldi	r30, 0x48	; 72
- 2b2:	f1 e0       	ldi	r31, 0x01	; 1
- 2b4:	81 e0       	ldi	r24, 0x01	; 1
- 2b6:	90 e0       	ldi	r25, 0x00	; 0
- 2b8:	91 83       	std	Z+1, r25	; 0x01
- 2ba:	80 83       	st	Z, r24
+ 2f8:	e8 e4       	ldi	r30, 0x48	; 72
+ 2fa:	f1 e0       	ldi	r31, 0x01	; 1
+ 2fc:	81 e0       	ldi	r24, 0x01	; 1
+ 2fe:	90 e0       	ldi	r25, 0x00	; 0
+ 300:	91 83       	std	Z+1, r25	; 0x01
+ 302:	80 83       	st	Z, r24
 	blockLocation.column = 3;
- 2bc:	83 e0       	ldi	r24, 0x03	; 3
- 2be:	90 e0       	ldi	r25, 0x00	; 0
- 2c0:	93 83       	std	Z+3, r25	; 0x03
- 2c2:	82 83       	std	Z+2, r24	; 0x02
+ 304:	23 e0       	ldi	r18, 0x03	; 3
+ 306:	30 e0       	ldi	r19, 0x00	; 0
+ 308:	33 83       	std	Z+3, r19	; 0x03
+ 30a:	22 83       	std	Z+2, r18	; 0x02
+	blockLocation.isAnimating = 1;
+ 30c:	95 83       	std	Z+5, r25	; 0x05
+ 30e:	84 83       	std	Z+4, r24	; 0x04
 	animateGame();
- 2c4:	d9 df       	rcall	.-78     	; 0x278 <animateGame>
+ 310:	b3 cf       	rjmp	.-154    	; 0x278 <animateGame>
+ 312:	08 95       	ret
 
-000002c6 <main>:
+00000314 <main>:
 outputs:	
 notes:			Looping forever, trashing the HT16K33
 Version :    	DMK, Initial code
 *******************************************************************/
 {
 	displayInit();
- 2c6:	5e df       	rcall	.-324    	; 0x184 <displayInit>
+ 314:	37 df       	rcall	.-402    	; 0x184 <displayInit>
 	startGame();
- 2c8:	f3 df       	rcall	.-26     	; 0x2b0 <startGame>
+ 316:	f0 df       	rcall	.-32     	; 0x2f8 <startGame>
+ 318:	84 ef       	ldi	r24, 0xF4	; 244
+	wait(500);
+ 31a:	91 e0       	ldi	r25, 0x01	; 1
+ 31c:	37 df       	rcall	.-402    	; 0x18c <wait>
+ 31e:	c8 e4       	ldi	r28, 0x48	; 72
 
-000002ca <_exit>:
- 2ca:	f8 94       	cli
+	//displayChar('1', 0, 0);
+	//display();
+	while(1==1) {
+		if (blockLocation.isAnimating == 0) {
+ 320:	d1 e0       	ldi	r29, 0x01	; 1
+ 322:	8c 81       	ldd	r24, Y+4	; 0x04
+ 324:	9d 81       	ldd	r25, Y+5	; 0x05
+ 326:	00 97       	sbiw	r24, 0x00	; 0
+ 328:	f1 f7       	brne	.-4      	; 0x326 <main+0x12>
+			startGame();
+ 32a:	e6 df       	rcall	.-52     	; 0x2f8 <startGame>
+			wait(500);
+ 32c:	84 ef       	ldi	r24, 0xF4	; 244
+ 32e:	91 e0       	ldi	r25, 0x01	; 1
+ 330:	2d df       	rcall	.-422    	; 0x18c <wait>
+ 332:	f7 cf       	rjmp	.-18     	; 0x322 <main+0xe>
 
-000002cc <__stop_program>:
- 2cc:	ff cf       	rjmp	.-2      	; 0x2cc <__stop_program>
+00000334 <_exit>:
+ 334:	f8 94       	cli
+
+00000336 <__stop_program>:
+ 336:	ff cf       	rjmp	.-2      	; 0x336 <__stop_program>
