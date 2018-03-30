@@ -86,7 +86,7 @@ void animateGame() {
 			break;
 		}
 		setupDisplayArray(displayBuffer);
-		//Draw method here!!
+		drawArray(displayBuffer);
 		wait(1000);
 	}
 	display_array[row - 1][column] = 1;
@@ -107,12 +107,12 @@ notes:			Looping forever, trashing the HT16K33
 Version :    	DMK, Initial code
 *******************************************************************/
 {
+	startGame();
 	displayInit();
 	wait(500);
 
 	//displayChar('1', 0, 0);
 	//display();
-	
 	while(1==1) {
 	}
 

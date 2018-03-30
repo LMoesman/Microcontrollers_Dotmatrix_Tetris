@@ -17,7 +17,7 @@ void displayString(char *str, uint8_t x, uint8_t y);
 void displayRotl(void);
 void displayRotr(void);
 void displayClr(void);
-
+void drawArray(unsigned char* buffer);
 void display(void);
 
 

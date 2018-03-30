@@ -41,6 +41,20 @@ Version :    	DMK, Initial code
 	displayInitHT16K33(D0_I2C_ADDR);	// Iit display
 }
 
+void drawArray(unsigned char* buffer){
+	twi_start();
+	twi_tx(D0_I2C_ADDR);
+	twi_tx(0x00);
+	for( uint8_t idx = 0; idx < 8; idx++ ) {
+		uint8_t a = buffer[idx];
+		uint8_t data = (a >> 1) | ((a<<7) & 0x80);
+		twi_tx( data);
+		twi_tx( 0x00);
+	}
+	twi_stop();
+	
+}
+
 /******************************************************************/
 void displayInitHT16K33(uint8_t i2c_address) 
 /*
