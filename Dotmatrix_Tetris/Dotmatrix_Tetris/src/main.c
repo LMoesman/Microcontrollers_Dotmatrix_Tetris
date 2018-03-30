@@ -60,14 +60,14 @@ void setupDisplayArray(unsigned char* displayBuffer){
 	int count;
 	for(count = 0; count < 8; count++) {
 		int col;
-		unsigned char tempValue = 0b00000000 | display_array[count][7];
+		unsigned char tempValue = 0b00000000;
 		for(col = 0; col < 8; col++) {
-			if (count == row || count == row - 1) {
-				if(col == column || col == column + 1) {
+			if ((count == row) || (count == (row - 1))) {
+				if((col == column) || (col == (column + 1))) {
 					tempValue = tempValue | (1 << col);
 				}
 			}
-			tempValue = tempValue | ((6 - display_array[count][col]) << col);
+			tempValue = tempValue | ((display_array[count][7 - col]) << col);
 		}
 		displayBuffer[count] = tempValue; 
 	}
