@@ -76,10 +76,14 @@ void setupDisplayArray(unsigned char* displayBuffer){
 	}
 }
 void startGame(){
+	if ((display_array[1][3] != 1) || (display_array[1][4] != 1) { 
 	blockLocation.row = 1;
 	blockLocation.column = 3;
 	blockLocation.isAnimating = 1;
 	animateGame();
+	}else {
+		//Game over
+	}
 }
 
 void animateGame() {
@@ -90,9 +94,11 @@ void animateGame() {
 		wait(2000);
 		 if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
 			 blockLocation.row++;
+		 }else if (display_array[blockLocation.row+1][blockLocation.column + 1] != 1){
+			  blockLocation.row++;
 		 }else {
 			 break;
-		 }
+		}
 		
 	}
 	blockLocation.isAnimating = 0;
