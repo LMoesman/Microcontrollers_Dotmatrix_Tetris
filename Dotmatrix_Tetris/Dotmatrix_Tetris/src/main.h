@@ -9,9 +9,10 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 
-void wait( int ms );
 void setupDisplayArray(unsigned char* displayBuffer);
 void startGame(void);
 void animateGame(void);
+void checkForFullRows(void);
+void shoveDown(int x);
 
 #endif /* MAIN_H_ */

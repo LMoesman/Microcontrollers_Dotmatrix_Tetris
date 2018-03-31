@@ -19,6 +19,8 @@ void displayRotr(void);
 void displayClr(void);
 void drawArray(unsigned char* buffer);
 void display(void);
+void theCoolFullRowAnimation(int row);
+void wait( int ms );
 
 
 

@@ -15,13 +15,15 @@
 ** Author: 			dkroeske@gmail.com
 ** -------------------------------------------------------------------------*/
 
-#define F_CPU 1000000
 #include <avr/io.h>
-#include <util/delay.h>
 #include <avr/pgmspace.h>
+#include <time.h>
+#include <string.h>
 
+int i = 0;
 #include "main.h"
 #include "display.h"
+#include "sevenSeg.h"
 
 unsigned char display_array[9][8] = {
 	{0, 0, 0, 0, 0, 0, 0, 0},
@@ -40,24 +42,9 @@ struct blockLocation {
 	int  column;
 	int isAnimating;
 }blockLocation;
+int score = 0;
 
 /******************************************************************/
-void wait( int ms )
-/* 
-short:			Busy wait number of millisecs
-inputs:			int ms (Number of millisecs to busy wait)
-outputs:	
-notes:			Busy wait, not very accurate. Make sure (external)
-				clock value is set. This is used by _delay_ms inside
-				util/delay.h
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	for (int i=0; i<ms; i++)
-	{
-		_delay_ms( 1 );		// library function (max 30 ms at 8MHz)
-	}
-}
 
 void setupDisplayArray(unsigned char* displayBuffer){
 	int row;
@@ -67,23 +54,26 @@ void setupDisplayArray(unsigned char* displayBuffer){
 		for(col = 0; col < 8; col++) {
 			if (row == blockLocation.row || row == blockLocation.row - 1) {
 				if(col == blockLocation.column || col == blockLocation.column + 1) {
-					tempRow = tempRow | (1 << col);
+					tempRow = tempRow | (128 >> col);
 				}
 			}
+			
 			tempRow = tempRow | ((display_array[row][7 - col]) << col);
 		}
 		displayBuffer[row] = tempRow; 
 	}
 }
 void startGame(){
-	if ((display_array[1][3] != 1) || (display_array[1][4] != 1)) { 
-	blockLocation.row = 1;
-	blockLocation.column = 3;
 	blockLocation.isAnimating = 1;
-	animateGame();
+	if ((display_array[0][i] != 1) && (display_array[0][i+1] != 1)) { 
+		blockLocation.row = 0;
+		blockLocation.column = i;
+		animateGame();
 	}else {
 		//Game over
+		showDigit(9999);
 	}
+	i = rand() % 7;
 }
 
 void animateGame() {
@@ -92,10 +82,8 @@ void animateGame() {
 		setupDisplayArray(displayBuffer);
 		drawArray(displayBuffer);
 		wait(2000);
-		 if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
-			 if (display_array[blockLocation.row+1][blockLocation.column + 1] != 1){
-			  blockLocation.row++;
-			}
+		 if (display_array[blockLocation.row+1][blockLocation.column] != 1 && display_array[blockLocation.row+1][blockLocation.column + 1] != 1) {
+				blockLocation.row++;
 		 }else {
 			 break;
 		 }
@@ -106,10 +94,12 @@ void animateGame() {
 	display_array[blockLocation.row][blockLocation.column + 1] = 1;
 	display_array[blockLocation.row - 1][blockLocation.column + 1] = 1;
 	blockLocation.isAnimating = 0;
+	
+	checkForFullRows();
 }
 
 /******************************************************************/
-int main( void )
+int main( void )	
 /* 
 short:			main() loop, entry point of executable
 inputs:			
@@ -117,9 +107,11 @@ outputs:
 notes:			Looping forever, trashing the HT16K33
 Version :    	DMK, Initial code
 *******************************************************************/
-{
+{	
+	srand(2344);
 	displayInit();
-	startGame();
+	sevenSegInit();
+	showDigit(score);
 	wait(500);
 	
 	//displayChar('1', 0, 0);
@@ -127,10 +119,35 @@ Version :    	DMK, Initial code
 	while(1==1) {
 		if (blockLocation.isAnimating == 0) {
 			startGame();
-			
 			wait(500);
 		}
 	}
-
 	return 1;
+}
+
+void checkForFullRows(void){
+	int tempscore = 0;
+	int x;
+	for(x = 0; x < 8; x ++){
+		int y;
+		int count = 0;
+		for(y = 0; y < 8; y ++){
+			if(1 == display_array[x][y] && 1 == display_array[x - 1][y] ){ count++; }
+		}
+		if(8 == count){	//whole row filled
+			tempscore += 10;
+			theCoolFullRowAnimation(x);
+			shoveDown(x);
+		}
+	}
+score += tempscore;
+	showDigit(score);
+}
+
+void shoveDown(int x){
+	for(i = 0; i<= (x -2); x -= 2){
+		int rowToShove = x - 2;
+		memcpy(display_array[x],display_array[rowToShove],sizeof(unsigned char) * 8);	//cpy the upper row to this row
+		memcpy(display_array[x-1],display_array[rowToShove - 1],sizeof(unsigned char) * 8);	//cpy the upper row to this row		//thwo times this function because blocks are 2*2
+	}
 }

@@ -2,12 +2,16 @@
  * display.c
  *
  * Created: 1/16/2018 8:16:59 AM
- *  Author: Diederich Kroeske
+ *  Author: Diederich Kroeske, Rick Verstraten, Lars Moesman
  */ 
 
 #include <avr/io.h>
 
+#define F_CPU 1000000
+#include <util/delay.h>
+
 #include "display.h"
+
 
 // HT16K33 routines
 void displayInitHT16K33(uint8_t i2c_address);
@@ -25,6 +29,7 @@ void twi_tx(unsigned char data);
 #define	width	8 * 1		// 1 displays width
 #define	height	8			// 1 display height
 uint8_t buf[width*height/8];
+
 
 /******************************************************************/
 void displayInit(void) 
@@ -124,6 +129,33 @@ Version:	DMK, Initial code
 	twi_stop();
 }
 
+void theCoolFullRowAnimation(int row){
+	uint8_t value = 0;
+	for( uint8_t idy = 0; idy < 9; idy++ ) {
+		
+		//low row
+		twi_start();
+		twi_tx(D0_I2C_ADDR);
+		twi_tx(row * 2);	//skip uneven number because those are for 8*16
+		uint8_t a = ~value;
+		uint8_t data = (a >> 1) | ((a<<7) & 0x80);
+		twi_tx( data);
+		value |= 128 >> idy;
+		twi_stop();
+		
+		//high row
+		twi_start();
+		twi_tx(D0_I2C_ADDR);
+		twi_tx((row-1) * 2);	//skip uneven number because those are for 8*16
+		a = ~value;
+		data = (a >> 1) | ((a<<7) & 0x80);
+		twi_tx( data);
+		value |= 128 >> idy;
+		twi_stop();
+		wait(333);
+	}
+	
+}
 
 void displayClr(void)
 /*
@@ -195,4 +227,21 @@ Version :    	DMK, Initial code
 	TWDR = data;
 	TWCR = (0x80 | 0x04);
 	while( 0 == (TWCR & 0x80) );
+}
+
+void wait( int ms )
+/* 
+short:			Busy wait number of millisecs
+inputs:			int ms (Number of millisecs to busy wait)
+outputs:	
+notes:			Busy wait, not very accurate. Make sure (external)
+				clock value is set. This is used by _delay_ms inside
+				util/delay.h
+Version :    	DMK, Initial code
+*******************************************************************/
+{
+	for (int i=0; i<ms; i++)
+	{
+		_delay_ms( 1 );		// library function (max 30 ms at 8MHz)
+	}
 }
