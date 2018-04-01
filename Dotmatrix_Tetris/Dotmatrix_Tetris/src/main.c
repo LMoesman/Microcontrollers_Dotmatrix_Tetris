@@ -17,6 +17,7 @@
 
 #include <avr/io.h>
 #include <avr/pgmspace.h>
+#include <avr/interrupt.h>
 #include <time.h>
 #include <string.h>
 
@@ -99,6 +100,48 @@ void animateGame() {
 }
 
 /******************************************************************/
+ISR(INT2_vect) {
+	/*
+	short:			ISR INT1
+	inputs:
+	outputs:
+	notes:			Set PORTC
+	Version :    	1.0
+	Author	:		Lars Moesman & Rick Verstraten
+	*******************************************************************/
+	
+	
+	if(PIND == 0x06){
+		//Reset Game
+		return;
+	}
+	if(blockLocation.column < 7){
+		blockLocation.column++;
+	}
+	
+}
+
+/******************************************************************/
+ISR(INT3_vect) {
+	/*
+	short:			ISR INT2
+	inputs:
+	outputs:
+	notes:			Set PORTC
+	Version :    	1.0
+	Author	:		Lars Moesman & Rick Verstraten
+	*******************************************************************/
+	
+		if(PIND == 0x06){
+			//Reset Game
+			return;
+		}
+		if(blockLocation.column > 0){
+			blockLocation.column--;
+		}
+}
+
+/******************************************************************/
 int main( void )	
 /* 
 short:			main() loop, entry point of executable
@@ -108,6 +151,13 @@ notes:			Looping forever, trashing the HT16K33
 Version :    	DMK, Initial code
 *******************************************************************/
 {	
+	DDRD = 0x0C;
+	
+	EICRA |= 0xF0;
+	EIMSK |= 0x0C;
+	
+	sei();
+	
 	srand(2344);
 	displayInit();
 	sevenSegInit();
