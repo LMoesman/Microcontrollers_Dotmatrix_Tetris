@@ -119,7 +119,7 @@ ISR(INT2_vect) {
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
-	if((PIND & 0x0C) == 0x0C){
+	if(PIND >> 3 == 0x03){
 		resetGame();
 		return;
 	}
@@ -141,7 +141,7 @@ ISR(INT3_vect) {
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
-	if((PIND & 0x0C) == 0x0C){
+	if(PIND >> 3 == 0x03){
 		resetGame();
 		return;
 	}
@@ -214,3 +214,5 @@ void shoveDown(int x){
 		memcpy(display_array[x-1],display_array[rowToShove - 1],sizeof(unsigned char) * 8);	//cpy the upper row to this row		//thwo times this function because blocks are 2*2
 	}
 }
+	if((PIND & 0x0C) == 0x0C){
+	if((PIND & 0x0C) == 0x0C){
