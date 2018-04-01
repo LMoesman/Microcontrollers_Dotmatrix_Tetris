@@ -125,6 +125,7 @@ void resetGame(){
 
 	//Reset score
 	showDigit(0);
+	score = 0;
 	int row;
 	//Reset display array so it is empty again
 	for (row = 0;row < 8;row++) {
@@ -288,6 +289,13 @@ Version :    	DMK, Initial code
 }
 
 void checkForFullRows(void){
+/*
+	short:			check for full row
+	inputs:
+	outputs:
+	notes:			gives scores and calls for animation
+	Version :    	Rick Verstraten, Lars Moesman
+	*******************************************************************/
 	int tempscore = 0;
 	int x;
 	for(x = 0; x < 8; x ++){
@@ -307,6 +315,13 @@ void checkForFullRows(void){
 }
 
 void shoveDown(int x){
+/*
+	short:			shoves the upper rows down
+	inputs:
+	outputs:
+	notes:			shoves down if a row underneath was filled
+	Version :    	Rick Verstraten, Lars Moesman
+	*******************************************************************/
 	for(i = 0; i<= (x -2); x -= 2){
 		int rowToShove = x - 2;
 		memcpy(display_array[x],display_array[rowToShove],sizeof(unsigned char) * 8);	//cpy the upper row to this row
@@ -319,6 +334,13 @@ void shoveDown(int x){
 
 
 void gameOver(){
+/*
+	short:			waits for reset if game over
+	inputs:
+	outputs:
+	notes:			draws DeadFace emoji
+	Version :    	Rick Verstraten, Lars Moesman
+	*******************************************************************/
 	uint8_t deadFace[8] = {0b00000000,
 					   0b10100101,
 					   0b01000010,
@@ -328,7 +350,13 @@ void gameOver(){
 					   0b01000010,
 					   0b01000010};
 	drawArray(deadFace);
-	wait(4000);
-	resetGame();
+	  //Waits for reset
+	  while(1) {
+		  if(shouldReset == 1) {
+			  resetGame();
+			  wait(1000);
+			  break;
+		  }
+	  }
 	
 }
