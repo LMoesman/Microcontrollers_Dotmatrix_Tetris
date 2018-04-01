@@ -84,7 +84,6 @@ void startGame(){
 	}else {
 		//Game over
 		gameOver();
-		showDigit(9999);
 	}
 	i = rand() % 7;
 }
