@@ -75,6 +75,7 @@ void setupDisplayArray(unsigned char* displayBuffer){
 	}
 }
 void startGame(){
+	i = rand() % 7;
 	blockLocation.isAnimating = 1;
 	if ((display_array[0][i] != 1) && (display_array[0][i+1] != 1)) { 
 		blockLocation.row = 0;
@@ -85,7 +86,6 @@ void startGame(){
 		//Game over
 		gameOver();
 	}
-	i = rand() % 7;
 }
 
 void resetGame(){
