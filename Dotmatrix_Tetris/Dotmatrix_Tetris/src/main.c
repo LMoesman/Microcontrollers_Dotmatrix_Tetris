@@ -44,6 +44,7 @@ struct blockLocation {
 	int isAnimating;
 }blockLocation;
 int score = 0;
+int shouldReset = 0;
 
 /******************************************************************/
 
@@ -83,7 +84,7 @@ void resetGame(){
 	for (row = 0;row < 8;row++) {
 			memcpy(display_array[row], (int[]){0,0,0,0,0,0,0,0}, 8);
 	}
-
+	shouldReset = 0;
 }
 
 void animateGame() {
@@ -120,7 +121,7 @@ ISR(INT2_vect) {
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
 	if((PIND & 0x0C) == 0x0C){
-		resetGame();
+		shouldReset = 1;
 		return;
 	}
 	if(blockLocation.column > 0){
@@ -142,7 +143,7 @@ ISR(INT3_vect) {
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
 	if((PIND & 0x0C) == 0x0C){
-		resetGame();
+		shouldReset = 1;
 		return;
 	}
 	if(blockLocation.column < 6){
@@ -177,12 +178,15 @@ Version :    	DMK, Initial code
 	showDigit(score);
 	wait(500);
 	
-	//displayChar('1', 0, 0);
-	//display();
 	while(1==1) {
 		if (blockLocation.isAnimating == 0) {
-			startGame();
-			wait(500);
+			if(shouldReset == 0) {
+				startGame();
+				wait(500);
+			else{
+				resetGame();
+				wait(1000);
+			}
 		}
 	}
 	return 1;
