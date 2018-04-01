@@ -3,33 +3,33 @@
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         0000000a  00800100  00000278  0000030c  2**0
+  0 .data         0000000a  00800100  0000028a  0000031e  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000278  00000000  00000000  00000094  2**1
+  1 .text         0000028a  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000002  0080010a  0080010a  00000316  2**0
+  2 .bss          00000004  0080010a  0080010a  00000328  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00000316  2**0
+  3 .comment      00000030  00000000  00000000  00000328  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000348  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000358  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000088  00000000  00000000  00000384  2**0
+  5 .debug_aranges 00000088  00000000  00000000  00000394  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00000d01  00000000  00000000  0000040c  2**0
+  6 .debug_info   00000d3d  00000000  00000000  0000041c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000928  00000000  00000000  0000110d  2**0
+  7 .debug_abbrev 0000094e  00000000  00000000  00001159  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000896  00000000  00000000  00001a35  2**0
+  8 .debug_line   000008c2  00000000  00000000  00001aa7  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000118  00000000  00000000  000022cc  2**2
+  9 .debug_frame  00000118  00000000  00000000  0000236c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000073fe  00000000  00000000  000023e4  2**0
+ 10 .debug_str    00007809  00000000  00000000  00002484  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000002b7  00000000  00000000  000097e2  2**0
+ 11 .debug_loc    000002b7  00000000  00000000  00009c8d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000068  00000000  00000000  00009a99  2**0
+ 12 .debug_ranges 00000068  00000000  00000000  00009f44  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_macro  00002b0a  00000000  00000000  00009b01  2**0
+ 13 .debug_macro  00002cee  00000000  00000000  00009fac  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -118,7 +118,7 @@ Disassembly of section .text:
   98:	11 e0       	ldi	r17, 0x01	; 1
   9a:	a0 e0       	ldi	r26, 0x00	; 0
   9c:	b1 e0       	ldi	r27, 0x01	; 1
-  9e:	e8 e7       	ldi	r30, 0x78	; 120
+  9e:	ea e8       	ldi	r30, 0x8A	; 138
   a0:	f2 e0       	ldi	r31, 0x02	; 2
   a2:	00 e0       	ldi	r16, 0x00	; 0
   a4:	0b bf       	out	0x3b, r16	; 59
@@ -139,402 +139,419 @@ Disassembly of section .text:
   ba:	1d 92       	st	X+, r1
 
 000000bc <.do_clear_bss_start>:
-  bc:	ac 30       	cpi	r26, 0x0C	; 12
+  bc:	ae 30       	cpi	r26, 0x0E	; 14
   be:	b2 07       	cpc	r27, r18
   c0:	e1 f7       	brne	.-8      	; 0xba <.do_clear_bss_loop>
   c2:	02 d0       	rcall	.+4      	; 0xc8 <main>
-  c4:	d7 c0       	rjmp	.+430    	; 0x274 <_exit>
+  c4:	e0 c0       	rjmp	.+448    	; 0x286 <_exit>
 
 000000c6 <__bad_interrupt>:
   c6:	9c cf       	rjmp	.-200    	; 0x0 <__vectors>
 
 000000c8 <main>:
-#include <avr/io.h>
 #include "sevenSeg.h"
-int i;
+#include <time.h>
+time_t t = 0;
 int main(void)
 {
 	sevenSegInit();
-  c8:	a9 d0       	rcall	.+338    	; 0x21c <sevenSegInit>
+  c8:	b2 d0       	rcall	.+356    	; 0x22e <sevenSegInit>
     /* Replace with your application code */
-	 i = 0;
-  ca:	10 92 0b 01 	sts	0x010B, r1	; 0x80010b <__data_end+0x1>
-  ce:	10 92 0a 01 	sts	0x010A, r1	; 0x80010a <__data_end>
     while (1) 
     {
-		showDigit(i);
-  d2:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <__data_end>
-  d6:	90 91 0b 01 	lds	r25, 0x010B	; 0x80010b <__data_end+0x1>
-  da:	76 d0       	rcall	.+236    	; 0x1c8 <showDigit>
-		i+=3;
-  dc:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <__data_end>
-  e0:	90 91 0b 01 	lds	r25, 0x010B	; 0x80010b <__data_end+0x1>
-  e4:	03 96       	adiw	r24, 0x03	; 3
-  e6:	90 93 0b 01 	sts	0x010B, r25	; 0x80010b <__data_end+0x1>
-  ea:	80 93 0a 01 	sts	0x010A, r24	; 0x80010a <__data_end>
-  ee:	f1 cf       	rjmp	.-30     	; 0xd2 <main+0xa>
+		t++;
+		wait(100);
+		showDigit(t);
+  ca:	ca e0       	ldi	r28, 0x0A	; 10
+  cc:	d1 e0       	ldi	r29, 0x01	; 1
+{
+	sevenSegInit();
+    /* Replace with your application code */
+    while (1) 
+    {
+		t++;
+  ce:	80 91 0a 01 	lds	r24, 0x010A	; 0x80010a <__data_end>
+  d2:	90 91 0b 01 	lds	r25, 0x010B	; 0x80010b <__data_end+0x1>
+  d6:	a0 91 0c 01 	lds	r26, 0x010C	; 0x80010c <__data_end+0x2>
+  da:	b0 91 0d 01 	lds	r27, 0x010D	; 0x80010d <__data_end+0x3>
+  de:	01 96       	adiw	r24, 0x01	; 1
+  e0:	a1 1d       	adc	r26, r1
+  e2:	b1 1d       	adc	r27, r1
+  e4:	80 93 0a 01 	sts	0x010A, r24	; 0x80010a <__data_end>
+  e8:	90 93 0b 01 	sts	0x010B, r25	; 0x80010b <__data_end+0x1>
+  ec:	a0 93 0c 01 	sts	0x010C, r26	; 0x80010c <__data_end+0x2>
+  f0:	b0 93 0d 01 	sts	0x010D, r27	; 0x80010d <__data_end+0x3>
+		wait(100);
+  f4:	84 e6       	ldi	r24, 0x64	; 100
+  f6:	90 e0       	ldi	r25, 0x00	; 0
+  f8:	04 d0       	rcall	.+8      	; 0x102 <wait>
+		showDigit(t);
+  fa:	88 81       	ld	r24, Y
+  fc:	99 81       	ldd	r25, Y+1	; 0x01
+  fe:	6d d0       	rcall	.+218    	; 0x1da <showDigit>
+ 100:	e6 cf       	rjmp	.-52     	; 0xce <main+0x6>
 
-000000f0 <wait>:
+00000102 <wait>:
 	PORTB |= 0x01;	//DIO high	
 }
 
 void wait( int us )
 {
 	for (int i=0; i<us; i++)
-  f0:	18 16       	cp	r1, r24
-  f2:	19 06       	cpc	r1, r25
-  f4:	5c f4       	brge	.+22     	; 0x10c <wait+0x1c>
-  f6:	20 e0       	ldi	r18, 0x00	; 0
-  f8:	30 e0       	ldi	r19, 0x00	; 0
+ 102:	18 16       	cp	r1, r24
+ 104:	19 06       	cpc	r1, r25
+ 106:	5c f4       	brge	.+22     	; 0x11e <wait+0x1c>
+ 108:	20 e0       	ldi	r18, 0x00	; 0
+ 10a:	30 e0       	ldi	r19, 0x00	; 0
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  fa:	42 e0       	ldi	r20, 0x02	; 2
-  fc:	4a 95       	dec	r20
-  fe:	f1 f7       	brne	.-4      	; 0xfc <wait+0xc>
- 100:	00 c0       	rjmp	.+0      	; 0x102 <wait+0x12>
- 102:	2f 5f       	subi	r18, 0xFF	; 255
- 104:	3f 4f       	sbci	r19, 0xFF	; 255
- 106:	82 17       	cp	r24, r18
- 108:	93 07       	cpc	r25, r19
- 10a:	b9 f7       	brne	.-18     	; 0xfa <wait+0xa>
- 10c:	08 95       	ret
+ 10c:	42 e0       	ldi	r20, 0x02	; 2
+ 10e:	4a 95       	dec	r20
+ 110:	f1 f7       	brne	.-4      	; 0x10e <wait+0xc>
+ 112:	00 c0       	rjmp	.+0      	; 0x114 <wait+0x12>
+ 114:	2f 5f       	subi	r18, 0xFF	; 255
+ 116:	3f 4f       	sbci	r19, 0xFF	; 255
+ 118:	82 17       	cp	r24, r18
+ 11a:	93 07       	cpc	r25, r19
+ 11c:	b9 f7       	brne	.-18     	; 0x10c <wait+0xa>
+ 11e:	08 95       	ret
 
-0000010e <sevenSegWriteByte>:
+00000120 <sevenSegWriteByte>:
 void sevenSegCmd(uint8_t cmd){
 	sevenSegStart();
 	sevenSegWriteByte(cmd);
 	sevenSegStop();
 }
 void sevenSegWriteByte(uint8_t byteval){
- 10e:	1f 93       	push	r17
- 110:	cf 93       	push	r28
- 112:	df 93       	push	r29
- 114:	18 2f       	mov	r17, r24
- 116:	c8 e0       	ldi	r28, 0x08	; 8
- 118:	d0 e0       	ldi	r29, 0x00	; 0
+ 120:	1f 93       	push	r17
+ 122:	cf 93       	push	r28
+ 124:	df 93       	push	r29
+ 126:	18 2f       	mov	r17, r24
+ 128:	c8 e0       	ldi	r28, 0x08	; 8
+ 12a:	d0 e0       	ldi	r29, 0x00	; 0
 	uint8_t ack;
 	int i;
 	for(i = 0; i < 8; i++){			//writes the data
 		PORTB &= ~0x02;	//clk low
- 11a:	c1 98       	cbi	0x18, 1	; 24
-		wait(50);
- 11c:	82 e3       	ldi	r24, 0x32	; 50
- 11e:	90 e0       	ldi	r25, 0x00	; 0
- 120:	e7 df       	rcall	.-50     	; 0xf0 <wait>
-		if(0x01 & byteval){	// dio should send high
- 122:	10 ff       	sbrs	r17, 0
- 124:	02 c0       	rjmp	.+4      	; 0x12a <sevenSegWriteByte+0x1c>
-			PORTB |= 0x01;
- 126:	c0 9a       	sbi	0x18, 0	; 24
- 128:	01 c0       	rjmp	.+2      	; 0x12c <sevenSegWriteByte+0x1e>
-		}else{				// dio should send low
-			PORTB &= ~0x01;
- 12a:	c0 98       	cbi	0x18, 0	; 24
-		}
-		PORTB |= 0x02;	//clk high
- 12c:	c1 9a       	sbi	0x18, 1	; 24
+ 12c:	c1 98       	cbi	0x18, 1	; 24
 		wait(50);
  12e:	82 e3       	ldi	r24, 0x32	; 50
  130:	90 e0       	ldi	r25, 0x00	; 0
- 132:	de df       	rcall	.-68     	; 0xf0 <wait>
+ 132:	e7 df       	rcall	.-50     	; 0x102 <wait>
+		if(0x01 & byteval){	// dio should send high
+ 134:	10 ff       	sbrs	r17, 0
+ 136:	02 c0       	rjmp	.+4      	; 0x13c <sevenSegWriteByte+0x1c>
+			PORTB |= 0x01;
+ 138:	c0 9a       	sbi	0x18, 0	; 24
+ 13a:	01 c0       	rjmp	.+2      	; 0x13e <sevenSegWriteByte+0x1e>
+		}else{				// dio should send low
+			PORTB &= ~0x01;
+ 13c:	c0 98       	cbi	0x18, 0	; 24
+		}
+		PORTB |= 0x02;	//clk high
+ 13e:	c1 9a       	sbi	0x18, 1	; 24
+		wait(50);
+ 140:	82 e3       	ldi	r24, 0x32	; 50
+ 142:	90 e0       	ldi	r25, 0x00	; 0
+ 144:	de df       	rcall	.-68     	; 0x102 <wait>
 		byteval = byteval >> 1;
- 134:	16 95       	lsr	r17
- 136:	21 97       	sbiw	r28, 0x01	; 1
+ 146:	16 95       	lsr	r17
+ 148:	21 97       	sbiw	r28, 0x01	; 1
 	sevenSegStop();
 }
 void sevenSegWriteByte(uint8_t byteval){
 	uint8_t ack;
 	int i;
 	for(i = 0; i < 8; i++){			//writes the data
- 138:	81 f7       	brne	.-32     	; 0x11a <sevenSegWriteByte+0xc>
+ 14a:	81 f7       	brne	.-32     	; 0x12c <sevenSegWriteByte+0xc>
 		PORTB |= 0x02;	//clk high
 		wait(50);
 		byteval = byteval >> 1;
 	}
 	//ack
 	PORTB &= ~0x02;	//clk low
- 13a:	c1 98       	cbi	0x18, 1	; 24
+ 14c:	c1 98       	cbi	0x18, 1	; 24
 	DDRB &=  ~0x01; //dio is input
- 13c:	b8 98       	cbi	0x17, 0	; 23
+ 14e:	b8 98       	cbi	0x17, 0	; 23
 	PORTB |=  0x01; //dio is high, ack should pull it low
- 13e:	c0 9a       	sbi	0x18, 0	; 24
+ 150:	c0 9a       	sbi	0x18, 0	; 24
 	wait(50);
- 140:	82 e3       	ldi	r24, 0x32	; 50
- 142:	90 e0       	ldi	r25, 0x00	; 0
- 144:	d5 df       	rcall	.-86     	; 0xf0 <wait>
+ 152:	82 e3       	ldi	r24, 0x32	; 50
+ 154:	90 e0       	ldi	r25, 0x00	; 0
+ 156:	d5 df       	rcall	.-86     	; 0x102 <wait>
 	
 	if((PINB | 0x01) > 0){
- 146:	86 b3       	in	r24, 0x16	; 22
+ 158:	86 b3       	in	r24, 0x16	; 22
 		ack = 1;
 	}else{
 		ack = 0;
 	}
 	if(1 == ack){	//if not ack pull DIO down yourself
 		DDRB |= 0x01;
- 148:	b8 9a       	sbi	0x17, 0	; 23
+ 15a:	b8 9a       	sbi	0x17, 0	; 23
 		PORTB &= ~0x01;
 	}
 	wait(50);
- 14a:	c0 98       	cbi	0x18, 0	; 24
- 14c:	82 e3       	ldi	r24, 0x32	; 50
- 14e:	90 e0       	ldi	r25, 0x00	; 0
+ 15c:	c0 98       	cbi	0x18, 0	; 24
+ 15e:	82 e3       	ldi	r24, 0x32	; 50
+ 160:	90 e0       	ldi	r25, 0x00	; 0
 	PORTB |= 0x02;	//clk high   falling edge 9th clock
- 150:	cf df       	rcall	.-98     	; 0xf0 <wait>
+ 162:	cf df       	rcall	.-98     	; 0x102 <wait>
 	wait(50);
- 152:	c1 9a       	sbi	0x18, 1	; 24
- 154:	82 e3       	ldi	r24, 0x32	; 50
- 156:	90 e0       	ldi	r25, 0x00	; 0
- 158:	cb df       	rcall	.-106    	; 0xf0 <wait>
+ 164:	c1 9a       	sbi	0x18, 1	; 24
+ 166:	82 e3       	ldi	r24, 0x32	; 50
+ 168:	90 e0       	ldi	r25, 0x00	; 0
+ 16a:	cb df       	rcall	.-106    	; 0x102 <wait>
 	PORTB &= ~0x02;	//clk low	properly ends the ack
- 15a:	c1 98       	cbi	0x18, 1	; 24
+ 16c:	c1 98       	cbi	0x18, 1	; 24
 	DDRD |= 0x01;
- 15c:	88 9a       	sbi	0x11, 0	; 17
+ 16e:	88 9a       	sbi	0x11, 0	; 17
 	
 }
- 15e:	df 91       	pop	r29
- 160:	cf 91       	pop	r28
- 162:	1f 91       	pop	r17
- 164:	08 95       	ret
+ 170:	df 91       	pop	r29
+ 172:	cf 91       	pop	r28
+ 174:	1f 91       	pop	r17
+ 176:	08 95       	ret
 
-00000166 <sevenSegStart>:
+00000178 <sevenSegStart>:
 
 void sevenSegStart(void){
 	PORTB |= 0x01;	//DIO pin high	others left alone
- 166:	c0 9a       	sbi	0x18, 0	; 24
+ 178:	c0 9a       	sbi	0x18, 0	; 24
 	PORTB |= 0x02;	//clk pin high
- 168:	c1 9a       	sbi	0x18, 1	; 24
+ 17a:	c1 9a       	sbi	0x18, 1	; 24
 	wait(50);
- 16a:	82 e3       	ldi	r24, 0x32	; 50
- 16c:	90 e0       	ldi	r25, 0x00	; 0
- 16e:	c0 df       	rcall	.-128    	; 0xf0 <wait>
+ 17c:	82 e3       	ldi	r24, 0x32	; 50
+ 17e:	90 e0       	ldi	r25, 0x00	; 0
+ 180:	c0 df       	rcall	.-128    	; 0x102 <wait>
 	PORTB &= ~0x01;	// DIO  pin low
- 170:	c0 98       	cbi	0x18, 0	; 24
- 172:	08 95       	ret
+ 182:	c0 98       	cbi	0x18, 0	; 24
+ 184:	08 95       	ret
 
-00000174 <sevenSegStop>:
+00000186 <sevenSegStop>:
 }
 
 void sevenSegStop(void){
 	PORTB &= ~0x02; // CLK pin low	others left alone
- 174:	c1 98       	cbi	0x18, 1	; 24
+ 186:	c1 98       	cbi	0x18, 1	; 24
 	wait(50);
- 176:	82 e3       	ldi	r24, 0x32	; 50
- 178:	90 e0       	ldi	r25, 0x00	; 0
- 17a:	ba df       	rcall	.-140    	; 0xf0 <wait>
+ 188:	82 e3       	ldi	r24, 0x32	; 50
+ 18a:	90 e0       	ldi	r25, 0x00	; 0
+ 18c:	ba df       	rcall	.-140    	; 0x102 <wait>
 	PORTB &= ~0x01;	// DIO  pin low
- 17c:	c0 98       	cbi	0x18, 0	; 24
+ 18e:	c0 98       	cbi	0x18, 0	; 24
 	wait(50);
- 17e:	82 e3       	ldi	r24, 0x32	; 50
- 180:	90 e0       	ldi	r25, 0x00	; 0
- 182:	b6 df       	rcall	.-148    	; 0xf0 <wait>
+ 190:	82 e3       	ldi	r24, 0x32	; 50
+ 192:	90 e0       	ldi	r25, 0x00	; 0
+ 194:	b6 df       	rcall	.-148    	; 0x102 <wait>
 	PORTB |= 0x02;	//CLK high
- 184:	c1 9a       	sbi	0x18, 1	; 24
+ 196:	c1 9a       	sbi	0x18, 1	; 24
 	wait(50);
- 186:	82 e3       	ldi	r24, 0x32	; 50
- 188:	90 e0       	ldi	r25, 0x00	; 0
- 18a:	b2 df       	rcall	.-156    	; 0xf0 <wait>
+ 198:	82 e3       	ldi	r24, 0x32	; 50
+ 19a:	90 e0       	ldi	r25, 0x00	; 0
+ 19c:	b2 df       	rcall	.-156    	; 0x102 <wait>
 	PORTB |= 0x01;	//DIO high	
- 18c:	c0 9a       	sbi	0x18, 0	; 24
- 18e:	08 95       	ret
+ 19e:	c0 9a       	sbi	0x18, 0	; 24
+ 1a0:	08 95       	ret
 
-00000190 <sevenSegCmd>:
+000001a2 <sevenSegCmd>:
 	sevenSegWriteByte(FIRSTSEGMENT | segAddress);	//address to write to 
 	sevenSegWriteByte(value);						//value to write
 	sevenSegStop();
 	sevenSegConf();
 }
 void sevenSegCmd(uint8_t cmd){
- 190:	cf 93       	push	r28
- 192:	c8 2f       	mov	r28, r24
+ 1a2:	cf 93       	push	r28
+ 1a4:	c8 2f       	mov	r28, r24
 	sevenSegStart();
- 194:	e8 df       	rcall	.-48     	; 0x166 <sevenSegStart>
+ 1a6:	e8 df       	rcall	.-48     	; 0x178 <sevenSegStart>
 	sevenSegWriteByte(cmd);
- 196:	8c 2f       	mov	r24, r28
+ 1a8:	8c 2f       	mov	r24, r28
 	sevenSegStop();
- 198:	ba df       	rcall	.-140    	; 0x10e <sevenSegWriteByte>
- 19a:	ec df       	rcall	.-40     	; 0x174 <sevenSegStop>
+ 1aa:	ba df       	rcall	.-140    	; 0x120 <sevenSegWriteByte>
+ 1ac:	ec df       	rcall	.-40     	; 0x186 <sevenSegStop>
 }
- 19c:	cf 91       	pop	r28
- 19e:	08 95       	ret
+ 1ae:	cf 91       	pop	r28
+ 1b0:	08 95       	ret
 
-000001a0 <sevenSegConf>:
+000001b2 <sevenSegConf>:
 
 void sevenSegConf(void){
 	uint8_t command;
 	command = DISPLAY_ON;
 	command |= 0x03;	//brightness
 	sevenSegCmd(command);
- 1a0:	8b e8       	ldi	r24, 0x8B	; 139
- 1a2:	f6 cf       	rjmp	.-20     	; 0x190 <sevenSegCmd>
- 1a4:	08 95       	ret
+ 1b2:	8b e8       	ldi	r24, 0x8B	; 139
+ 1b4:	f6 cf       	rjmp	.-20     	; 0x1a2 <sevenSegCmd>
+ 1b6:	08 95       	ret
 
-000001a6 <sevenSegDisplaySegs>:
+000001b8 <sevenSegDisplaySegs>:
 }
 void sevenSegDisplaySegs(uint8_t segAddress, uint8_t value){
- 1a6:	cf 93       	push	r28
- 1a8:	df 93       	push	r29
- 1aa:	d8 2f       	mov	r29, r24
- 1ac:	c6 2f       	mov	r28, r22
+ 1b8:	cf 93       	push	r28
+ 1ba:	df 93       	push	r29
+ 1bc:	d8 2f       	mov	r29, r24
+ 1be:	c6 2f       	mov	r28, r22
 	sevenSegCmd(BASEDATACMD | 0x04);	//fixed addresses
- 1ae:	84 e4       	ldi	r24, 0x44	; 68
- 1b0:	ef df       	rcall	.-34     	; 0x190 <sevenSegCmd>
+ 1c0:	84 e4       	ldi	r24, 0x44	; 68
+ 1c2:	ef df       	rcall	.-34     	; 0x1a2 <sevenSegCmd>
 	sevenSegStart();
- 1b2:	d9 df       	rcall	.-78     	; 0x166 <sevenSegStart>
- 1b4:	8d 2f       	mov	r24, r29
+ 1c4:	d9 df       	rcall	.-78     	; 0x178 <sevenSegStart>
+ 1c6:	8d 2f       	mov	r24, r29
 	sevenSegWriteByte(FIRSTSEGMENT | segAddress);	//address to write to 
- 1b6:	80 6c       	ori	r24, 0xC0	; 192
- 1b8:	aa df       	rcall	.-172    	; 0x10e <sevenSegWriteByte>
+ 1c8:	80 6c       	ori	r24, 0xC0	; 192
+ 1ca:	aa df       	rcall	.-172    	; 0x120 <sevenSegWriteByte>
 	sevenSegWriteByte(value);						//value to write
- 1ba:	8c 2f       	mov	r24, r28
- 1bc:	a8 df       	rcall	.-176    	; 0x10e <sevenSegWriteByte>
+ 1cc:	8c 2f       	mov	r24, r28
+ 1ce:	a8 df       	rcall	.-176    	; 0x120 <sevenSegWriteByte>
 	sevenSegStop();
- 1be:	da df       	rcall	.-76     	; 0x174 <sevenSegStop>
- 1c0:	ef df       	rcall	.-34     	; 0x1a0 <sevenSegConf>
+ 1d0:	da df       	rcall	.-76     	; 0x186 <sevenSegStop>
+ 1d2:	ef df       	rcall	.-34     	; 0x1b2 <sevenSegConf>
 	sevenSegConf();
- 1c2:	df 91       	pop	r29
- 1c4:	cf 91       	pop	r28
+ 1d4:	df 91       	pop	r29
+ 1d6:	cf 91       	pop	r28
 }
- 1c6:	08 95       	ret
+ 1d8:	08 95       	ret
 
-000001c8 <showDigit>:
- 1c8:	ff 92       	push	r15
- 1ca:	0f 93       	push	r16
+000001da <showDigit>:
+ 1da:	ff 92       	push	r15
+ 1dc:	0f 93       	push	r16
 	DDRB = 0x03;	//pd0 and pd1 are output
 	PORTB = 0x00;	//all pins are low
 	sevenSegCleanup();
 }
 
 void showDigit(int digit){
- 1cc:	1f 93       	push	r17
- 1ce:	cf 93       	push	r28
- 1d0:	df 93       	push	r29
- 1d2:	c3 e0       	ldi	r28, 0x03	; 3
+ 1de:	1f 93       	push	r17
+ 1e0:	cf 93       	push	r28
+ 1e2:	df 93       	push	r29
+ 1e4:	c3 e0       	ldi	r28, 0x03	; 3
 	uint8_t segments, i;
 	for(i = 1; i <= MAXDIGITS; i ++){	//start at 1 because you count from 0
 		segments = digit % 10;
 		sevenSegDisplaySegs(MAXDIGITS - i,_digitInSegments[segments]);
- 1d4:	0a e0       	ldi	r16, 0x0A	; 10
- 1d6:	10 e0       	ldi	r17, 0x00	; 0
- 1d8:	b8 01       	movw	r22, r16
- 1da:	25 d0       	rcall	.+74     	; 0x226 <__divmodhi4>
- 1dc:	f6 2e       	mov	r15, r22
- 1de:	d7 2f       	mov	r29, r23
- 1e0:	fc 01       	movw	r30, r24
- 1e2:	ff 27       	eor	r31, r31
- 1e4:	e0 50       	subi	r30, 0x00	; 0
- 1e6:	ff 4f       	sbci	r31, 0xFF	; 255
- 1e8:	60 81       	ld	r22, Z
- 1ea:	8c 2f       	mov	r24, r28
- 1ec:	dc df       	rcall	.-72     	; 0x1a6 <sevenSegDisplaySegs>
+ 1e6:	0a e0       	ldi	r16, 0x0A	; 10
+ 1e8:	10 e0       	ldi	r17, 0x00	; 0
+ 1ea:	b8 01       	movw	r22, r16
+ 1ec:	25 d0       	rcall	.+74     	; 0x238 <__divmodhi4>
+ 1ee:	f6 2e       	mov	r15, r22
+ 1f0:	d7 2f       	mov	r29, r23
+ 1f2:	fc 01       	movw	r30, r24
+ 1f4:	ff 27       	eor	r31, r31
+ 1f6:	e0 50       	subi	r30, 0x00	; 0
+ 1f8:	ff 4f       	sbci	r31, 0xFF	; 255
+ 1fa:	60 81       	ld	r22, Z
+ 1fc:	8c 2f       	mov	r24, r28
+ 1fe:	dc df       	rcall	.-72     	; 0x1b8 <sevenSegDisplaySegs>
 		digit /= 10;
- 1ee:	8f 2d       	mov	r24, r15
- 1f0:	9d 2f       	mov	r25, r29
- 1f2:	c1 50       	subi	r28, 0x01	; 1
- 1f4:	88 f7       	brcc	.-30     	; 0x1d8 <showDigit+0x10>
+ 200:	8f 2d       	mov	r24, r15
+ 202:	9d 2f       	mov	r25, r29
+ 204:	c1 50       	subi	r28, 0x01	; 1
+ 206:	88 f7       	brcc	.-30     	; 0x1ea <showDigit+0x10>
 	}
 }
- 1f6:	df 91       	pop	r29
- 1f8:	cf 91       	pop	r28
- 1fa:	1f 91       	pop	r17
- 1fc:	0f 91       	pop	r16
- 1fe:	ff 90       	pop	r15
- 200:	08 95       	ret
+ 208:	df 91       	pop	r29
+ 20a:	cf 91       	pop	r28
+ 20c:	1f 91       	pop	r17
+ 20e:	0f 91       	pop	r16
+ 210:	ff 90       	pop	r15
+ 212:	08 95       	ret
 
-00000202 <sevenSegCleanup>:
+00000214 <sevenSegCleanup>:
 
 void sevenSegCleanup(void){
 	sevenSegDisplaySegs(0 ,0x00);
- 202:	60 e0       	ldi	r22, 0x00	; 0
- 204:	80 e0       	ldi	r24, 0x00	; 0
- 206:	cf df       	rcall	.-98     	; 0x1a6 <sevenSegDisplaySegs>
-	sevenSegDisplaySegs(1 ,0x00);
- 208:	60 e0       	ldi	r22, 0x00	; 0
- 20a:	81 e0       	ldi	r24, 0x01	; 1
- 20c:	cc df       	rcall	.-104    	; 0x1a6 <sevenSegDisplaySegs>
-	sevenSegDisplaySegs(2 ,0x00);
- 20e:	60 e0       	ldi	r22, 0x00	; 0
- 210:	82 e0       	ldi	r24, 0x02	; 2
- 212:	c9 df       	rcall	.-110    	; 0x1a6 <sevenSegDisplaySegs>
-	sevenSegDisplaySegs(3 ,0x00);
  214:	60 e0       	ldi	r22, 0x00	; 0
- 216:	83 e0       	ldi	r24, 0x03	; 3
- 218:	c6 cf       	rjmp	.-116    	; 0x1a6 <sevenSegDisplaySegs>
- 21a:	08 95       	ret
+ 216:	80 e0       	ldi	r24, 0x00	; 0
+ 218:	cf df       	rcall	.-98     	; 0x1b8 <sevenSegDisplaySegs>
+	sevenSegDisplaySegs(1 ,0x00);
+ 21a:	60 e0       	ldi	r22, 0x00	; 0
+ 21c:	81 e0       	ldi	r24, 0x01	; 1
+ 21e:	cc df       	rcall	.-104    	; 0x1b8 <sevenSegDisplaySegs>
+	sevenSegDisplaySegs(2 ,0x00);
+ 220:	60 e0       	ldi	r22, 0x00	; 0
+ 222:	82 e0       	ldi	r24, 0x02	; 2
+ 224:	c9 df       	rcall	.-110    	; 0x1b8 <sevenSegDisplaySegs>
+	sevenSegDisplaySegs(3 ,0x00);
+ 226:	60 e0       	ldi	r22, 0x00	; 0
+ 228:	83 e0       	ldi	r24, 0x03	; 3
+ 22a:	c6 cf       	rjmp	.-116    	; 0x1b8 <sevenSegDisplaySegs>
+ 22c:	08 95       	ret
 
-0000021c <sevenSegInit>:
- 21c:	83 e0       	ldi	r24, 0x03	; 3
+0000022e <sevenSegInit>:
+ 22e:	83 e0       	ldi	r24, 0x03	; 3
 	0x7F, // 8
 	0x6F  // 9
 };
 
 void sevenSegInit(void){
 	DDRB = 0x03;	//pd0 and pd1 are output
- 21e:	87 bb       	out	0x17, r24	; 23
+ 230:	87 bb       	out	0x17, r24	; 23
 	PORTB = 0x00;	//all pins are low
- 220:	18 ba       	out	0x18, r1	; 24
+ 232:	18 ba       	out	0x18, r1	; 24
 	sevenSegCleanup();
- 222:	ef cf       	rjmp	.-34     	; 0x202 <sevenSegCleanup>
- 224:	08 95       	ret
+ 234:	ef cf       	rjmp	.-34     	; 0x214 <sevenSegCleanup>
+ 236:	08 95       	ret
 
-00000226 <__divmodhi4>:
- 226:	97 fb       	bst	r25, 7
- 228:	07 2e       	mov	r0, r23
- 22a:	16 f4       	brtc	.+4      	; 0x230 <__divmodhi4+0xa>
- 22c:	00 94       	com	r0
- 22e:	06 d0       	rcall	.+12     	; 0x23c <__divmodhi4_neg1>
- 230:	77 fd       	sbrc	r23, 7
- 232:	08 d0       	rcall	.+16     	; 0x244 <__divmodhi4_neg2>
- 234:	0b d0       	rcall	.+22     	; 0x24c <__udivmodhi4>
- 236:	07 fc       	sbrc	r0, 7
- 238:	05 d0       	rcall	.+10     	; 0x244 <__divmodhi4_neg2>
- 23a:	3e f4       	brtc	.+14     	; 0x24a <__divmodhi4_exit>
+00000238 <__divmodhi4>:
+ 238:	97 fb       	bst	r25, 7
+ 23a:	07 2e       	mov	r0, r23
+ 23c:	16 f4       	brtc	.+4      	; 0x242 <__divmodhi4+0xa>
+ 23e:	00 94       	com	r0
+ 240:	06 d0       	rcall	.+12     	; 0x24e <__divmodhi4_neg1>
+ 242:	77 fd       	sbrc	r23, 7
+ 244:	08 d0       	rcall	.+16     	; 0x256 <__divmodhi4_neg2>
+ 246:	0b d0       	rcall	.+22     	; 0x25e <__udivmodhi4>
+ 248:	07 fc       	sbrc	r0, 7
+ 24a:	05 d0       	rcall	.+10     	; 0x256 <__divmodhi4_neg2>
+ 24c:	3e f4       	brtc	.+14     	; 0x25c <__divmodhi4_exit>
 
-0000023c <__divmodhi4_neg1>:
- 23c:	90 95       	com	r25
- 23e:	81 95       	neg	r24
- 240:	9f 4f       	sbci	r25, 0xFF	; 255
- 242:	08 95       	ret
+0000024e <__divmodhi4_neg1>:
+ 24e:	90 95       	com	r25
+ 250:	81 95       	neg	r24
+ 252:	9f 4f       	sbci	r25, 0xFF	; 255
+ 254:	08 95       	ret
 
-00000244 <__divmodhi4_neg2>:
- 244:	70 95       	com	r23
- 246:	61 95       	neg	r22
- 248:	7f 4f       	sbci	r23, 0xFF	; 255
+00000256 <__divmodhi4_neg2>:
+ 256:	70 95       	com	r23
+ 258:	61 95       	neg	r22
+ 25a:	7f 4f       	sbci	r23, 0xFF	; 255
 
-0000024a <__divmodhi4_exit>:
- 24a:	08 95       	ret
+0000025c <__divmodhi4_exit>:
+ 25c:	08 95       	ret
 
-0000024c <__udivmodhi4>:
- 24c:	aa 1b       	sub	r26, r26
- 24e:	bb 1b       	sub	r27, r27
- 250:	51 e1       	ldi	r21, 0x11	; 17
- 252:	07 c0       	rjmp	.+14     	; 0x262 <__udivmodhi4_ep>
+0000025e <__udivmodhi4>:
+ 25e:	aa 1b       	sub	r26, r26
+ 260:	bb 1b       	sub	r27, r27
+ 262:	51 e1       	ldi	r21, 0x11	; 17
+ 264:	07 c0       	rjmp	.+14     	; 0x274 <__udivmodhi4_ep>
 
-00000254 <__udivmodhi4_loop>:
- 254:	aa 1f       	adc	r26, r26
- 256:	bb 1f       	adc	r27, r27
- 258:	a6 17       	cp	r26, r22
- 25a:	b7 07       	cpc	r27, r23
- 25c:	10 f0       	brcs	.+4      	; 0x262 <__udivmodhi4_ep>
- 25e:	a6 1b       	sub	r26, r22
- 260:	b7 0b       	sbc	r27, r23
+00000266 <__udivmodhi4_loop>:
+ 266:	aa 1f       	adc	r26, r26
+ 268:	bb 1f       	adc	r27, r27
+ 26a:	a6 17       	cp	r26, r22
+ 26c:	b7 07       	cpc	r27, r23
+ 26e:	10 f0       	brcs	.+4      	; 0x274 <__udivmodhi4_ep>
+ 270:	a6 1b       	sub	r26, r22
+ 272:	b7 0b       	sbc	r27, r23
 
-00000262 <__udivmodhi4_ep>:
- 262:	88 1f       	adc	r24, r24
- 264:	99 1f       	adc	r25, r25
- 266:	5a 95       	dec	r21
- 268:	a9 f7       	brne	.-22     	; 0x254 <__udivmodhi4_loop>
- 26a:	80 95       	com	r24
- 26c:	90 95       	com	r25
- 26e:	bc 01       	movw	r22, r24
- 270:	cd 01       	movw	r24, r26
- 272:	08 95       	ret
+00000274 <__udivmodhi4_ep>:
+ 274:	88 1f       	adc	r24, r24
+ 276:	99 1f       	adc	r25, r25
+ 278:	5a 95       	dec	r21
+ 27a:	a9 f7       	brne	.-22     	; 0x266 <__udivmodhi4_loop>
+ 27c:	80 95       	com	r24
+ 27e:	90 95       	com	r25
+ 280:	bc 01       	movw	r22, r24
+ 282:	cd 01       	movw	r24, r26
+ 284:	08 95       	ret
 
-00000274 <_exit>:
- 274:	f8 94       	cli
+00000286 <_exit>:
+ 286:	f8 94       	cli
 
-00000276 <__stop_program>:
- 276:	ff cf       	rjmp	.-2      	; 0x276 <__stop_program>
+00000288 <__stop_program>:
+ 288:	ff cf       	rjmp	.-2      	; 0x288 <__stop_program>

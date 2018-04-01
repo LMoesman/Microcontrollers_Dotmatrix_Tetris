@@ -25,7 +25,8 @@ int i = 0;
 #include "main.h"
 #include "display.h"
 #include "sevenSeg.h"
-
+time_t randomSeed = 0;	//is a time_t object because this is long.
+int powerdOn = 0;
 unsigned char display_array[9][8] = {
 	{0, 0, 0, 0, 0, 0, 0, 0},
 	{0, 0, 0, 0, 0, 0, 0, 0},
@@ -144,6 +145,7 @@ ISR(INT2_vect) {
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
 	if((PIND & 0x0C) == 0x0C){
+		powerdOn = 1;
 		shouldReset = 1;
 		return;
 	}
@@ -166,6 +168,7 @@ ISR(INT3_vect) {
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
 	if((PIND & 0x0C) == 0x0C){
+		powerdOn = 1;
 		shouldReset = 1;
 		return;
 	}
@@ -203,12 +206,18 @@ Version :    	DMK, Initial code
 	
 	sei();
 	
-	srand(2344);
 	displayInit();
 	sevenSegInit();
 	showDigit(score);
 	wait(500);
-	
+	uint8_t displayinit[8] = {0,0,0,0,0,0,0,0};
+	drawArray(displayinit);
+	while(!powerdOn){
+		randomSeed++;
+		showDigit(randomSeed);
+		wait(100);
+	}
+	srand(randomSeed);
 	while(1==1) {
 		if (blockLocation.isAnimating == 0) {
 			if(shouldReset == 0) {
