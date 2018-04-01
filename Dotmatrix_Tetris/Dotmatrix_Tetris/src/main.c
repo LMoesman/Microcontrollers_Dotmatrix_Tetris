@@ -331,7 +331,7 @@ void gameOver(){
 	
 	//Waits for reset
 	while(1) {
-		if(shouldReset) {
+		if(shouldReset == 1) {
 			resetGame();
 			wait(1000);
 			break;
