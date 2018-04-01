@@ -152,7 +152,7 @@ ISR(INT3_vect) {
 		}
 		if(blockLocation.column > 0){
 			if(display_array[blockLocation.row][blockLocation.column-1] == 0 &&
-			display_array[blockLocation.row - 1][blockLocation.column+2] == 0) {
+			display_array[blockLocation.row - 1][blockLocation.column-1] == 0) {
 				blockLocation.column--;
 			}
 		}
