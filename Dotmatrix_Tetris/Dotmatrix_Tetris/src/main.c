@@ -26,7 +26,7 @@ int i = 0;
 #include "display.h"
 #include "sevenSeg.h"
 time_t randomSeed = 0;	//is a time_t object because this is long.
-int powerdOn = 0;
+volatile int powerdOn = 0;
 unsigned char display_array[9][8] = {
 	{0, 0, 0, 0, 0, 0, 0, 0},
 	{0, 0, 0, 0, 0, 0, 0, 0},
@@ -46,7 +46,7 @@ struct blockLocation {
 	int oneWidth;
 }blockLocation;
 int score = 0;
-int shouldReset = 0;
+volatile int shouldReset = 0;
 
 /******************************************************************/
 void setupDisplayArray(unsigned char* displayBuffer){
@@ -99,16 +99,16 @@ void startGame(){
 	*******************************************************************/		
 
 	i = rand() % 7;
-	blockLocation.isAnimating = 1;
 	if ((display_array[0][i] != 1) && (display_array[0][i+1] != 1)) { 
 		//Init new block
 		blockLocation.row = 0;
 		blockLocation.column = i;
 		blockLocation.oneWidth = rand() % 2;
+		blockLocation.isAnimating = 1;
 		animateGame();
 	}else {
 		//Game over
-		showDigit(9999);
+		//showDigit(9999);
 		gameOver();
 	}
 }
@@ -328,13 +328,7 @@ void gameOver(){
 					   0b01000010,
 					   0b01000010};
 	drawArray(deadFace);
+	wait(4000);
+	resetGame();
 	
-	//Waits for reset
-	while(1) {
-		if(shouldReset) {
-			resetGame();
-			wait(1000);
-			break;
-		}
-	}
 }
