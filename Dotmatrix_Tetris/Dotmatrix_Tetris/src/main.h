@@ -14,5 +14,6 @@ void startGame(void);
 void animateGame(void);
 void checkForFullRows(void);
 void shoveDown(int x);
+void gameOver(void);
 
 #endif /* MAIN_H_ */

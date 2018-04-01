@@ -71,6 +71,7 @@ void startGame(){
 		animateGame();
 	}else {
 		//Game over
+		gameOver();
 		showDigit(9999);
 	}
 	i = rand() % 7;
@@ -150,4 +151,16 @@ void shoveDown(int x){
 		memcpy(display_array[x],display_array[rowToShove],sizeof(unsigned char) * 8);	//cpy the upper row to this row
 		memcpy(display_array[x-1],display_array[rowToShove - 1],sizeof(unsigned char) * 8);	//cpy the upper row to this row		//thwo times this function because blocks are 2*2
 	}
+}
+
+void gameOver(){
+	uint8_t deadFace[8] = {0b00000000,
+					   0b10100101,
+					   0b01000010,
+					   0b10100101,
+					   0b00000000,
+					   0b00111100,
+					   0b01000010,
+					   0b01000010};
+	drawArray(deadFace);
 }
