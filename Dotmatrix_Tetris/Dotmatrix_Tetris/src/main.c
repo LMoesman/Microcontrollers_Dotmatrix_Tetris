@@ -48,62 +48,106 @@ int score = 0;
 int shouldReset = 0;
 
 /******************************************************************/
-
 void setupDisplayArray(unsigned char* displayBuffer){
+	/*
+	short:			setup DisplayArray
+	inputs:			unsigned char array
+	outputs:
+	notes:			Makes an temp array to display on the dotmatrix
+	Version :    	1.0
+	Author	:		Lars Moesman & Rick Verstraten
+	*******************************************************************/	
 	int row;
 	for(row = 0; row < 8; row++) {
 		int col;
 		unsigned char tempRow = 0b00000000 | display_array[row][7];
 		for(col = 0; col < 8; col++) {
 			if(!blockLocation.oneWidth){
+				//Check if we are at the point where the block is
 				if (row == blockLocation.row || row == blockLocation.row - 1) {
 					if(col == blockLocation.column || col == blockLocation.column + 1) {
+						//Draw the block in bites
 						tempRow = tempRow | (128 >> col);
 					}
 				}	
 			}else{
+				//Check if we are at the point where the block is
 				if (row == blockLocation.row || row == blockLocation.row - 1) {
 					if(col == blockLocation.column) {
+						//Draw the block in bites
 						tempRow = tempRow | (128 >> col);
 					}
 				}
 			}
 			tempRow = tempRow | ((display_array[row][7 - col]) << col);
 		}
+		//Write part of display bites to displaybuffer
 		displayBuffer[row] = tempRow; 
 	}
 }
+
+/******************************************************************/
 void startGame(){
+/*	short:			starts the game
+	inputs:			
+	outputs:
+	notes:			Starts the game by initing everything and call the animate method
+	Version :    	1.0
+	Author	:		Lars Moesman & Rick Verstraten
+	*******************************************************************/		
 	blockLocation.isAnimating = 1;
 	if ((display_array[0][i] != 1) && (display_array[0][i+1] != 1)) { 
+		//Init new block
 		blockLocation.row = 0;
 		blockLocation.column = i;
 		blockLocation.oneWidth = rand() % 2;
 		animateGame();
 	}else {
 		//Game over
-		gameOver();
 		showDigit(9999);
+		gameOver();
+		
 	}
 	i = rand() % 7;
 }
 
+/******************************************************************/
 void resetGame(){
+/*	short:			resets the game
+	inputs:			
+	outputs:
+	notes:			Resets the game by setting variables to begin values
+	Version :    	1.0
+	Author	:		Lars Moesman & Rick Verstraten
+	*******************************************************************/	
+
+	//Reset score
 	showDigit(0);
 	int row;
+	//Reset display array so it is empty again
 	for (row = 0;row < 8;row++) {
 			memcpy(display_array[row], (int[]){0,0,0,0,0,0,0,0}, 8);
 	}
+	//Reseting is over
 	shouldReset = 0;
 }
 
+/******************************************************************/
 void animateGame() {
+/*	short:			animates the game
+	inputs:			
+	outputs:
+	notes:			Controlling the falling of the blocks
+	Version :    	1.0
+	Author	:		Lars Moesman & Rick Verstraten
+	*******************************************************************/	
 	unsigned char displayBuffer[8];
 	while(1){
 		setupDisplayArray(displayBuffer);
 		drawArray(displayBuffer);
 		wait(2000);
 		if(!blockLocation.oneWidth){
+			//Check for collision under the block
 			if (display_array[blockLocation.row+1][blockLocation.column] != 1 &&
 		   	    display_array[blockLocation.row+1][blockLocation.column + 1] != 1) {
 					blockLocation.row++;
@@ -111,6 +155,7 @@ void animateGame() {
 				 break;
 			 }
 		}else{
+			//Check for collision under the block
 			if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
 				blockLocation.row++;
 			}else {
@@ -118,6 +163,7 @@ void animateGame() {
 			}
 		}
 	}
+	//Block stopped falling so write to the display array for collision detection next iteration
 	if(!blockLocation.oneWidth){
 		display_array[blockLocation.row][blockLocation.column] = 1;
 		display_array[blockLocation.row - 1][blockLocation.column] = 1;
@@ -129,6 +175,7 @@ void animateGame() {
 		display_array[blockLocation.row - 1][blockLocation.column] = 1;	
 		blockLocation.isAnimating = 0;
 	}
+	
 	checkForFullRows();
 }
 
@@ -143,11 +190,15 @@ ISR(INT2_vect) {
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
+	
+	//Check if both buttons are pressed
 	if((PIND & 0x0C) == 0x0C){
 		shouldReset = 1;
 		return;
 	}
+	//Check if block hasn't reached a wall
 	if(blockLocation.column > 0){
+		//Check for collision on the side
 		if(display_array[blockLocation.row][blockLocation.column-1] == 0 &&
 		   display_array[blockLocation.row - 1][blockLocation.column-1] == 0) {
 				blockLocation.column--;
@@ -165,10 +216,13 @@ ISR(INT3_vect) {
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
+	//Check if block hasn't reached a wall
 	if((PIND & 0x0C) == 0x0C){
 		shouldReset = 1;
 		return;
 	}
+	
+	//Check for collision on the side
 	if(!blockLocation.oneWidth){
 		if(blockLocation.column < 6){
 			if(display_array[blockLocation.row][blockLocation.column+2] == 0 &&
@@ -264,4 +318,13 @@ void gameOver(){
 					   0b01000010,
 					   0b01000010};
 	drawArray(deadFace);
+	
+	//Waits for reset
+	while(1) {
+		if(shouldReset) {
+			resetGame();
+			wait(1000);
+			break;
+		}
+	}
 }
