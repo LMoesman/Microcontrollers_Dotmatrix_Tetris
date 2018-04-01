@@ -548,9 +548,9 @@ ISR(INT2_vect) {
 	*******************************************************************/
 	
 	
-	if(PIND == 0x06){
+	if(PIND == 0x0C){
  334:	80 b3       	in	r24, 0x10	; 16
- 336:	86 30       	cpi	r24, 0x06	; 6
+ 336:	8c 30       	cpi	r24, 0x0C	; 12
  338:	61 f0       	breq	.+24     	; 0x352 <__vector_3+0x2c>
 		//Reset Game
 		return;
@@ -592,9 +592,9 @@ ISR(INT3_vect) {
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
 	
-		if(PIND == 0x06){
+		if(PIND == 0x0C){
  36e:	80 b3       	in	r24, 0x10	; 16
- 370:	86 30       	cpi	r24, 0x06	; 6
+ 370:	8c 30       	cpi	r24, 0x0C	; 12
  372:	61 f0       	breq	.+24     	; 0x38c <__vector_4+0x2c>
 			//Reset Game
 			return;
