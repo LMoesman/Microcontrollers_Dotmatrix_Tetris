@@ -119,20 +119,16 @@ ISR(INT2_vect) {
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
-	
-	
 	if(PIND == 0x0C){
 		resetGame();
 		return;
 	}
-	if(blockLocation.column < 6){
-		if(display_array[blockLocation.row][blockLocation.column+2] == 0 && 
-		display_array[blockLocation.row - 1][blockLocation.column+2] == 0) {
-			blockLocation.column++;
+	if(blockLocation.column > 0){
+		if(display_array[blockLocation.row][blockLocation.column-1] == 0 &&
+		   display_array[blockLocation.row - 1][blockLocation.column-1] == 0) {
+				blockLocation.column--;
 		}
-		
 	}
-	
 }
 
 /******************************************************************/
@@ -145,17 +141,17 @@ ISR(INT3_vect) {
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
-	
-		if(PIND == 0x0C){
-			resetGame();
-			return;
+	if(PIND == 0x0C){
+		resetGame();
+		return;
+	}
+	if(blockLocation.column < 6){
+		if(display_array[blockLocation.row][blockLocation.column+2] == 0 &&
+		display_array[blockLocation.row - 1][blockLocation.column+2] == 0) {
+			blockLocation.column++;
 		}
-		if(blockLocation.column > 0){
-			if(display_array[blockLocation.row][blockLocation.column-1] == 0 &&
-			display_array[blockLocation.row - 1][blockLocation.column-1] == 0) {
-				blockLocation.column--;
-			}
-		}
+		
+	}
 }
 
 /******************************************************************/
