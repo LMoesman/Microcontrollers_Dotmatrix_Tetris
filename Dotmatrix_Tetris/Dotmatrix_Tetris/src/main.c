@@ -42,6 +42,7 @@ struct blockLocation {
 	int  row;
 	int  column;
 	int isAnimating;
+	int oneWidth;
 }blockLocation;
 int score = 0;
 
@@ -53,12 +54,19 @@ void setupDisplayArray(unsigned char* displayBuffer){
 		int col;
 		unsigned char tempRow = 0b00000000 | display_array[row][7];
 		for(col = 0; col < 8; col++) {
-			if (row == blockLocation.row || row == blockLocation.row - 1) {
-				if(col == blockLocation.column || col == blockLocation.column + 1) {
-					tempRow = tempRow | (128 >> col);
+			if(!blockLocation.oneWidth){
+				if (row == blockLocation.row || row == blockLocation.row - 1) {
+					if(col == blockLocation.column || col == blockLocation.column + 1) {
+						tempRow = tempRow | (128 >> col);
+					}
+				}	
+			}else{
+				if (row == blockLocation.row || row == blockLocation.row - 1) {
+					if(col == blockLocation.column) {
+						tempRow = tempRow | (128 >> col);
+					}
 				}
 			}
-			
 			tempRow = tempRow | ((display_array[row][7 - col]) << col);
 		}
 		displayBuffer[row] = tempRow; 
@@ -69,6 +77,7 @@ void startGame(){
 	if ((display_array[0][i] != 1) && (display_array[0][i+1] != 1)) { 
 		blockLocation.row = 0;
 		blockLocation.column = i;
+		blockLocation.oneWidth = rand() % 2;
 		animateGame();
 	}else {
 		//Game over
@@ -92,20 +101,32 @@ void animateGame() {
 		setupDisplayArray(displayBuffer);
 		drawArray(displayBuffer);
 		wait(2000);
-		 if (display_array[blockLocation.row+1][blockLocation.column] != 1 &&
-			 display_array[blockLocation.row+1][blockLocation.column + 1] != 1) {
+		if(!blockLocation.oneWidth){
+			if (display_array[blockLocation.row+1][blockLocation.column] != 1 &&
+		   	    display_array[blockLocation.row+1][blockLocation.column + 1] != 1) {
+					blockLocation.row++;
+			 }else {
+				 break;
+			 }
+		}else{
+			if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
 				blockLocation.row++;
-		 }else {
-			 break;
-		 }
-		
+			}else {
+				break;
+			}
+		}
 	}
-	display_array[blockLocation.row][blockLocation.column] = 1;
-	display_array[blockLocation.row - 1][blockLocation.column] = 1;
-	display_array[blockLocation.row][blockLocation.column + 1] = 1;
-	display_array[blockLocation.row - 1][blockLocation.column + 1] = 1;
-	blockLocation.isAnimating = 0;
-	
+	if(!blockLocation.oneWidth){
+		display_array[blockLocation.row][blockLocation.column] = 1;
+		display_array[blockLocation.row - 1][blockLocation.column] = 1;
+		display_array[blockLocation.row][blockLocation.column + 1] = 1;
+		display_array[blockLocation.row - 1][blockLocation.column + 1] = 1;
+		blockLocation.isAnimating = 0;
+	}else{
+		display_array[blockLocation.row][blockLocation.column] = 1;
+		display_array[blockLocation.row - 1][blockLocation.column] = 1;	
+		blockLocation.isAnimating = 0;
+	}
 	checkForFullRows();
 }
 
@@ -145,12 +166,20 @@ ISR(INT3_vect) {
 		resetGame();
 		return;
 	}
-	if(blockLocation.column < 6){
-		if(display_array[blockLocation.row][blockLocation.column+2] == 0 &&
-		display_array[blockLocation.row - 1][blockLocation.column+2] == 0) {
-			blockLocation.column++;
+	if(!blockLocation.oneWidth){
+		if(blockLocation.column < 6){
+			if(display_array[blockLocation.row][blockLocation.column+2] == 0 &&	
+	    	   display_array[blockLocation.row - 1][blockLocation.column+2] == 0) {
+					blockLocation.column++;
+			}
 		}
-		
+	}else{
+		if(blockLocation.column < 7){
+			if(display_array[blockLocation.row][blockLocation.column+1] == 0 &&
+			   display_array[blockLocation.row - 1][blockLocation.column+1] == 0) {
+					blockLocation.column++;
+			}
+		}
 	}
 }
 
@@ -203,7 +232,7 @@ void checkForFullRows(void){
 			shoveDown(x);
 		}
 	}
-score += tempscore;
+	score += tempscore;
 	showDigit(score);
 }
 
