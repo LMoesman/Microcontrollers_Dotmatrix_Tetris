@@ -2,13 +2,16 @@
  * display.c
  *
  * Created: 1/16/2018 8:16:59 AM
- *  Author: Diederich Kroeske
+ *  Author: Diederich Kroeske, Rick Verstraten, Lars Moesman
  */ 
 
 #include <avr/io.h>
 
+#define F_CPU 1000000
+#include <util/delay.h>
+
 #include "display.h"
-#include "fonts.h"
+
 
 // HT16K33 routines
 void displayInitHT16K33(uint8_t i2c_address);
@@ -27,6 +30,7 @@ void twi_tx(unsigned char data);
 #define	height	8			// 1 display height
 uint8_t buf[width*height/8];
 
+
 /******************************************************************/
 void displayInit(void) 
 /*
@@ -39,6 +43,20 @@ Version :    	DMK, Initial code
 {
 	twi_init();							// Enable TWI interface
 	displayInitHT16K33(D0_I2C_ADDR);	// Iit display
+}
+
+void drawArray(unsigned char* buffer){
+	twi_start();
+	twi_tx(D0_I2C_ADDR);
+	twi_tx(0x00);
+	for( uint8_t idx = 0; idx < 8; idx++ ) {
+		uint8_t a = buffer[idx];
+		uint8_t data = (a >> 1) | ((a<<7) & 0x80);
+		twi_tx( data);
+		twi_tx( 0x00);
+	}
+	twi_stop();
+	
 }
 
 /******************************************************************/
@@ -89,30 +107,6 @@ Version :    	DMK, Initial code
 }
 
 /******************************************************************/
-void displaySetPixel(uint8_t x, uint8_t y)
-/*
-short:			
-inputs:			
-outputs:		
-notes:			
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-}
-
-/******************************************************************/
-void displayClrPixel(uint8_t x, uint8_t y)
-/*
-short:
-inputs:
-outputs:
-notes:
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-}
-
-/******************************************************************/
 void display()
 /*
 short:		Write buffer to display
@@ -135,31 +129,34 @@ Version:	DMK, Initial code
 	twi_stop();
 }
 
-/******************************************************************/
-void displayRotl(void)
-/*
-short:		Rotate buffer to the left
-inputs:
-outputs:
-notes:
-Version:	DMK, Initial code
-*******************************************************************/
-{
+void theCoolFullRowAnimation(int row){
+	uint8_t value = 0;
+	for( uint8_t idy = 0; idy < 9; idy++ ) {
+		
+		//low row
+		twi_start();
+		twi_tx(D0_I2C_ADDR);
+		twi_tx(row * 2);	//skip uneven number because those are for 8*16
+		uint8_t a = ~value;
+		uint8_t data = (a >> 1) | ((a<<7) & 0x80);
+		twi_tx( data);
+		value |= 128 >> idy;
+		twi_stop();
+		
+		//high row
+		twi_start();
+		twi_tx(D0_I2C_ADDR);
+		twi_tx((row-1) * 2);	//skip uneven number because those are for 8*16
+		a = ~value;
+		data = (a >> 1) | ((a<<7) & 0x80);
+		twi_tx( data);
+		value |= 128 >> idy;
+		twi_stop();
+		wait(333);
+	}
+	
 }
 
-/******************************************************************/
-void displayRotr(void)
-/*
-short:		Rotate buffer to the right
-inputs:
-outputs:
-notes:
-Version:	DMK, Initial code
-*******************************************************************/
-{
-}
-
-/******************************************************************/
 void displayClr(void)
 /*
 short:		Clear display
@@ -174,30 +171,6 @@ Version:	DMK, Initial code
 	}
 }
 
-
-/******************************************************************/
-void displayChar(char ch, uint8_t x, uint8_t y)
-/*
-short:		Print character op display
-inputs:
-outputs:
-notes:
-Version:	DMK, Initial code
-*******************************************************************/
-{	
-}
-
-/******************************************************************/
-void displayString(char *str, uint8_t x, uint8_t y)
-/*
-short:		Print string op display
-inputs:
-outputs:
-notes:		Maakt gebruik van displayChar(..)
-Version:	DMK, Initial code
-*******************************************************************/
-{
-}
 
 
 /******************************************************************/
@@ -254,4 +227,21 @@ Version :    	DMK, Initial code
 	TWDR = data;
 	TWCR = (0x80 | 0x04);
 	while( 0 == (TWCR & 0x80) );
+}
+
+void wait( int ms )
+/* 
+short:			Busy wait number of millisecs
+inputs:			int ms (Number of millisecs to busy wait)
+outputs:	
+notes:			Busy wait, not very accurate. Make sure (external)
+				clock value is set. This is used by _delay_ms inside
+				util/delay.h
+Version :    	DMK, Initial code
+*******************************************************************/
+{
+	for (int i=0; i<ms; i++)
+	{
+		_delay_ms( 1 );		// library function (max 30 ms at 8MHz)
+	}
 }

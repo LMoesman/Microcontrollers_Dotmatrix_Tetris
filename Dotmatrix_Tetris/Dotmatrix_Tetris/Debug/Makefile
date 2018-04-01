@@ -52,6 +52,7 @@ SUBDIRS :=  \
 C_SRCS +=  \
 ../src/display.c \
 ../src/main.c \
+../src/sevenSeg.c \
 ../src/ASF/common/boards/user_board/init.c
 
 
@@ -64,21 +65,25 @@ ASM_SRCS +=
 OBJS +=  \
 src/display.o \
 src/main.o \
+src/sevenSeg.o \
 src/ASF/common/boards/user_board/init.o
 
 OBJS_AS_ARGS +=  \
 src/display.o \
 src/main.o \
+src/sevenSeg.o \
 src/ASF/common/boards/user_board/init.o
 
 C_DEPS +=  \
 src/display.d \
 src/main.d \
+src/sevenSeg.d \
 src/ASF/common/boards/user_board/init.d
 
 C_DEPS_AS_ARGS +=  \
 src/display.d \
 src/main.d \
+src/sevenSeg.d \
 src/ASF/common/boards/user_board/init.d
 
 OUTPUT_FILE_PATH +=Dotmatrix_Tetris.elf
@@ -95,6 +100,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

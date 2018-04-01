@@ -15,33 +15,179 @@
 ** Author: 			dkroeske@gmail.com
 ** -------------------------------------------------------------------------*/
 
-#define F_CPU 1000000
 #include <avr/io.h>
-#include <util/delay.h>
 #include <avr/pgmspace.h>
+#include <avr/interrupt.h>
+#include <time.h>
+#include <string.h>
 
+int i = 0;
+#include "main.h"
 #include "display.h"
+#include "sevenSeg.h"
+
+unsigned char display_array[9][8] = {
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{0, 0, 0, 0, 0, 0, 0, 0},
+	{1, 1, 1, 1, 1, 1, 1, 1}
+};
+
+struct blockLocation {
+	int  row;
+	int  column;
+	int isAnimating;
+	int oneWidth;
+}blockLocation;
+int score = 0;
+int shouldReset = 0;
 
 /******************************************************************/
-void wait( int ms )
-/* 
-short:			Busy wait number of millisecs
-inputs:			int ms (Number of millisecs to busy wait)
-outputs:	
-notes:			Busy wait, not very accurate. Make sure (external)
-				clock value is set. This is used by _delay_ms inside
-				util/delay.h
-Version :    	DMK, Initial code
-*******************************************************************/
-{
-	for (int i=0; i<ms; i++)
-	{
-		_delay_ms( 1 );		// library function (max 30 ms at 8MHz)
+
+void setupDisplayArray(unsigned char* displayBuffer){
+	int row;
+	for(row = 0; row < 8; row++) {
+		int col;
+		unsigned char tempRow = 0b00000000 | display_array[row][7];
+		for(col = 0; col < 8; col++) {
+			if(!blockLocation.oneWidth){
+				if (row == blockLocation.row || row == blockLocation.row - 1) {
+					if(col == blockLocation.column || col == blockLocation.column + 1) {
+						tempRow = tempRow | (128 >> col);
+					}
+				}	
+			}else{
+				if (row == blockLocation.row || row == blockLocation.row - 1) {
+					if(col == blockLocation.column) {
+						tempRow = tempRow | (128 >> col);
+					}
+				}
+			}
+			tempRow = tempRow | ((display_array[row][7 - col]) << col);
+		}
+		displayBuffer[row] = tempRow; 
+	}
+}
+void startGame(){
+	blockLocation.isAnimating = 1;
+	if ((display_array[0][i] != 1) && (display_array[0][i+1] != 1)) { 
+		blockLocation.row = 0;
+		blockLocation.column = i;
+		blockLocation.oneWidth = rand() % 2;
+		animateGame();
+	}else {
+		//Game over
+		gameOver();
+		showDigit(9999);
+	}
+	i = rand() % 7;
+}
+
+void resetGame(){
+	showDigit(0);
+	int row;
+	for (row = 0;row < 8;row++) {
+			memcpy(display_array[row], (int[]){0,0,0,0,0,0,0,0}, 8);
+	}
+	shouldReset = 0;
+}
+
+void animateGame() {
+	unsigned char displayBuffer[8];
+	while(1){
+		setupDisplayArray(displayBuffer);
+		drawArray(displayBuffer);
+		wait(2000);
+		if(!blockLocation.oneWidth){
+			if (display_array[blockLocation.row+1][blockLocation.column] != 1 &&
+		   	    display_array[blockLocation.row+1][blockLocation.column + 1] != 1) {
+					blockLocation.row++;
+			 }else {
+				 break;
+			 }
+		}else{
+			if (display_array[blockLocation.row+1][blockLocation.column] != 1) {
+				blockLocation.row++;
+			}else {
+				break;
+			}
+		}
+	}
+	if(!blockLocation.oneWidth){
+		display_array[blockLocation.row][blockLocation.column] = 1;
+		display_array[blockLocation.row - 1][blockLocation.column] = 1;
+		display_array[blockLocation.row][blockLocation.column + 1] = 1;
+		display_array[blockLocation.row - 1][blockLocation.column + 1] = 1;
+		blockLocation.isAnimating = 0;
+	}else{
+		display_array[blockLocation.row][blockLocation.column] = 1;
+		display_array[blockLocation.row - 1][blockLocation.column] = 1;	
+		blockLocation.isAnimating = 0;
+	}
+	checkForFullRows();
+}
+
+
+/******************************************************************/
+ISR(INT2_vect) {
+	/*
+	short:			ISR INT2
+	inputs:
+	outputs:
+	notes:			Moves block to the left if no collision occurred
+	Version :    	1.0
+	Author	:		Lars Moesman & Rick Verstraten
+	*******************************************************************/
+	if((PIND & 0x0C) == 0x0C){
+		shouldReset = 1;
+		return;
+	}
+	if(blockLocation.column > 0){
+		if(display_array[blockLocation.row][blockLocation.column-1] == 0 &&
+		   display_array[blockLocation.row - 1][blockLocation.column-1] == 0) {
+				blockLocation.column--;
+		}
 	}
 }
 
 /******************************************************************/
-int main( void )
+ISR(INT3_vect) {
+	/*
+	short:			ISR INT3
+	inputs:
+	outputs:
+	notes:			Moves block to the right if no collision occurred
+	Version :    	1.0
+	Author	:		Lars Moesman & Rick Verstraten
+	*******************************************************************/
+	if((PIND & 0x0C) == 0x0C){
+		shouldReset = 1;
+		return;
+	}
+	if(!blockLocation.oneWidth){
+		if(blockLocation.column < 6){
+			if(display_array[blockLocation.row][blockLocation.column+2] == 0 &&
+			display_array[blockLocation.row - 1][blockLocation.column+2] == 0) {
+				blockLocation.column++;
+			}
+		}
+	}else{
+		if(blockLocation.column < 7){
+			if(display_array[blockLocation.row][blockLocation.column+1] == 0 &&
+   			   display_array[blockLocation.row - 1][blockLocation.column+1] == 0) {
+					blockLocation.column++;
+			}
+		}
+	}
+}
+
+/******************************************************************/
+int main( void )	
 /* 
 short:			main() loop, entry point of executable
 inputs:			
@@ -49,15 +195,70 @@ outputs:
 notes:			Looping forever, trashing the HT16K33
 Version :    	DMK, Initial code
 *******************************************************************/
-{
+{	
+	DDRD = 0x0C;
+	
+	EICRA |= 0xF0;
+	EIMSK |= 0x0C;
+	
+	sei();
+	
+	srand(2344);
 	displayInit();
+	sevenSegInit();
+	showDigit(score);
 	wait(500);
-
-	displayChar('1', 0, 0);
-	//display();
 	
 	while(1==1) {
+		if (blockLocation.isAnimating == 0) {
+			if(shouldReset == 0) {
+				startGame();
+				wait(500);
+			}else{
+				resetGame();
+				wait(1000);
+			}
+		}
 	}
-
 	return 1;
+}
+
+void checkForFullRows(void){
+	int tempscore = 0;
+	int x;
+	for(x = 0; x < 8; x ++){
+		int y;
+		int count = 0;
+		for(y = 0; y < 8; y ++){
+			if(1 == display_array[x][y] && 1 == display_array[x - 1][y] ){ count++; }
+		}
+		if(8 == count){	//whole row filled
+			tempscore += 10;
+			theCoolFullRowAnimation(x);
+			shoveDown(x);
+		}
+	}
+	score += tempscore;
+	showDigit(score);
+}
+
+void shoveDown(int x){
+	for(i = 0; i<= (x -2); x -= 2){
+		int rowToShove = x - 2;
+		memcpy(display_array[x],display_array[rowToShove],sizeof(unsigned char) * 8);	//cpy the upper row to this row
+		memcpy(display_array[x-1],display_array[rowToShove - 1],sizeof(unsigned char) * 8);	//cpy the upper row to this row		//thwo times this function because blocks are 2*2
+	}
+}
+
+
+void gameOver(){
+	uint8_t deadFace[8] = {0b00000000,
+					   0b10100101,
+					   0b01000010,
+					   0b10100101,
+					   0b00000000,
+					   0b00111100,
+					   0b01000010,
+					   0b01000010};
+	drawArray(deadFace);
 }
