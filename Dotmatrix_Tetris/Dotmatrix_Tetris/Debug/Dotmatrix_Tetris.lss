@@ -15,21 +15,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000140  00000000  00000000  00000de4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001821  00000000  00000000  00000f24  2**0
+  6 .debug_info   00001826  00000000  00000000  00000f24  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000c8a  00000000  00000000  00002745  2**0
+  7 .debug_abbrev 00000c91  00000000  00000000  0000274a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000012cb  00000000  00000000  000033cf  2**0
+  8 .debug_line   000012cb  00000000  00000000  000033db  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000414  00000000  00000000  0000469c  2**2
+  9 .debug_frame  00000414  00000000  00000000  000046a8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000a675  00000000  00000000  00004ab0  2**0
+ 10 .debug_str    0000a675  00000000  00000000  00004abc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000dcc  00000000  00000000  0000f125  2**0
+ 11 .debug_loc    00000dcc  00000000  00000000  0000f131  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000158  00000000  00000000  0000fef1  2**0
+ 12 .debug_ranges 00000158  00000000  00000000  0000fefd  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_macro  0000304d  00000000  00000000  00010049  2**0
+ 13 .debug_macro  0000304d  00000000  00000000  00010055  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -471,7 +471,7 @@ void theCoolFullRowAnimation(int row){
  25a:	4f 92       	push	r4
 }blockLocation;
 int score = 0;
-int shouldReset = 0;
+volatile int shouldReset = 0;
 
 /******************************************************************/
 void setupDisplayArray(unsigned char* displayBuffer){
@@ -1535,12 +1535,12 @@ void gameOver(){
 	
 	//Waits for reset
 	while(1) {
-		if(shouldReset) {
+		if(shouldReset == 1) {
  846:	80 91 5e 01 	lds	r24, 0x015E	; 0x80015e <__data_end>
  84a:	90 91 5f 01 	lds	r25, 0x015F	; 0x80015f <__data_end+0x1>
- 84e:	00 97       	sbiw	r24, 0x00	; 0
+ 84e:	01 97       	sbiw	r24, 0x01	; 1
 			resetGame();
- 850:	f1 f3       	breq	.-4      	; 0x84e <gameOver+0x34>
+ 850:	d1 f7       	brne	.-12     	; 0x846 <gameOver+0x2c>
  852:	89 dd       	rcall	.-1262   	; 0x366 <resetGame>
 			wait(1000);
  854:	88 ee       	ldi	r24, 0xE8	; 232

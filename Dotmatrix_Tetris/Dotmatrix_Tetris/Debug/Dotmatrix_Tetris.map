@@ -837,19 +837,19 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x1821
+.debug_info     0x00000000     0x1826
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x780 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.150/gcc/dev/atmega128/avr51/crtatmega128.o
  .debug_info    0x00000780      0x628 src/display.o
- .debug_info    0x00000da8      0x5ba src/main.o
- .debug_info    0x00001362      0x4bf src/sevenSeg.o
+ .debug_info    0x00000da8      0x5bf src/main.o
+ .debug_info    0x00001367      0x4bf src/sevenSeg.o
 
-.debug_abbrev   0x00000000      0xc8a
+.debug_abbrev   0x00000000      0xc91
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x718 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.150/gcc/dev/atmega128/avr51/crtatmega128.o
  .debug_abbrev  0x00000718      0x1d4 src/display.o
- .debug_abbrev  0x000008ec      0x20a src/main.o
- .debug_abbrev  0x00000af6      0x194 src/sevenSeg.o
+ .debug_abbrev  0x000008ec      0x211 src/main.o
+ .debug_abbrev  0x00000afd      0x194 src/sevenSeg.o
 
 .debug_line     0x00000000     0x12cb
  *(.debug_line .debug_line.* .debug_line_end)
