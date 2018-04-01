@@ -112,10 +112,10 @@ void animateGame() {
 /******************************************************************/
 ISR(INT2_vect) {
 	/*
-	short:			ISR INT1
+	short:			ISR INT2
 	inputs:
 	outputs:
-	notes:			Moves block to the right if no collision occurred
+	notes:			Moves block to the left if no collision occurred
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
@@ -134,10 +134,10 @@ ISR(INT2_vect) {
 /******************************************************************/
 ISR(INT3_vect) {
 	/*
-	short:			ISR INT2
+	short:			ISR INT3
 	inputs:
 	outputs:
-	notes:			Moves block to the left if no collision occurred
+	notes:			Moves block to the right if no collision occurred
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
