@@ -328,13 +328,7 @@ void gameOver(){
 					   0b01000010,
 					   0b01000010};
 	drawArray(deadFace);
+	wait(4000);
+	resetGame();
 	
-	//Waits for reset
-	while(1) {
-		if(shouldReset == 1) {
-			resetGame();
-			wait(1000);
-			break;
-		}
-	}
 }
