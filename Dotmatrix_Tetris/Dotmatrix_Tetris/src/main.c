@@ -46,7 +46,7 @@ struct blockLocation {
 	int oneWidth;
 }blockLocation;
 int score = 0;
-int shouldReset = 0;
+volatile int shouldReset = 0;
 
 /******************************************************************/
 void setupDisplayArray(unsigned char* displayBuffer){
