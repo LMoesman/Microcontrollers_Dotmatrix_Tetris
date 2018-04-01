@@ -248,6 +248,9 @@ void shoveDown(int x){
 		memcpy(display_array[x],display_array[rowToShove],sizeof(unsigned char) * 8);	//cpy the upper row to this row
 		memcpy(display_array[x-1],display_array[rowToShove - 1],sizeof(unsigned char) * 8);	//cpy the upper row to this row		//thwo times this function because blocks are 2*2
 	}
+	uint8_t empty[8] = {0,0,0,0,0,0,0,0};
+	memcpy(display_array[0],empty,sizeof(unsigned char) * 8);		//clear the upper row
+	memcpy(display_array[1],empty,sizeof(unsigned char) * 8);
 }
 
 
