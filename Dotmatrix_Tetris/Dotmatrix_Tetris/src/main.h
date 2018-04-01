@@ -11,6 +11,7 @@
 
 void setupDisplayArray(unsigned char* displayBuffer);
 void startGame(void);
+void resetGame(void);
 void animateGame(void);
 void checkForFullRows(void);
 void shoveDown(int x);

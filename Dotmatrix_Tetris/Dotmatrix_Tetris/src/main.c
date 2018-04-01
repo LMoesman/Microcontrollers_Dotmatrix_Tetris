@@ -77,6 +77,26 @@ void startGame(){
 	i = rand() % 7;
 }
 
+void resetGame(){
+	showDigit(0);
+	int row;
+	for (row = 0;row < 8;row++) {
+			memcpy(display_array[row], (int[]){0,0,0,0,0,0,0,0}, 8);
+	}
+
+// 	display_array = {
+// 		{0, 0, 0, 0, 0, 0, 0, 0},
+// 		{0, 0, 0, 0, 0, 0, 0, 0},
+// 		{0, 0, 0, 0, 0, 0, 0, 0},
+// 		{0, 0, 0, 0, 0, 0, 0, 0},
+// 		{0, 0, 0, 0, 0, 0, 0, 0},
+// 		{0, 0, 0, 0, 0, 0, 0, 0},
+// 		{0, 0, 0, 0, 0, 0, 0, 0},
+// 		{0, 0, 0, 0, 0, 0, 0, 0},
+// 		{1, 1, 1, 1, 1, 1, 1, 1}
+// 	};
+}
+
 void animateGame() {
 	unsigned char displayBuffer[8];
 	while(1){
@@ -105,18 +125,21 @@ ISR(INT2_vect) {
 	short:			ISR INT1
 	inputs:
 	outputs:
-	notes:			Set PORTC
+	notes:			Moves block to the right if no collision occurred
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
 	
 	
 	if(PIND == 0x0C){
-		//Reset Game
+		resetGame();
 		return;
 	}
-	if(blockLocation.column < 7){
-		blockLocation.column++;
+	if(blockLocation.column < 6){
+		if(display_array[blockLocation.row][blockLocation.column+2] == 0) {
+			blockLocation.column++;
+		}
+		
 	}
 	
 }
@@ -127,17 +150,19 @@ ISR(INT3_vect) {
 	short:			ISR INT2
 	inputs:
 	outputs:
-	notes:			Set PORTC
+	notes:			Moves block to the left if no collision occurred
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
 	
 		if(PIND == 0x0C){
-			//Reset Game
+			resetGame();
 			return;
 		}
 		if(blockLocation.column > 0){
-			blockLocation.column--;
+			if(display_array[blockLocation.row][blockLocation.column-1] == 0) {
+				blockLocation.column--;
+			}
 		}
 }
 
