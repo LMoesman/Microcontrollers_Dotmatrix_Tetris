@@ -119,7 +119,7 @@ ISR(INT2_vect) {
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
-	if(PIND >> 3 == 0x03){
+	if((PIND & 0x0C) == 0x0C){
 		resetGame();
 		return;
 	}
@@ -141,7 +141,7 @@ ISR(INT3_vect) {
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
-	if(PIND >> 3 == 0x03){
+	if((PIND & 0x0C) == 0x0C){
 		resetGame();
 		return;
 	}
