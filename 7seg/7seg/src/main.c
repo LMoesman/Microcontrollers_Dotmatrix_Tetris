@@ -7,16 +7,17 @@
 
 #include <avr/io.h>
 #include "sevenSeg.h"
-int i;
+#include <time.h>
+time_t t = 0;
 int main(void)
 {
 	sevenSegInit();
     /* Replace with your application code */
-	 i = 0;
     while (1) 
     {
-		showDigit(i);
-		i+=3;
+		t++;
+		wait(100);
+		showDigit(t);
     }
 }
 

@@ -25,7 +25,8 @@ int i = 0;
 #include "main.h"
 #include "display.h"
 #include "sevenSeg.h"
-
+time_t randomSeed = 0;	//is a time_t object because this is long.
+int powerdOn = 0;
 unsigned char display_array[9][8] = {
 	{0, 0, 0, 0, 0, 0, 0, 0},
 	{0, 0, 0, 0, 0, 0, 0, 0},
@@ -88,6 +89,7 @@ void setupDisplayArray(unsigned char* displayBuffer){
 
 /******************************************************************/
 void startGame(){
+
 /*	short:			starts the game
 	inputs:			
 	outputs:
@@ -95,6 +97,8 @@ void startGame(){
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/		
+
+	i = rand() % 7;
 	blockLocation.isAnimating = 1;
 	if ((display_array[0][i] != 1) && (display_array[0][i+1] != 1)) { 
 		//Init new block
@@ -106,9 +110,7 @@ void startGame(){
 		//Game over
 		showDigit(9999);
 		gameOver();
-		
 	}
-	i = rand() % 7;
 }
 
 /******************************************************************/
@@ -193,6 +195,7 @@ ISR(INT2_vect) {
 	
 	//Check if both buttons are pressed
 	if((PIND & 0x0C) == 0x0C){
+		powerdOn = 1;
 		shouldReset = 1;
 		return;
 	}
@@ -218,6 +221,7 @@ ISR(INT3_vect) {
 	*******************************************************************/
 	//Check if block hasn't reached a wall
 	if((PIND & 0x0C) == 0x0C){
+		powerdOn = 1;
 		shouldReset = 1;
 		return;
 	}
@@ -257,12 +261,18 @@ Version :    	DMK, Initial code
 	
 	sei();
 	
-	srand(2344);
 	displayInit();
 	sevenSegInit();
 	showDigit(score);
 	wait(500);
-	
+	uint8_t displayinit[8] = {0,0,0,0,0,0,0,0};
+	drawArray(displayinit);
+	while(!powerdOn){
+		randomSeed++;
+		showDigit(randomSeed);
+		wait(100);
+	}
+	srand(randomSeed);
 	while(1==1) {
 		if (blockLocation.isAnimating == 0) {
 			if(shouldReset == 0) {
