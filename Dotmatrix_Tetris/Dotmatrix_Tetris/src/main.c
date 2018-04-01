@@ -151,30 +151,6 @@ ISR(INT3_vect) {
 		display_array[blockLocation.row - 1][blockLocation.column+2] == 0) {
 			blockLocation.column++;
 		}
-		
-	}
-}
-
-/******************************************************************/
-ISR(INT3_vect) {
-	/*
-	short:			ISR INT3
-	inputs:
-	outputs:
-	notes:			Moves block to the right if no collision occurred
-	Version :    	1.0
-	Author	:		Lars Moesman & Rick Verstraten
-	*******************************************************************/
-	if(PIND >> 3 == 0x03){
-		resetGame();
-		return;
-	}
-	if(blockLocation.column < 6){
-		if(display_array[blockLocation.row][blockLocation.column+2] == 0 &&
-		display_array[blockLocation.row - 1][blockLocation.column+2] == 0) {
-			blockLocation.column++;
-		}
-		
 	}
 }
 
@@ -206,7 +182,7 @@ Version :    	DMK, Initial code
 			if(shouldReset == 0) {
 				startGame();
 				wait(500);
-			else{
+			}else{
 				resetGame();
 				wait(1000);
 			}
@@ -240,6 +216,4 @@ void shoveDown(int x){
 		memcpy(display_array[x],display_array[rowToShove],sizeof(unsigned char) * 8);	//cpy the upper row to this row
 		memcpy(display_array[x-1],display_array[rowToShove - 1],sizeof(unsigned char) * 8);	//cpy the upper row to this row		//thwo times this function because blocks are 2*2
 	}
-}
-	if((PIND & 0x0C) == 0x0C){
-	if((PIND & 0x0C) == 0x0C){
+}
