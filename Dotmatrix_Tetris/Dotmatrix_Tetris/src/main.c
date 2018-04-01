@@ -99,16 +99,16 @@ void startGame(){
 	*******************************************************************/		
 
 	i = rand() % 7;
-	blockLocation.isAnimating = 1;
 	if ((display_array[0][i] != 1) && (display_array[0][i+1] != 1)) { 
 		//Init new block
 		blockLocation.row = 0;
 		blockLocation.column = i;
 		blockLocation.oneWidth = rand() % 2;
+		blockLocation.isAnimating = 1;
 		animateGame();
 	}else {
 		//Game over
-		showDigit(9999);
+		//showDigit(9999);
 		gameOver();
 	}
 }
