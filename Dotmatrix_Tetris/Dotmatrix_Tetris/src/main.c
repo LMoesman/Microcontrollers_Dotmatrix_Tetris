@@ -26,7 +26,7 @@ int i = 0;
 #include "display.h"
 #include "sevenSeg.h"
 time_t randomSeed = 0;	//is a time_t object because this is long.
-int powerdOn = 0;
+volatile int powerdOn = 0;
 unsigned char display_array[9][8] = {
 	{0, 0, 0, 0, 0, 0, 0, 0},
 	{0, 0, 0, 0, 0, 0, 0, 0},
