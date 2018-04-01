@@ -44,6 +44,7 @@ struct blockLocation {
 	int isAnimating;
 }blockLocation;
 int score = 0;
+int shouldReset = 0;
 
 /******************************************************************/
 
@@ -83,7 +84,7 @@ void resetGame(){
 	for (row = 0;row < 8;row++) {
 			memcpy(display_array[row], (int[]){0,0,0,0,0,0,0,0}, 8);
 	}
-
+	shouldReset = 0;
 }
 
 void animateGame() {
@@ -119,8 +120,8 @@ ISR(INT2_vect) {
 	Version :    	1.0
 	Author	:		Lars Moesman & Rick Verstraten
 	*******************************************************************/
-	if(PIND >> 3 == 0x03){
-		resetGame();
+	if((PIND & 0x0C) == 0x0C){
+		shouldReset = 1;
 		return;
 	}
 	if(blockLocation.column > 0){
@@ -128,6 +129,29 @@ ISR(INT2_vect) {
 		   display_array[blockLocation.row - 1][blockLocation.column-1] == 0) {
 				blockLocation.column--;
 		}
+	}
+}
+
+/******************************************************************/
+ISR(INT3_vect) {
+	/*
+	short:			ISR INT3
+	inputs:
+	outputs:
+	notes:			Moves block to the right if no collision occurred
+	Version :    	1.0
+	Author	:		Lars Moesman & Rick Verstraten
+	*******************************************************************/
+	if((PIND & 0x0C) == 0x0C){
+		shouldReset = 1;
+		return;
+	}
+	if(blockLocation.column < 6){
+		if(display_array[blockLocation.row][blockLocation.column+2] == 0 &&
+		display_array[blockLocation.row - 1][blockLocation.column+2] == 0) {
+			blockLocation.column++;
+		}
+		
 	}
 }
 
@@ -177,12 +201,15 @@ Version :    	DMK, Initial code
 	showDigit(score);
 	wait(500);
 	
-	//displayChar('1', 0, 0);
-	//display();
 	while(1==1) {
 		if (blockLocation.isAnimating == 0) {
-			startGame();
-			wait(500);
+			if(shouldReset == 0) {
+				startGame();
+				wait(500);
+			else{
+				resetGame();
+				wait(1000);
+			}
 		}
 	}
 	return 1;
