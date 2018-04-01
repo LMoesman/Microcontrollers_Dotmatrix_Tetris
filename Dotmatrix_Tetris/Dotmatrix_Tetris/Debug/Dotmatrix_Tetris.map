@@ -602,11 +602,11 @@ END GROUP
                 0x00000326       0x5c src/main.o
                 0x00000326                resetGame
  .text.__vector_3
-                0x00000382       0xb4 src/main.o
+                0x00000382       0xb0 src/main.o
                 0x00000382                __vector_3
  .text.__vector_4
-                0x00000436       0xb2 src/main.o
-                0x00000436                __vector_4
+                0x00000432       0xb6 src/main.o
+                0x00000432                __vector_4
  .text.shoveDown
                 0x000004e8       0x50 src/main.o
                 0x000004e8                shoveDown
@@ -852,14 +852,14 @@ END GROUP
  .debug_frame   0x0000013c      0x1c4 src/main.o
  .debug_frame   0x00000300       0xf4 src/sevenSeg.o
 
-.debug_str      0x00000000     0xa67f
+.debug_str      0x00000000     0xa621
  *(.debug_str)
  .debug_str     0x00000000      0x27d C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.150/gcc/dev/atmega128/avr51/crtatmega128.o
  .debug_str     0x0000027d     0x7123 src/display.o
                                0x71c0 (size before relaxing)
- .debug_str     0x000073a0     0x318c src/main.o
-                               0x9e69 (size before relaxing)
- .debug_str     0x0000a52c      0x153 src/sevenSeg.o
+ .debug_str     0x000073a0     0x312e src/main.o
+                               0x9e8f (size before relaxing)
+ .debug_str     0x0000a4ce      0x153 src/sevenSeg.o
                                0x724d (size before relaxing)
 
 .debug_loc      0x00000000      0xd39
